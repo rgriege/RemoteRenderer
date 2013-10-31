@@ -224,6 +224,7 @@ void cb_menu( int item )
         font = font_map [ item ].id;
 }
 
+#undef main
 int main(int argc, char **argv)
 {
 	//Server* s = Server::GetInstance();

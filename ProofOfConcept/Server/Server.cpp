@@ -64,7 +64,7 @@ Server* Server::GetInstance()
 {
 	if (!instance) {
 		instance = new Server();
-		thread = SDL_CreateThread(createServer, "ServerThread", NULL);
+		thread = SDL_CreateThread(createServer, NULL);
 	}
 	return instance;
 }
