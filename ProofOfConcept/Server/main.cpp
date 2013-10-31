@@ -166,9 +166,10 @@ void cb_display( void )
 			temp.copyTo(&buffer[bottom]);
 		}
 	}
-	encoder->convertRgbDataToFrame((uint8_t*) buffer, frame);
+	AVPacket* pkt = encoder->encodeRgbData(buffer);
     fflush(stdout);
-	encoder->writeFrame(frame, ffmpeg);
+	fwrite(pkt->data, 1, pkt->size, ffmpeg);
+	av_free_packet(pkt);
 }
 
 /*
@@ -256,7 +257,6 @@ int main(int argc, char **argv)
 	encoder = new Encoder();
 	if (!encoder->bootstrap(AV_CODEC_ID_H264, width, height, 25)) //MPEG1VIDEO
 		exit(EXIT_FAILURE);
-	frame = encoder->createFrame();
 	buffer = new uint8_t[3*width*height];
 
     for (;;)
@@ -267,7 +267,6 @@ int main(int argc, char **argv)
 
     glutMainLoop( );
 
-	encoder->destroyFrame(frame);
 	encoder->writeEndFile(ffmpeg);
 	fclose(ffmpeg);
 	delete[] buffer;

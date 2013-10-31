@@ -31,23 +31,21 @@ public:
 	bool setCodec(AVCodecID codecId);
 	bool createContext(int width, int height, int fps);
 	bool openCodec();
+	bool createFrame();
 	bool bootstrap(AVCodecID codecId, int width, int height, int fps);
 	
-	AVFrame* createFrame();
-	bool writeFrame(AVFrame* frame, FILE* file);
-	void destroyFrame(AVFrame* frame);
+	AVPacket* encodeRgbData(const uint8_t* rgbData);
 
 	void writeEndFile(FILE* file);
 
-	void convertRgbDataToFrame(const uint8_t* rgbData, AVFrame* frame);
-
 private:
 	AVCodec* codec;
-    AVCodecContext* context;
+    AVCodecContext* codecContext;
     uint8_t endcode[4];
+	AVFrame* frame;
 	uint32_t frameNum;
 
-	SwsContext* ctx;
+	SwsContext* conversionContext;
 
 	static bool libInit;
 };
