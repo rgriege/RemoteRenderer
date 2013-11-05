@@ -9,175 +9,123 @@
 #include "NetworkManager.h"
 
 Server* Server::instance = NULL;
-SDL_Thread* Server::thread;
-TCPsocket Server::serversocket;
-host Server::hosts[MAX_HOSTS];
-SDLNet_SocketSet Server::socketset;
+//SDL_Thread* Server::thread;
+uint32_t Server::serversocket;
+client Server::clients[MAX_CLIENTS];
+//SDLNet_SocketSet Server::socketset;
 std::string Server::hostname;
 bool Server::quit = false;
+NeTwerk::NetworkManager* Server::netMgr = NULL;
 
-int createServer(void *ptr)
+/*int createServer(void *ptr)
 {
 	Server::GetInstance()->Start();
 	return 0;
-}
+}*/
 
 Server::Server()
 {
-	/* Make sure SDLNet is initialized */
-	NeTwerk::NetworkManager::GetInstance();
-
-	IPaddress ip;
-
-	/* Initialize the channels */
-	for (int i = 0; i < MAX_HOSTS; i++) {
-		hosts[i].sock = NULL;
-	}
-
-	/* Allocate the socket set */
-	socketset = SDLNet_AllocSocketSet(MAX_HOSTS+1);
-	if (socketset == NULL) {
-		fprintf(stderr, "Server: Couldn't create socket set %s\n", SDLNet_GetError());
-		exit(EXIT_FAILURE);
-	}
-
-	/* Resolving the host using NULL make network interface to listen */
-	if (SDLNet_ResolveHost(&ip, NULL, GAME_PORT) < 0 || ip.host == INADDR_NONE) {
-		fprintf(stderr, "Server: SDLNet_ResolveHost: %s\n", SDLNet_GetError());
-		exit(EXIT_FAILURE);
-	}
-
-	/* Open a connection with the IP provided (listen on the host's port) */
-	if (!(serversocket = SDLNet_TCP_Open(&ip))) {
-		fprintf(stderr, "Server: SDLNet_TCP_Open: %s\n", SDLNet_GetError());
-		exit(EXIT_FAILURE);
-	}
-	SDLNet_TCP_AddSocket(socketset, serversocket);
+	/* Make sure SDLNet is initialized, and create a socket to listen for connections */
+	netMgr = NeTwerk::NetworkManager::getInstance();
+	serversocket = netMgr->listen();
 
 	//const char* compname = NetworkManager::GetHostname().c_str();
 	//std::cout << "You are hosting a chat on '" << compname << "'" << std::endl << flush;
-	hostname = SDLNet_ResolveIP(&ip);
-	std::cout << "hosting on " << hostname << " from " << ip.host << ":" << ip.port << std::endl;
+	hostname = netMgr->getLocalHostname();
+	std::string ip = netMgr->getLocalIP();
+	std::cout << "hosting on " << hostname << " from " << ip << std::endl;
 }
 
-Server* Server::GetInstance()
+Server* Server::getInstance()
 {
 	if (!instance) {
 		instance = new Server();
-		thread = SDL_CreateThread(createServer, NULL);
+		// thread = SDL_CreateThread(createServer, NULL);
 	}
 	return instance;
 }
 
-void Server::Start()
+void Server::waitForConnection()
 {
-	/* Wait for a connection, send data and term */
-	quit = 0;
-	while (!quit) {
-		/* Wait for events */
-		SDLNet_CheckSockets(socketset, TIMEOUT);
-		/* Check for new connections */
-		if (SDLNet_SocketReady(serversocket)) {
-			AddClient();
-		}
-		/* Check for events on existing clients */
-		for (int i = 0; i < MAX_HOSTS; i++) {
-			if (SDLNet_SocketReady(hosts[i].sock)) {
-				HandleClient(i);
-			}
-		}
-	}
-
-	std::cout << "Closing server..." << std::endl;
-
-	return;
+	while (!netMgr->check(serversocket, TIMEOUT)) {}
+	addClient();
 }
 
-void Server::HandleClient(int idx)
+void Server::broadcast(void* data, int size) {
+	for (int i = 0; i < MAX_CLIENTS; i++) {
+		if (clients[i].socketId)
+			netMgr->send(data, size, clients[i].socketId);
+	}
+}
+
+void Server::handleClient(int idx)
 {
 	char data[512];
 	/* Has the connection been closed? */
-	if (SDLNet_TCP_Recv(hosts[idx].sock, data, 512) <= 0) {
-		RemoveClient(idx);
-		/*unsigned count = 0;
-		for (int i = 0; i < MAX_HOSTS; i++)
-		if (hosts[i].sock) count++;
+	if (netMgr->receive(clients[idx].socketId, data, 512) <= 0) {
+		removeClient(idx);
+		unsigned count = 0;
+		for (int i = 0; i < MAX_CLIENTS; i++)
+			if (clients[i].socketId)
+				count++;
 		if (count == 0)
-		quit = 1;*/
-	} else {
-		std::cout << "message from " << hosts[idx].name << std::endl;
+			quit = 1;
+	} /*else {
+		std::cout << "message from " << clients[idx].name << std::endl;
 		if (data[TYPE] == NAME) {
-			hosts[idx].name = std::string(&data[1]);
-			std::string msg = hosts[idx].name + " has joined the chat";
-			for (int i = 0; i < MAX_HOSTS; i++)
-				if (hosts[i].sock && i != idx)
-					NeTwerk::NetworkManager::GetInstance()->SendMessage(msg, hosts[i].sock);
+			clients[idx].name = std::string(&data[1]);
+			std::string msg = clients[idx].name + " has joined the chat";
+			for (int i = 0; i < MAX_CLIENTS; i++)
+				if (clients[i].socketId && i != idx)
+					netMgr->send(msg, clients[i].socketId);
 		} else {
 			if (strcmp(&data[1], "exit") == 0 || strcmp(&data[1], "quit") == 0) {
 				RemoveClient(idx);
 			} else {
-				std::string msg = hosts[idx].name + ": " + std::string(&data[1]);
-				for (int i = 0; i < MAX_HOSTS; i++)
-					if (hosts[i].sock)
-						NeTwerk::NetworkManager::GetInstance()->SendMessage(msg, hosts[i].sock);
+				std::string msg = clients[idx].name + ": " + std::string(&data[1]);
+				for (int i = 0; i < MAX_CLIENTS; i++)
+					if (clients[i].socketId)
+						netMgr->send(msg, clients[i].socketId);
 			}
 		}
-	}
+	}*/
 }
 
-void Server::AddClient()
+void Server::addClient()
 {
-	TCPsocket newsock;
+	/* Accept the connection */
+	uint32_t clientSocketId = netMgr->accept(serversocket);
+
 	int idx;
-	unsigned char data;
-	newsock = SDLNet_TCP_Accept(serversocket);
-	if (newsock == NULL) {
-		printf("Invalid new client socket\n");
-		return;
-	}
 	/* Look for unconnected slot */
-	for (idx = 0; idx < MAX_HOSTS; idx++) {
-		if (!hosts[idx].sock)
+	for (idx = 0; idx < MAX_CLIENTS; idx++) {
+		if (!clients[idx].socketId)
 			break;
 	}
 
-	if (idx == MAX_HOSTS) {
+	if (idx == MAX_CLIENTS) {
 		/* No room */
-		memcpy(&data, "Goodbye", 8);
-		SDLNet_TCP_Send(newsock, &data, 8);
-		SDLNet_TCP_Close(newsock);
+		netMgr->send("Goodbye", 8, clientSocketId);
+		netMgr->close(clientSocketId);
 	} else {
 		/* Add socket */
-		hosts[idx].sock = newsock;
-		hosts[idx].addr = *SDLNet_TCP_GetPeerAddress(newsock);
-		SDLNet_TCP_AddSocket(socketset, hosts[idx].sock);
+		clients[idx].socketId = clientSocketId;
+		//clients[idx].ip = NeTwerk::NetworkManager::getInstance()->getIP(clientSocketId);
+		//SDLNet_TCP_AddSocket(socketset, hosts[idx].sock);
 		std::cout << "adding client " << idx << std::endl;
 	}
 }
 
-void Server::RemoveClient(int idx)
+void Server::removeClient(int idx)
 {
-	std::string msg = hosts[idx].name + " has left the chat";
-	std::cout << msg << std::endl;
+	std::cout << clients[idx].name << " has left" << std::endl;
+	netMgr->close(clients[idx].socketId);
 
-	hosts[idx].name = "";
-	hosts[idx].sock = NULL;
-	SDLNet_TCP_DelSocket(socketset, hosts[idx].sock);
-	SDLNet_TCP_Close(hosts[idx].sock);
-
-	/* Notify all clients */
-	for (int i = 0; i < MAX_HOSTS; i++)
-		if (hosts[i].sock) 
-			NeTwerk::NetworkManager::GetInstance()->SendMessage(msg, hosts[i].sock);
+	clients[idx].name = "";
+	clients[idx].socketId = BAD_SOCKET_ID;
 }
 
 std::string Server::getHostname()
 {
 	return hostname;
-}
-
-void Server::Stop()
-{
-	quit = true;
-	SDL_WaitThread(thread, NULL);
 }

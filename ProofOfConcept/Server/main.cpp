@@ -169,6 +169,7 @@ void cb_display( void )
 	AVPacket* pkt = encoder->encodeRgbData(buffer);
     fflush(stdout);
 	fwrite(pkt->data, 1, pkt->size, ffmpeg);
+	Server::getInstance()->broadcast(pkt->data, pkt->size);
 	av_free_packet(pkt);
 }
 
@@ -228,9 +229,7 @@ void cb_menu( int item )
 #undef main
 int main(int argc, char **argv)
 {
-	//Server* s = Server::GetInstance();
-
-    unsigned int i;
+	Server::getInstance()->waitForConnection();
 
     glutInit( &argc, argv );
     glutInitDisplayMode( GLUT_DEPTH|GLUT_DOUBLE );
@@ -240,9 +239,9 @@ int main(int argc, char **argv)
     glutIdleFunc( cb_idle );
 
     glutCreateMenu( cb_menu );
-    for( i = 0; i < NUMBEROF( font_map ); ++i )
+    for(unsigned int i = 0; i < NUMBEROF( font_map ); ++i )
         glutAddMenuEntry( font_map [ i ].name, i );
-    glutAddMenuEntry( "Quit", i );
+    glutAddMenuEntry( "Quit", NUMBEROF( font_map ) );
     glutAttachMenu( 2 );
 
 	font = GLUT_BITMAP_HELVETICA_12; //GLUT_BITMAP_8_BY_13;

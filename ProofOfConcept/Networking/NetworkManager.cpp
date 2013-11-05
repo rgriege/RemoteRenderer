@@ -22,23 +22,23 @@ NetworkManager::NetworkManager()
 	}
 
 	/* Allocate the socket set */
-	socketset = SDLNet_AllocSocketSet(1);
-	if (socketset == NULL) {
+	socketSet = SDLNet_AllocSocketSet(2);
+	if (socketSet == NULL) {
 		std::cout << "Couldn't create socket set" << SDLNet_GetError();
 		exit(EXIT_FAILURE);
 	}
 }
 
-NetworkManager* NetworkManager::GetInstance()
+NetworkManager* NetworkManager::getInstance()
 {
 	if (!instance)
 		instance = new NetworkManager();
 	return instance;
 }
 
-std::string NetworkManager::GetHostname()
+std::string NetworkManager::getLocalHostname()
 {
-	char compname[32]; // = (char*)malloc(len);
+	char compname[32];
 #ifdef _WIN32
 	WSADATA wsa_data;
 	/* Load Winsock 2.0 DLL */
@@ -48,109 +48,147 @@ std::string NetworkManager::GetHostname()
 	}
 	if(gethostname(compname, 31))
 		std::cout << "error: " << WSAGetLastError() << std::endl;
-	else
-		std::cout << "ifdef hostname: " << compname << std::endl;
 	WSACleanup(); /* Cleanup Winsock */
 #elif __linux__
-	gethostname(compname, len);
+	gethostname(compname, 32);
 #endif
 	std::string result(compname);
-	//delete[] compname;
 	return result;
 }
 
-std::string NetworkManager::GetIP()
+std::string NetworkManager::getLocalIP()
 {
-	const char* compname = GetHostname().c_str();
-
-	if (SDLNet_ResolveHost(&ip, compname, DEFAULT_PORT) < 0) {
-		std::cout << "Couldn't get IP:" << SDLNet_GetError() << std::endl;
+	const char* compname = getLocalHostname().c_str();
+	
+	IPaddress ip;
+	if (SDLNet_ResolveHost(&ip, compname, 0) < 0) {
+		std::cout << "Couldn't get IP: " << SDLNet_GetError() << std::endl;
 		return NULL;
 	}
 
-	std::stringstream addr_ss;
-	Uint32 addr = ip.host;
-	for (int i = 0; i < 4; i++) {
-		addr_ss << (ip.host >> 8*i) % 256;
-		if (i < 3) addr_ss << ".";
-	}
-
-	std::cout << addr_ss.str() << std::endl;
-	return addr_ss.str();
+	return printIP(ip.host);
 }
 
-void NetworkManager::ConnectToServer(std::string host)
+std::string NetworkManager::getIP(uint32_t socketId)
+{
+	IPaddress* ip = SDLNet_TCP_GetPeerAddress(sockets.at(socketId));
+	return ip == NULL ? "" : printIP(ip->host);
+}
+
+uint32_t NetworkManager::listen() {
+	/* Set up a socket on this machine */
+	return connect((char*) NULL, LISTEN_PORT);
+}
+
+uint32_t NetworkManager::accept(uint32_t listenSocketId) {
+	TCPsocket socket = SDLNet_TCP_Accept(sockets.at(listenSocketId));
+
+	if (socket == NULL) {
+		std::cout << "Invalid new client socket" << std::endl;
+		return BAD_SOCKET_ID;
+	}
+
+	return addSocket(socket);
+}
+
+uint32_t NetworkManager::connect(const char* host, uint16_t port)
 {
 	IPaddress ip;
 	/* Resolve the host we are connecting to */
-	if (SDLNet_ResolveHost(&ip, host.c_str(), DEFAULT_PORT) < 0) {
-		fprintf(stderr, "SDLNet_ResolveHost %s: %s\n", host.c_str(), SDLNet_GetError());
-		exit(EXIT_FAILURE);
+	if (SDLNet_ResolveHost(&ip, host, port) < 0) {
+		std::cout << "SDLNet_ResolveHost (" << host << "): " << SDLNet_GetError()
+			<< std::endl;
+		return BAD_SOCKET_ID;
 	}
-
+	
 	if (ip.host == INADDR_NONE) {
 		printf("Couldn't resolve hostname\n");
+		return BAD_SOCKET_ID;
 	}
 
-	/* Open a connection with the IP provided (listen on the host's port) */
-	if (!(serversocket = SDLNet_TCP_Open(&ip))) {
-		fprintf(stderr, "SDLNet_TCP_Open: %s\n", SDLNet_GetError());
-		exit(EXIT_FAILURE);
+	return connect(ip.host, ip.port);
+}
+
+uint32_t NetworkManager::connect(uint32_t host, uint16_t port) {
+	IPaddress ip = { host, port };
+	TCPsocket socket;
+	/* Open a connection with the IP provided */
+	if (!(socket = SDLNet_TCP_Open(&ip))) {
+		std::cout << "SDLNet_TCP_Open (" << printIP(host) << ":" << port << "): " << SDLNet_GetError() << std::endl;
+		return BAD_SOCKET_ID;
 	}
 
-	if (SDLNet_TCP_AddSocket(socketset, serversocket) == -1) {
-		std::cout << "SDLNet_TCP_AddSocket: " << SDLNet_GetError();
-		exit(EXIT_FAILURE);
-	}
-
-	std::cout << "Welcome to the chatroom" << std::endl << std::flush;
+	return addSocket(socket);
 }
 
-void NetworkManager::SendMessage(std::string msg, TCPsocket sd)
+bool NetworkManager::check(uint32_t socketId, uint32_t timeout)
 {
-	if (sd)
-		SDLNet_TCP_Send(sd, msg.c_str(), msg.length()+1);
-	else
-		SDLNet_TCP_Send(serversocket, msg.c_str(), msg.length()+1);
-}
-
-void NetworkManager::SendMessage(char* msg, TCPsocket sd)
-{
-	if (sd)
-		SDLNet_TCP_Send(sd, msg, strlen(msg)+1);
-	else
-		SDLNet_TCP_Send(serversocket, msg, strlen(msg)+1);
-}
-
-bool NetworkManager::CheckSocket()
-{
-	if (SDLNet_CheckSockets(socketset, 0) >= 0) {
-		if (SDLNet_SocketReady(serversocket))
-			return true;
-	} else {
+	if (SDLNet_CheckSockets(socketSet, timeout) < 0) {
 		std::cout << "SDLNet_TCP_CheckSockets: " << SDLNet_GetError();
 		exit(EXIT_FAILURE);
 	}
-	return false;
+
+	return SDLNet_SocketReady(sockets.at(socketId));
 }
 
-std::string NetworkManager::ReceiveMessage()
+void NetworkManager::send(void* data, int size, uint32_t socketId)
 {
-	char msg[1024];
-	int len = SDLNet_TCP_Recv(serversocket, msg, 1023);
-	if (len <= 0) {
-		SDLNet_TCP_Close(serversocket);
-		fprintf(stderr, "SDLNet_TCP_RECV: %s\n", SDLNet_GetError());
-		exit(EXIT_FAILURE);
-	}
-	msg[len] = 0;
-	return std::string(msg);
+	SDLNet_TCP_Send(sockets.at(socketId), data, size);
 }
 
-void NetworkManager::Close()
+int NetworkManager::receive(uint32_t socketId, void* data, uint16_t maxSize)
 {
-	SDLNet_TCP_Close(serversocket);
+	int bytesRead = SDLNet_TCP_Recv(sockets.at(socketId), data, maxSize);
+	if (bytesRead <= 0)
+		std::cout << "SDLNet_TCP_RECV: " << SDLNet_GetError() << std::endl;
+
+	/*int totalBytesRead = 0;
+	int lastBytesRead;
+	do {
+		lastBytesRead = SDLNet_TCP_Recv(sockets.at(socketId), data, maxSize);
+		if (lastBytesRead <= 0)
+			printf("SDLNet_TCP_RECV: %s\n", SDLNet_GetError());
+		totalBytesRead += lastBytesRead;
+	} while (lastBytesRead > 0 && totalBytesRead < maxSize);*/
+
+	return bytesRead;
+}
+
+void NetworkManager::close(uint32_t socketId)
+{
+	SDLNet_TCP_DelSocket(socketSet, sockets.at(socketId));
+	SDLNet_TCP_Close(sockets.at(socketId));
+}
+
+void NetworkManager::quit()
+{
+	SDLNet_FreeSocketSet(socketSet);
+	for (socket_map::iterator it = sockets.begin(); it != sockets.end(); ++it)
+		SDLNet_TCP_Close(it->second);
+	sockets.clear();
 	SDLNet_Quit();
+}
+
+uint32_t NetworkManager::addSocket(TCPsocket socket)
+{
+	if (SDLNet_TCP_AddSocket(socketSet, socket) == -1) {
+		std::cout << "SDLNet_TCP_AddSocket: " << SDLNet_GetError() << std::endl;
+		return BAD_SOCKET_ID;
+	}
+
+	uint32_t i = 0;
+	while (!sockets.emplace(i++, socket).second) {}
+	return i;
+}
+
+std::string printIP(uint32_t ip)
+{
+	std::stringstream addr_ss;
+	for (int i = 0; i < 4; i++) {
+		addr_ss << (ip >> 8*i) % 256;
+		if (i < 3) addr_ss << ".";
+	}
+	return addr_ss.str();
 }
 
 }

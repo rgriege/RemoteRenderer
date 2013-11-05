@@ -5,12 +5,13 @@
 #include "constants.h"
 #include <string>
 #include "SDL_thread.h"
+#include "NetworkManager.h"
 
-#define MAX_HOSTS 4
+#define MAX_CLIENTS 2
 
-struct host {
-	TCPsocket sock;
-	IPaddress addr;
+struct client {
+	uint32_t socketId;
+	IPaddress ip;
 	std::string name;
 };
 
@@ -22,25 +23,25 @@ private:
 	Server& operator=(Server const&);
 
 public:
-	static Server* GetInstance();
+	static Server* getInstance();
+	void waitForConnection();
+	void broadcast(void* data, int size);
 	std::string getHostname();
-	void Stop();
 
 private:
-	void Start();
-	void AddClient();
-	void HandleClient(int idx);
-	void RemoveClient(int idx);
+	void addClient();
+	void handleClient(int idx);
+	void removeClient(int idx);
 
-	friend int createServer(void *prt);
+	//friend int createServer(void *prt);
 
 	static Server* instance;
-	static SDL_Thread* thread;
-	static TCPsocket serversocket;
-	static host hosts[MAX_HOSTS];
-	static SDLNet_SocketSet socketset;
+	//static SDL_Thread* thread;
+	static uint32_t serversocket;
+	static client clients[MAX_CLIENTS];
 	static std::string hostname;
 	static bool quit;
+	static NeTwerk::NetworkManager* netMgr;
 };
 
 #endif // __SERVER_H__
