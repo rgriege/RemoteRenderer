@@ -7,7 +7,6 @@
 
 #include "SDL_net.h"
 
-#undef SendMessage
 #define DEFAULT_PORT 2000
 #define LISTEN_PORT 53255
 #define BAD_SOCKET_ID UINT32_MAX
@@ -17,8 +16,6 @@
 #else
     #define NETWERK_API __declspec(dllimport)
 #endif
-
-typedef std::map<uint32_t, TCPsocket> socket_map;
 
 namespace NeTwerk {
 
@@ -38,13 +35,15 @@ namespace NeTwerk {
 
 		std::string getIP(uint32_t socketId);
 
-		uint32_t listen();
+		uint32_t listen(uint16_t port = DEFAULT_PORT);
 		uint32_t accept(uint32_t listenSocketId);
 		uint32_t connect(const char* host, uint16_t port = DEFAULT_PORT);
 		uint32_t connect(uint32_t host, uint16_t port);
 
-		bool check(uint32_t socketId, uint32_t timeout = 0);
+		bool prime(uint32_t timeout = 0);
+		bool check(uint32_t socketId);
 		void send(void* data, int size, uint32_t socketId);
+		void send(std::string message, uint32_t sockedId);
 		int receive(uint32_t socketId, void* data, uint16_t maxSize);
 
 		void close(uint32_t socketId);
@@ -54,7 +53,10 @@ namespace NeTwerk {
 		static NetworkManager* instance;
 		SDLNet_SocketSet socketSet;
 		//uint32_t socketSetSize;
+		typedef std::map<uint32_t, TCPsocket> socket_map;
+#pragma warning(disable : 4251)
 		socket_map sockets;
+#pragma warning(default : 4251)
 	};
 
 	std::string printIP(uint32_t ip);

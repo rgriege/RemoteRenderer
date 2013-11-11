@@ -3,9 +3,15 @@
 #include <sstream>
 #include <iostream>
 
+#define SDL_INADDR_ANY INADDR_ANY
+#define SDL_INADDR_BROADCAST INADDR_BROADCAST
+#define SDL_INADDR_NONE INADDR_NONE
+
 #ifdef _WIN32
+#undef INADDR_ANY
+#undef INADDR_BROADCAST
+#undef INADDR_NONE
 #include <WinSock.h>
-#undef SendMessage
 #endif
 
 namespace NeTwerk {
@@ -75,9 +81,9 @@ std::string NetworkManager::getIP(uint32_t socketId)
 	return ip == NULL ? "" : printIP(ip->host);
 }
 
-uint32_t NetworkManager::listen() {
+uint32_t NetworkManager::listen(uint16_t port) {
 	/* Set up a socket on this machine */
-	return connect((char*) NULL, LISTEN_PORT);
+	return connect((char*) NULL, port);
 }
 
 uint32_t NetworkManager::accept(uint32_t listenSocketId) {
@@ -95,14 +101,9 @@ uint32_t NetworkManager::connect(const char* host, uint16_t port)
 {
 	IPaddress ip;
 	/* Resolve the host we are connecting to */
-	if (SDLNet_ResolveHost(&ip, host, port) < 0) {
+	if (SDLNet_ResolveHost(&ip, host, port) < 0 || ip.host == SDL_INADDR_NONE) {
 		std::cout << "SDLNet_ResolveHost (" << host << "): " << SDLNet_GetError()
 			<< std::endl;
-		return BAD_SOCKET_ID;
-	}
-	
-	if (ip.host == INADDR_NONE) {
-		printf("Couldn't resolve hostname\n");
 		return BAD_SOCKET_ID;
 	}
 
@@ -121,19 +122,29 @@ uint32_t NetworkManager::connect(uint32_t host, uint16_t port) {
 	return addSocket(socket);
 }
 
-bool NetworkManager::check(uint32_t socketId, uint32_t timeout)
+bool NetworkManager::prime(uint32_t timeout)
 {
-	if (SDLNet_CheckSockets(socketSet, timeout) < 0) {
+	int count = SDLNet_CheckSockets(socketSet, timeout);
+	if (count < 0) {
 		std::cout << "SDLNet_TCP_CheckSockets: " << SDLNet_GetError();
 		exit(EXIT_FAILURE);
 	}
+	return count > 0;
+}
 
+bool NetworkManager::check(uint32_t socketId)
+{
 	return SDLNet_SocketReady(sockets.at(socketId));
 }
 
 void NetworkManager::send(void* data, int size, uint32_t socketId)
 {
 	SDLNet_TCP_Send(sockets.at(socketId), data, size);
+}
+
+void NetworkManager::send(std::string message, uint32_t socketId)
+{
+	send((void*) message.c_str(), message.length() + 1, socketId);
 }
 
 int NetworkManager::receive(uint32_t socketId, void* data, uint16_t maxSize)
