@@ -46,8 +46,6 @@ private:
 	uint32_t frameNum;
 
 	SwsContext* conversionContext;
-
-	static bool libInit;
 };
 
 #endif

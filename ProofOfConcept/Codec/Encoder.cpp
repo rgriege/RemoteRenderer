@@ -1,14 +1,10 @@
-#include "Encoder.h"
 #include <cassert>
 
-bool Encoder::libInit = false;
+#include "Encoder.h"
+#include "Init.h"
 
 Encoder::Encoder() {
-    /* register all the codecs */
-	if (!libInit) {
-		avcodec_register_all();
-		libInit = true;
-	}
+	init_av_codec();
 
 	codecContext = NULL;
 	//endcode = { 0, 0, 1, 0xb7 };

@@ -1,17 +1,20 @@
 #ifndef __SERVER_H__
 #define __SERVER_H__
 
-#include "SDL_net.h"
-#include "constants.h"
 #include <string>
-#include "SDL_thread.h"
+#include <vector>
+
 #include "NetworkManager.h"
+#include "constants.h"
+#include "SDL_thread.h"
 
-#define MAX_CLIENTS 2
+#define MAX_HOSTS 4
 
-struct client {
+typedef std::vector<uint32_t> socketIdVector;
+
+struct host {
 	uint32_t socketId;
-	IPaddress ip;
+	IPaddress addr;
 	std::string name;
 };
 
@@ -24,24 +27,23 @@ private:
 
 public:
 	static Server* getInstance();
-	void waitForConnection();
-	void broadcast(void* data, int size);
-	std::string getHostname();
+	void stop();
 
 private:
+	void start();
 	void addClient();
-	void handleClient(int idx);
-	void removeClient(int idx);
+	void handleClient(uint32_t socketId);
+	void removeClient(uint32_t socketId);
 
-	//friend int createServer(void *prt);
+	friend int createServer(void *prt);
+
+	NeTwerk::NetworkManager* netMgr;
+	uint32_t listenSocketId;
+	socketIdVector clientSocketIds;
 
 	static Server* instance;
-	//static SDL_Thread* thread;
-	static uint32_t serversocket;
-	static client clients[MAX_CLIENTS];
-	static std::string hostname;
+	static SDL_Thread* thread;
 	static bool quit;
-	static NeTwerk::NetworkManager* netMgr;
 };
 
 #endif // __SERVER_H__

@@ -1,37 +1,30 @@
-#include "Server.h"
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <iostream>
 #include <sstream>
 
-#include "NetworkManager.h"
+#include "Server.h"
+#include "Packet.h"
 
 Server* Server::instance = NULL;
-//SDL_Thread* Server::thread;
-uint32_t Server::serversocket;
-client Server::clients[MAX_CLIENTS];
-//SDLNet_SocketSet Server::socketset;
-std::string Server::hostname;
+SDL_Thread* Server::thread;
 bool Server::quit = false;
-NeTwerk::NetworkManager* Server::netMgr = NULL;
 
-/*int createServer(void *ptr)
+int createServer(void *ptr)
 {
-	Server::GetInstance()->Start();
+	Server::getInstance()->start();
 	return 0;
-}*/
+}
 
 Server::Server()
 {
-	/* Make sure SDLNet is initialized, and create a socket to listen for connections */
+	/* Make sure SDLNet is initialized */
 	netMgr = NeTwerk::NetworkManager::getInstance();
-	serversocket = netMgr->listen();
 
-	//const char* compname = NetworkManager::GetHostname().c_str();
-	//std::cout << "You are hosting a chat on '" << compname << "'" << std::endl << flush;
-	hostname = netMgr->getLocalHostname();
+	listenSocketId = netMgr->listen();
+
+	std::string hostname = netMgr->getLocalHostname();
 	std::string ip = netMgr->getLocalIP();
 	std::cout << "hosting on " << hostname << " from " << ip << std::endl;
 }
@@ -40,92 +33,83 @@ Server* Server::getInstance()
 {
 	if (!instance) {
 		instance = new Server();
-		// thread = SDL_CreateThread(createServer, NULL);
+		thread = SDL_CreateThread(createServer, NULL);
 	}
 	return instance;
 }
 
-void Server::waitForConnection()
+void Server::start()
 {
-	while (!netMgr->check(serversocket, TIMEOUT)) {}
-	addClient();
-}
-
-void Server::broadcast(void* data, int size) {
-	for (int i = 0; i < MAX_CLIENTS; i++) {
-		if (clients[i].socketId)
-			netMgr->send(data, size, clients[i].socketId);
+	/* Wait for a connection, send data and term */
+	quit = 0;
+	while (!quit) {
+		/* Wait for events */
+		netMgr->prime(0);
+		/* Check for new connections */
+		if (netMgr->check(listenSocketId)) {
+			addClient();
+		}
+		/* Check for events on existing clients */
+		for (socketIdVector::iterator it = clientSocketIds.begin(); it != clientSocketIds.end(); ++it) {
+			if (netMgr->check(*it))
+				handleClient(*it);
+		}
+		/* Broadcast the frame */
+		if (newFrame) {
+			AVPacket pkt = currentFramePacket;
+			for (socketIdVector::iterator it = clientSocketIds.begin(); it != clientSocketIds.end(); ++it) {
+				netMgr->send(pkt.data, pkt.size, *it);
+			}
+		}
 	}
+
+	std::cout << "Closing server..." << std::endl;
+
+	return;
 }
 
-void Server::handleClient(int idx)
+void Server::handleClient(uint32_t socketId)
 {
 	char data[512];
 	/* Has the connection been closed? */
-	if (netMgr->receive(clients[idx].socketId, data, 512) <= 0) {
-		removeClient(idx);
-		unsigned count = 0;
-		for (int i = 0; i < MAX_CLIENTS; i++)
-			if (clients[i].socketId)
-				count++;
+	if (netMgr->receive(socketId, data, 512) <= 0) {
+		removeClient(socketId);
+		/*unsigned count = 0;
+		for (int i = 0; i < MAX_HOSTS; i++)
+			if (hosts[i].sock) count++;
 		if (count == 0)
-			quit = 1;
-	} /*else {
-		std::cout << "message from " << clients[idx].name << std::endl;
+		quit = 1;*/
+	} else {
 		if (data[TYPE] == NAME) {
-			clients[idx].name = std::string(&data[1]);
-			std::string msg = clients[idx].name + " has joined the chat";
-			for (int i = 0; i < MAX_CLIENTS; i++)
-				if (clients[i].socketId && i != idx)
-					netMgr->send(msg, clients[i].socketId);
+
 		} else {
 			if (strcmp(&data[1], "exit") == 0 || strcmp(&data[1], "quit") == 0) {
-				RemoveClient(idx);
+				removeClient(socketId);
 			} else {
-				std::string msg = clients[idx].name + ": " + std::string(&data[1]);
-				for (int i = 0; i < MAX_CLIENTS; i++)
-					if (clients[i].socketId)
-						netMgr->send(msg, clients[i].socketId);
+
 			}
 		}
-	}*/
+	}
 }
 
 void Server::addClient()
 {
-	/* Accept the connection */
-	uint32_t clientSocketId = netMgr->accept(serversocket);
-
-	int idx;
-	/* Look for unconnected slot */
-	for (idx = 0; idx < MAX_CLIENTS; idx++) {
-		if (!clients[idx].socketId)
-			break;
+	uint32_t newsock = netMgr->accept(listenSocketId);
+	if (newsock == NULL) {
+		printf("Invalid new client socket\n");
+		return;
 	}
-
-	if (idx == MAX_CLIENTS) {
-		/* No room */
-		netMgr->send("Goodbye", 8, clientSocketId);
-		netMgr->close(clientSocketId);
-	} else {
-		/* Add socket */
-		clients[idx].socketId = clientSocketId;
-		//clients[idx].ip = NeTwerk::NetworkManager::getInstance()->getIP(clientSocketId);
-		//SDLNet_TCP_AddSocket(socketset, hosts[idx].sock);
-		std::cout << "adding client " << idx << std::endl;
-	}
+	clientSocketIds.push_back(newsock);
 }
 
-void Server::removeClient(int idx)
+void Server::removeClient(uint32_t socketId)
 {
-	std::cout << clients[idx].name << " has left" << std::endl;
-	netMgr->close(clients[idx].socketId);
-
-	clients[idx].name = "";
-	clients[idx].socketId = BAD_SOCKET_ID;
+	netMgr->close(socketId);
+	clientSocketIds.erase(std::find(clientSocketIds.begin(), clientSocketIds.end(), socketId));
 }
 
-std::string Server::getHostname()
+void Server::stop()
 {
-	return hostname;
+	quit = true;
+	SDL_WaitThread(thread, NULL);
 }

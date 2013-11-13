@@ -1,11 +1,11 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <sstream>
-
 #include <GL/freeglut.h>
+#include <Encoder.h>
 
 #include "Server.h"
-#include "Encoder.h"
+#include "Packet.h"
 
 #define NUMBEROF(a)   ( ( sizeof( a ) ) / sizeof( a[ 0 ] ) )
 
@@ -166,10 +166,11 @@ void cb_display( void )
 			temp.copyTo(&buffer[bottom]);
 		}
 	}
+	
 	AVPacket* pkt = encoder->encodeRgbData(buffer);
-    fflush(stdout);
-	fwrite(pkt->data, 1, pkt->size, ffmpeg);
-	Server::getInstance()->broadcast(pkt->data, pkt->size);
+	currentFramePacket = *pkt;
+    /*fflush(stdout);
+	fwrite(pkt->data, 1, pkt->size, ffmpeg);*/
 	av_free_packet(pkt);
 }
 
@@ -229,24 +230,27 @@ void cb_menu( int item )
 #undef main
 int main(int argc, char **argv)
 {
-	Server::getInstance()->waitForConnection();
+	newFrame = false;
+	Server::getInstance();
+
+    unsigned int i;
 
     glutInit( &argc, argv );
     glutInitDisplayMode( GLUT_DEPTH|GLUT_DOUBLE );
-    main_window = glutCreateWindow( "OpenGLUT fonts" );
+    main_window = glutCreateWindow( "OpenGL Remote Rendering Server" );
     glutDisplayFunc( cb_display );
     glutReshapeFunc( cb_reshape );
     glutIdleFunc( cb_idle );
 
     glutCreateMenu( cb_menu );
-    for(unsigned int i = 0; i < NUMBEROF( font_map ); ++i )
+    for( i = 0; i < NUMBEROF( font_map ); ++i )
         glutAddMenuEntry( font_map [ i ].name, i );
-    glutAddMenuEntry( "Quit", NUMBEROF( font_map ) );
+    glutAddMenuEntry( "Quit", i );
     glutAttachMenu( 2 );
 
 	font = GLUT_BITMAP_HELVETICA_12; //GLUT_BITMAP_8_BY_13;
 
-    printf("glut window id: %d\n",glutGetWindow());
+    printf("glut window id: %d\n", glutGetWindow());
 
 	/* ffmpeg init */
 	width = glutGet(GLUT_WINDOW_WIDTH);
@@ -263,8 +267,6 @@ int main(int argc, char **argv)
         glutPostRedisplay();
         glutMainLoopEvent();
     }
-
-    glutMainLoop( );
 
 	encoder->writeEndFile(ffmpeg);
 	fclose(ffmpeg);
