@@ -189,7 +189,7 @@ uint32_t NetworkManager::addSocket(TCPsocket socket)
 
 	uint32_t i = 0;
 	while (!sockets.emplace(i++, socket).second) {}
-	return i;
+	return i-1;
 }
 
 std::string printIP(uint32_t ip)
