@@ -1,5 +1,8 @@
-#include <Encoder.h>
 #include <atomic>
+
+extern "C" {
+#include <libavcodec\avcodec.h>
+}
 
 struct EncodedFramePacket {
 	EncodedFramePacket(AVPacket& pkt)
@@ -8,7 +11,3 @@ struct EncodedFramePacket {
 	int size;
 	bool sent;
 };
-
-//std::atomic<EncodedFramePacket> currentFramePacket;
-std::atomic<AVPacket> currentFramePacket;
-std::atomic_bool newFrame;

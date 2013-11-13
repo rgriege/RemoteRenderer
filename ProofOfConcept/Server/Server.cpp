@@ -7,6 +7,9 @@
 #include "Server.h"
 #include "Packet.h"
 
+extern std::atomic<AVPacket> currentFramePacket;
+extern std::atomic_bool newFrame;
+
 Server* Server::instance = NULL;
 SDL_Thread* Server::thread;
 bool Server::quit = false;

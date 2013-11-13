@@ -41,6 +41,9 @@ Encoder* encoder;
 
 uint8_t* buffer;
 
+extern std::atomic<AVPacket> currentFramePacket;
+extern std::atomic_bool newFrame;
+
 struct rgbData {
 	rgbData(uint8_t* data) {
 		r = data[0];

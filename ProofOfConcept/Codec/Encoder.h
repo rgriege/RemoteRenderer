@@ -40,12 +40,12 @@ public:
 
 private:
 	AVCodec* codec;
-    AVCodecContext* codecContext;
+    AVCodecContext* codec_context;
     uint8_t endcode[4];
 	AVFrame* frame;
-	uint32_t frameNum;
+	uint32_t frame_num;
 
-	SwsContext* conversionContext;
+	SwsContext* conversion_context;
 };
 
 #endif
