@@ -3,10 +3,10 @@
 #include <sstream>
 #include <GL/freeglut.h>
 #include <Encoder.h>
+#include <rgbData.h>
 
 #include "Server.h"
 #include "Packet.h"
-#include "rgbData.h"
 
 #define NUMBEROF(a)   ( ( sizeof( a ) ) / sizeof( a[ 0 ] ) )
 
@@ -31,13 +31,9 @@ GLfloat pole_spec[ ] = {1, 1, 1, 1};
  */
 int main_window;
 
-/*
- *
- */
 int width;
 int height;
 AVFrame* frame;
-FILE* ffmpeg;
 Encoder* encoder;
 
 uint8_t* buffer;
@@ -235,7 +231,6 @@ int main(int argc, char **argv)
 	/* ffmpeg init */
 	width = glutGet(GLUT_WINDOW_WIDTH);
 	height = glutGet(GLUT_WINDOW_HEIGHT);
-	ffmpeg = fopen("output.h264", "wb");
 
 	encoder = new Encoder();
 	if (!encoder->bootstrap(AV_CODEC_ID_H264, width, height, 25)) //MPEG1VIDEO
@@ -248,8 +243,6 @@ int main(int argc, char **argv)
         glutMainLoopEvent();
     }
 
-	encoder->writeEndFile(ffmpeg);
-	fclose(ffmpeg);
 	delete[] buffer;
 
     return EXIT_SUCCESS;
