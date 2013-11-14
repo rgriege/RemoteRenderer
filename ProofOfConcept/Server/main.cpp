@@ -6,6 +6,7 @@
 
 #include "Server.h"
 #include "Packet.h"
+#include "rgbData.h"
 
 #define NUMBEROF(a)   ( ( sizeof( a ) ) / sizeof( a[ 0 ] ) )
 
@@ -43,22 +44,6 @@ uint8_t* buffer;
 
 extern std::atomic<AVPacket> currentFramePacket;
 extern std::atomic_bool newFrame;
-
-struct rgbData {
-	rgbData(uint8_t* data) {
-		r = data[0];
-		g = data[1];
-		b = data[2];
-	}
-	void copyTo(uint8_t* data) {
-		data[0] = r;
-		data[1] = g;
-		data[2] = b;
-	}
-	uint8_t r;
-	uint8_t g;
-	uint8_t b;
-};
 
 /*
  * The current font.  Can be any of the builtin fonts.
@@ -160,15 +145,7 @@ void cb_display( void )
     glutSwapBuffers( );
 
 	glReadPixels(0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE, buffer);
-	for (int i = 0; i < height/2; i++) {
-		for (int j = 0; j < width; j++) {
-			int top = (i*width + j) * 3;
-			int bottom = ((height-i-1)*width + j) * 3;
-			rgbData temp(&buffer[top]);
-			((rgbData*) &buffer[bottom])->copyTo(&buffer[top]);
-			temp.copyTo(&buffer[bottom]);
-		}
-	}
+	flip_image_vertically(buffer, width, height);
 	
 	AVPacket* pkt = encoder->encodeRgbData(buffer);
 	currentFramePacket = *pkt;
