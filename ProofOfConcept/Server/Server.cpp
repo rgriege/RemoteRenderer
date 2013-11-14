@@ -58,8 +58,9 @@ void Server::start()
 				handleClient(*it);
 		}
 		/* Broadcast the frame */
-		if (newFrame) {
+		if (clientSocketIds.size() > 0 && newFrame) {
 			AVPacket pkt = currentFramePacket;
+			newFrame = false;
 			for (socketIdVector::iterator it = clientSocketIds.begin(); it != clientSocketIds.end(); ++it) {
 				netMgr->send(pkt.data, pkt.size, *it);
 			}

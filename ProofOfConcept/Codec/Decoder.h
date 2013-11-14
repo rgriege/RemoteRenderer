@@ -14,6 +14,8 @@ extern "C" {
 #include <libswscale\swscale.h>
 }
 
+#include "IStream.h"
+
 #define INBUF_SIZE 4096
 
 #ifdef CODEC_EXPORT
@@ -37,7 +39,7 @@ public:
 	int getFrameWidth();
 	int getFrameHeight();
 	
-	bool writeFrame(FILE* f, uint8_t* const rgbData);
+	bool decode_frame(IStream& stream, uint8_t* const rgbData);
 
 private:
 	AVCodec* codec;

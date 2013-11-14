@@ -7,6 +7,7 @@
 
 #include "Server.h"
 #include "Packet.h"
+#include "GLWindowStream.h"
 
 #define NUMBEROF(a)   ( ( sizeof( a ) ) / sizeof( a[ 0 ] ) )
 
@@ -17,13 +18,13 @@
  * plan refers to the planet,  and pole refers to the flagpole.
  */
 GLfloat l0_pos[ ] =  {0, 0, 0, 1};
-GLfloat l0_amb[ ]  = {.05, .05, .1, 1};
-GLfloat l0_diff[ ] = {.95, .95, .8, 1};
+GLfloat l0_amb[ ]  = {.05f, .05f, .1f, 1};
+GLfloat l0_diff[ ] = {.95f, .95f, .8f, 1};
 
-GLfloat plan_diff[ ] = {.15, .5, .7, 1};
-GLfloat plan_spec[ ] = {.8, .9, 1, 1};
+GLfloat plan_diff[ ] = {.15f, .5f, .7f, 1};
+GLfloat plan_spec[ ] = {.8f, .9f, 1, 1};
 
-GLfloat pole_diff[ ] = {.8, .4, .4, 1};
+GLfloat pole_diff[ ] = {.8f, .4f, .4f, 1};
 GLfloat pole_spec[ ] = {1, 1, 1, 1};
 
 /*
@@ -37,6 +38,8 @@ AVFrame* frame;
 Encoder* encoder;
 
 uint8_t* buffer;
+
+GLWindowStream* window_stream;
 
 extern std::atomic<AVPacket> currentFramePacket;
 extern std::atomic_bool newFrame;
@@ -140,11 +143,13 @@ void cb_display( void )
 
     glutSwapBuffers( );
 
-	glReadPixels(0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE, buffer);
+	window_stream->read(width*height, buffer);
+	//glReadPixels(0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE, buffer);
 	flip_image_vertically(buffer, width, height);
 	
 	AVPacket* pkt = encoder->encodeRgbData(buffer);
 	currentFramePacket = *pkt;
+	newFrame = true;
     /*fflush(stdout);
 	fwrite(pkt->data, 1, pkt->size, ffmpeg);*/
 	av_free_packet(pkt);
@@ -218,6 +223,8 @@ int main(int argc, char **argv)
     glutReshapeFunc( cb_reshape );
     glutIdleFunc( cb_idle );
 
+	window_stream = new GLWindowStream();
+
     glutCreateMenu( cb_menu );
     for( i = 0; i < NUMBEROF( font_map ); ++i )
         glutAddMenuEntry( font_map [ i ].name, i );
@@ -233,7 +240,8 @@ int main(int argc, char **argv)
 	height = glutGet(GLUT_WINDOW_HEIGHT);
 
 	encoder = new Encoder();
-	if (!encoder->bootstrap(AV_CODEC_ID_H264, width, height, 25)) //MPEG1VIDEO
+	if (!encoder->bootstrap(AV_CODEC_ID_MPEG1VIDEO, width, height, 25))
+	//if (!encoder->bootstrap(AV_CODEC_ID_H264, width, height, 25))
 		exit(EXIT_FAILURE);
 	buffer = new uint8_t[3*width*height];
 

@@ -81,7 +81,7 @@ int Decoder::getFrameHeight()
 	return codec_context->height;
 }
 
-bool Decoder::writeFrame(FILE* f, uint8_t* const rgbData)
+bool Decoder::decode_frame(IStream& stream, uint8_t* const rgbData)
 {
 	int got_frame = 0;
 	while (!got_frame) {
@@ -90,7 +90,7 @@ bool Decoder::writeFrame(FILE* f, uint8_t* const rgbData)
 			/* set end of buffer to 0 (this ensures that no overreading happens for damaged mpeg streams) */
 			memset(input_buffer + INBUF_SIZE, 0, FF_INPUT_BUFFER_PADDING_SIZE);
 
-			current_packet.size = fread(input_buffer, 1, INBUF_SIZE, f);
+			current_packet.size = stream.read(INBUF_SIZE, input_buffer); //fread(input_buffer, 1, INBUF_SIZE, f);
 			if (current_packet.size == 0)
 				return false;
 

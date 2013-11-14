@@ -6,6 +6,7 @@
 //#include <NetworkManager.h>
 #include <Decoder.h>
 #include <rgbData.h>
+#include <FileStream.h>
 
 int width;
 int height;
@@ -24,8 +25,8 @@ int main( int argc, char **argv )
 	/*NeTwerk::NetworkManager* netMgr = NeTwerk::NetworkManager::getInstance();
 
 	std::cout << "Enter server hostname: ";
-	std::string server;
-	std::cin >> server;
+	std::string server = netMgr->getLocalHostname();
+	//std::cin >> server;
 	std::cout << "Attempting to connect to '" << server << "'..." << std::endl;
 	uint32_t serverSocketId = netMgr->connect(server.c_str());
 	if (serverSocketId == BAD_SOCKET_ID)
@@ -36,11 +37,8 @@ int main( int argc, char **argv )
 	decoder = new Decoder();
 	decoder->bootstrap(AV_CODEC_ID_MPEG1VIDEO);
 
-	FILE* f = fopen("test.mpg", "rb");
-	if (!f) {
-        fprintf(stderr, "Could not open %s\n", "test.mpg");
-        exit(1);
-    }
+	FILE* file = fopen("test.mpg", "rb");
+	FileStream f = FileStream(file);
 
     glutInit( &argc, argv );
     glutInitDisplayMode( GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE );
@@ -64,7 +62,7 @@ int main( int argc, char **argv )
 			av_free_packet(pkt);
 			glutPostRedisplay();
 		}*/
-		if (decoder->writeFrame(f, buffer)) {
+		if (decoder->decode_frame(f, buffer)) {
 			flip_image_vertically(buffer, width, height);
 			glutPostRedisplay();
 		} else {
@@ -75,6 +73,8 @@ int main( int argc, char **argv )
     }
 
 	printf("Video playback complete\n");
+
+	fclose(file);
 
     glutMainLoop( );
 
