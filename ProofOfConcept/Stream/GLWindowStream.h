@@ -8,8 +8,8 @@
 class STREAM_API GLWindowStream : public IStream
 {
 public:
-	int read(int size, void* data);
-	void write(void* data, int item_size = glutGet(GLUT_WINDOW_WIDTH), int item_count = glutGet(GLUT_WINDOW_HEIGHT));
+    int read(int size, void* data);
+    void write(void* data, int item_size = glutGet(GLUT_WINDOW_WIDTH), int item_count = glutGet(GLUT_WINDOW_HEIGHT));
 };
 
 #endif

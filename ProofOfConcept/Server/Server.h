@@ -13,37 +13,37 @@
 typedef std::vector<uint32_t> socketIdVector;
 
 struct host {
-	uint32_t socketId;
-	IPaddress addr;
-	std::string name;
+    uint32_t socketId;
+    IPaddress addr;
+    std::string name;
 };
 
 class Server
 {
 private:
-	Server();
-	Server(Server const&);
-	Server& operator=(Server const&);
+    Server();
+    Server(Server const&);
+    Server& operator=(Server const&);
 
 public:
-	static Server* getInstance();
-	void stop();
+    static Server* getInstance();
+    void stop();
 
 private:
-	void start();
-	void addClient();
-	void handleClient(uint32_t socketId);
-	void removeClient(uint32_t socketId);
+    void start();
+    void addClient();
+    void handleClient(uint32_t socketId);
+    void removeClient(uint32_t socketId);
 
-	friend int createServer(void *prt);
+    friend int createServer(void *prt);
 
-	NeTwerk::NetworkManager* netMgr;
-	uint32_t listenSocketId;
-	socketIdVector clientSocketIds;
+    NeTwerk::NetworkManager* netMgr;
+    uint32_t listenSocketId;
+    socketIdVector clientSocketIds;
 
-	static Server* instance;
-	static SDL_Thread* thread;
-	static bool quit;
+    static Server* instance;
+    static SDL_Thread* thread;
+    static bool quit;
 };
 
 #endif // __SERVER_H__

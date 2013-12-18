@@ -19,37 +19,34 @@ extern "C" {
 #define INBUF_SIZE 4096
 
 #ifdef CODEC_EXPORT
-    #define CODEC_API __declspec(dllexport)
+#define CODEC_API __declspec(dllexport)
 #else
-    #define CODEC_API __declspec(dllimport)
+#define CODEC_API __declspec(dllimport)
 #endif
 
 class CODEC_API Decoder
 {
 public:
-	Decoder();
-	~Decoder();
+    Decoder();
+    ~Decoder();
 
-	bool setCodec(AVCodecID codecId);
-	bool createContext();
-	bool openCodec();
-	bool createFrame();
-	bool bootstrap(AVCodecID codecId);
+    bool setCodec(AVCodecID codecId);
+    bool createContext(int width, int height);
+    bool openCodec();
+    bool createFrame();
+    bool bootstrap(AVCodecID codecId, int width, int height);
 
-	int getFrameWidth();
-	int getFrameHeight();
-	
-	bool decode_frame(IStream& stream, uint8_t* const rgbData);
+    bool decode_frame(IStream& stream, uint8_t* const rgbData);
 
 private:
-	AVCodec* codec;
+    AVCodec* codec;
     AVCodecContext* codec_context;
-	AVFrame* frame;
-	uint32_t frame_num;
-	AVPacket current_packet;
-	uint8_t* input_buffer;
+    AVFrame* frame;
+    uint32_t frame_num;
+    AVPacket current_packet;
+    uint8_t* input_buffer;
 
-	SwsContext* conversion_context;
+    SwsContext* conversion_context;
 };
 
 #endif

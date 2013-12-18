@@ -17,35 +17,36 @@ extern "C" {
 #define INBUF_SIZE 4096
 
 #ifdef CODEC_EXPORT
-    #define CODEC_API __declspec(dllexport)
+#define CODEC_API __declspec(dllexport)
 #else
-    #define CODEC_API __declspec(dllimport)
+#define CODEC_API __declspec(dllimport)
 #endif
 
 class CODEC_API Encoder
 {
 public:
-	Encoder();
-	~Encoder();
+    Encoder();
+    ~Encoder();
 
-	bool setCodec(AVCodecID codecId);
-	bool createContext(int width, int height, int fps);
-	bool openCodec();
-	bool createFrame();
-	bool bootstrap(AVCodecID codecId, int width, int height, int fps);
-	
-	AVPacket* encodeRgbData(const uint8_t* rgbData);
+    bool setCodec(AVCodecID codecId);
+    bool createContext(int width, int height, int fps);
+    bool openCodec();
+    bool createFrame();
+    bool bootstrap(AVCodecID codecId, int width, int height, int fps);
 
-	void writeEndFile(FILE* file);
+    void write_rgb_data_to_frame(const uint8_t* rgbData);
+    void encode_frame(AVPacket& pkt);
+
+    void writeEndFile(FILE* file);
 
 private:
-	AVCodec* codec;
+    AVCodec* codec;
     AVCodecContext* codec_context;
     uint8_t endcode[4];
-	AVFrame* frame;
-	uint32_t frame_num;
+    AVFrame* frame;
+    uint32_t frame_num;
 
-	SwsContext* conversion_context;
+    SwsContext* conversion_context;
 };
 
 #endif

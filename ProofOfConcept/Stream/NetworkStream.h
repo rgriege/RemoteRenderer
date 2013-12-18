@@ -5,15 +5,15 @@
 
 #include "IStream.h"
 
-class NetworkStream : public IStream
+class STREAM_API NetworkStream : public IStream
 {
 public:
-	NetworkStream(uint32_t _socket_id);
-	int read(int size, void* data);
-	void write(void* data, int item_size, int item_count);
+    NetworkStream(uint32_t _socket_id);
+    int read(int size, void* data);
+    void write(void* data, int item_size, int item_count);
 private:
-	uint32_t socket_id;
-	NeTwerk::NetworkManager* netMgr;
+    uint32_t socket_id;
+    NeTwerk::NetworkManager* netMgr;
 };
 
 #endif

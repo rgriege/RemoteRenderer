@@ -8,11 +8,11 @@
 class STREAM_API FileStream : public IStream
 {
 public:
-	FileStream(FILE* file);
-	int read(int size, void* data);
-	void write(void* data, int item_size, int item_count);
+    FileStream(FILE* file);
+    int read(int size, void* data);
+    void write(void* data, int item_size, int item_count);
 private:
-	FILE* f;
+    FILE* f;
 };
 
 #endif

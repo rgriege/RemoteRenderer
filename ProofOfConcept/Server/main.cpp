@@ -5,9 +5,15 @@
 #include <Encoder.h>
 #include <rgbData.h>
 
+extern "C" {
+#include <libavcodec\avcodec.h>
+}
+
 #include "Server.h"
-#include "Packet.h"
 #include "GLWindowStream.h"
+#include "ConcurrentQueue.h"
+
+extern ConcurrentQueue<AVPacket*> packet_queue;
 
 #define NUMBEROF(a)   ( ( sizeof( a ) ) / sizeof( a[ 0 ] ) )
 
@@ -34,15 +40,11 @@ int main_window;
 
 int width;
 int height;
-AVFrame* frame;
 Encoder* encoder;
 
 uint8_t* buffer;
 
 GLWindowStream* window_stream;
-
-extern std::atomic<AVPacket> currentFramePacket;
-extern std::atomic_bool newFrame;
 
 /*
  * The current font.  Can be any of the builtin fonts.
@@ -123,36 +125,35 @@ void cb_display( void )
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
     glPushMatrix();
-        glRotated( msec / 50.0, 0, 1, 0 );
-        glMaterialfv( GL_FRONT, GL_AMBIENT_AND_DIFFUSE, plan_diff );
-        glMateriali( GL_FRONT, GL_SHININESS, 100 );
-        glMaterialfv( GL_FRONT, GL_SPECULAR, plan_spec );
-        glutSolidSphere( 3, 20, 20 );
-        glMaterialfv( GL_FRONT, GL_AMBIENT_AND_DIFFUSE, pole_diff );
-        glMaterialfv( GL_FRONT, GL_SPECULAR, pole_spec );
-        glutSolidCylinder( .1, FLAG_HEIGHT, 6, 3 );
-        glTranslated( 0, 0, FLAG_HEIGHT );
-        write_string( "Hello\nWorld!" );
+    glRotated( msec / 50.0, 0, 1, 0 );
+    glMaterialfv( GL_FRONT, GL_AMBIENT_AND_DIFFUSE, plan_diff );
+    glMateriali( GL_FRONT, GL_SHININESS, 100 );
+    glMaterialfv( GL_FRONT, GL_SPECULAR, plan_spec );
+    glutSolidSphere( 3, 20, 20 );
+    glMaterialfv( GL_FRONT, GL_AMBIENT_AND_DIFFUSE, pole_diff );
+    glMaterialfv( GL_FRONT, GL_SPECULAR, pole_spec );
+    glutSolidCylinder( .1, FLAG_HEIGHT, 6, 3 );
+    glTranslated( 0, 0, FLAG_HEIGHT );
+    write_string( "Hello\nWorld!" );
     glPopMatrix();
 
-	glPushMatrix();
-		std::stringstream ss;
-		ss << msec;
-		write_string("HEY");
-	glPopMatrix();
+    glPushMatrix();
+    std::stringstream ss;
+    ss << msec;
+    write_string("HEY");
+    glPopMatrix();
 
     glutSwapBuffers( );
 
-	window_stream->read(width*height, buffer);
-	//glReadPixels(0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE, buffer);
-	flip_image_vertically(buffer, width, height);
-	
-	AVPacket* pkt = encoder->encodeRgbData(buffer);
-	currentFramePacket = *pkt;
-	newFrame = true;
-    /*fflush(stdout);
-	fwrite(pkt->data, 1, pkt->size, ffmpeg);*/
-	av_free_packet(pkt);
+    window_stream->read(width*height, buffer);
+    flip_image_vertically(buffer, width, height);
+
+    /* create the packet */
+    AVPacket* pkt = new AVPacket();
+    av_init_packet(pkt);
+    encoder->write_rgb_data_to_frame(buffer);
+    encoder->encode_frame(*pkt);
+    packet_queue.push(pkt);
 }
 
 /*
@@ -211,8 +212,7 @@ void cb_menu( int item )
 #undef main
 int main(int argc, char **argv)
 {
-	newFrame = false;
-	Server::getInstance();
+    Server::getInstance();
 
     unsigned int i;
 
@@ -223,7 +223,7 @@ int main(int argc, char **argv)
     glutReshapeFunc( cb_reshape );
     glutIdleFunc( cb_idle );
 
-	window_stream = new GLWindowStream();
+    window_stream = new GLWindowStream();
 
     glutCreateMenu( cb_menu );
     for( i = 0; i < NUMBEROF( font_map ); ++i )
@@ -231,19 +231,21 @@ int main(int argc, char **argv)
     glutAddMenuEntry( "Quit", i );
     glutAttachMenu( 2 );
 
-	font = GLUT_BITMAP_HELVETICA_12; //GLUT_BITMAP_8_BY_13;
+    font = GLUT_BITMAP_HELVETICA_12; //GLUT_BITMAP_8_BY_13;
 
     printf("glut window id: %d\n", glutGetWindow());
 
-	/* ffmpeg init */
-	width = glutGet(GLUT_WINDOW_WIDTH);
-	height = glutGet(GLUT_WINDOW_HEIGHT);
+    /* ffmpeg init */
+    width = glutGet(GLUT_WINDOW_WIDTH);
+    height = glutGet(GLUT_WINDOW_HEIGHT);
 
-	encoder = new Encoder();
-	if (!encoder->bootstrap(AV_CODEC_ID_MPEG1VIDEO, width, height, 25))
-	//if (!encoder->bootstrap(AV_CODEC_ID_H264, width, height, 25))
-		exit(EXIT_FAILURE);
-	buffer = new uint8_t[3*width*height];
+    printf("window dim: %d x %d\n", width, height);
+
+    encoder = new Encoder();
+    if (!encoder->bootstrap(AV_CODEC_ID_MPEG1VIDEO, width, height, 25))
+        //if (!encoder->bootstrap(AV_CODEC_ID_H264, width, height, 25))
+            exit(EXIT_FAILURE);
+    buffer = new uint8_t[3*width*height];
 
     for (;;)
     {
@@ -251,7 +253,7 @@ int main(int argc, char **argv)
         glutMainLoopEvent();
     }
 
-	delete[] buffer;
+    delete[] buffer;
 
     return EXIT_SUCCESS;
 }
