@@ -56,9 +56,15 @@ void Server::start()
             addClient();
         }
         /* Check for events on existing clients */
-        for (socketIdVector::iterator it = clientSocketIds.begin(); it != clientSocketIds.end(); ++it) {
-            if (netMgr->check(*it))
-                handleClient(*it);
+        for (socketIdVector::iterator it = clientSocketIds.begin(); it != clientSocketIds.end(); ) {
+            if (netMgr->check(*it)) {
+                if (!handleClient(*it))
+                    it = clientSocketIds.erase(it);
+                else
+                    ++it;
+            } else {
+                ++it;
+            }
         }
         /* Broadcast the frame */
         if (clientSocketIds.size() > 0 && !packet_queue.empty()) {
@@ -74,12 +80,13 @@ void Server::start()
     return;
 }
 
-void Server::handleClient(uint32_t socketId)
+bool Server::handleClient(uint32_t socketId)
 {
     char data[512];
     /* Has the connection been closed? */
     if (netMgr->receive(socketId, data, 512) <= 0) {
         removeClient(socketId);
+        return false;
         /*unsigned count = 0;
         for (int i = 0; i < MAX_HOSTS; i++)
         if (hosts[i].sock) count++;
@@ -91,11 +98,13 @@ void Server::handleClient(uint32_t socketId)
         } else {
             if (strcmp(&data[1], "exit") == 0 || strcmp(&data[1], "quit") == 0) {
                 removeClient(socketId);
+                return false;
             } else {
 
             }
         }
     }
+    return true;
 }
 
 void Server::addClient()
@@ -111,7 +120,6 @@ void Server::addClient()
 void Server::removeClient(uint32_t socketId)
 {
     netMgr->close(socketId);
-    clientSocketIds.erase(std::find(clientSocketIds.begin(), clientSocketIds.end(), socketId));
 }
 
 void Server::stop()

@@ -32,7 +32,7 @@ public:
 private:
     void start();
     void addClient();
-    void handleClient(uint32_t socketId);
+    bool handleClient(uint32_t socketId);
     void removeClient(uint32_t socketId);
 
     friend int createServer(void *prt);
