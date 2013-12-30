@@ -107,17 +107,21 @@ bool ServerApp::_initOgre()
         }
     }
 
-    if(!root->showConfigDialog())
-        return false;
+    if(!root->restoreConfig()) {
+        if (root->showConfigDialog())
+            root->saveConfig();
+        else
+            return false;
+    }
     renderWnd = root->initialise(true, "Ogre Remote Renderer");
     renderWnd->resize(300, 300);
 
     timer = new Ogre::Timer();
     timer->reset();
 
-    renderWnd->setActive(true);
-
     Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
+
+    renderWnd->setActive(true);
 
     return true;
 }
