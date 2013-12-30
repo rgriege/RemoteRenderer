@@ -43,7 +43,6 @@ int main( int argc, char **argv )
     glutInit( &argc, argv );
     glutInitDisplayMode( GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE );
     glutInitWindowSize(width, height);
-    //glutInitWindowSize(decoder->getFrameWidth(), decoder->getFrameHeight());
     glutCreateWindow( "OpenGL Remote Rendering Client");
     glutDisplayFunc( cb_display );
 
@@ -69,6 +68,9 @@ int main( int argc, char **argv )
     printf("Video playback complete\n");
 
     glutMainLoop( );
+
+    delete decoder;
+    free(buffer);
 
     return EXIT_SUCCESS;
 }
