@@ -12,7 +12,6 @@ bool ServerApp::run()
     _createScene();
 
     Server::getInstance();
-    window_stream = new GLWindowStream();
 #pragma push_macro("PixelFormat")
 #undef PixelFormat
     buffer = Ogre::PixelBox(renderWnd->getWidth(), renderWnd->getHeight(), 1,
@@ -21,12 +20,11 @@ bool ServerApp::run()
 
     /* ffmpeg init */
     encoder = new Encoder();
-    if (!encoder->bootstrap(AV_CODEC_ID_MPEG1VIDEO, renderWnd->getWidth(), renderWnd->getHeight(), 25))
-    //if (!encoder->bootstrap(AV_CODEC_ID_H264, width, height, 25))
+    if (!encoder->bootstrap(AV_CODEC_ID_MPEG1VIDEO, renderWnd->getWidth(), renderWnd->getHeight(), frameRate))
+    //if (!encoder->bootstrap(AV_CODEC_ID_H264, width, height, frameRate))
         exit(EXIT_FAILURE);
 
     bool shutdown = false;
-    int timeSinceLastFrame = 1;
     int startTime = 0;
     while(!shutdown)
     {
@@ -40,6 +38,11 @@ bool ServerApp::run()
             startTime = timer->getMillisecondsCPU();
             root->renderOneFrame();
             timeSinceLastFrame = timer->getMillisecondsCPU() - startTime;
+#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+            Sleep(std::max(frameTime - timeSinceLastFrame, 0));
+#else
+            //sleep(1);
+#endif
         }
         else
         {
@@ -52,7 +55,6 @@ bool ServerApp::run()
     }
 
     free(buffer.data);
-    delete window_stream;
     delete encoder;
 
     return true;
@@ -60,7 +62,7 @@ bool ServerApp::run()
 
 bool ServerApp::frameRenderingQueued(const Ogre::FrameEvent& evt)
 {
-    cameraNode->yaw(Ogre::Radian(0.0003f));
+    cameraNode->yaw(Ogre::Radian(1.f/8000 * std::max(timeSinceLastFrame, frameTime) * Ogre::Math::TWO_PI));
 
     renderWnd->copyContentsToMemory(buffer, Ogre::RenderTarget::FrameBuffer::FB_AUTO);
 

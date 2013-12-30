@@ -12,6 +12,7 @@ extern "C" {
 class ServerApp : public Ogre::FrameListener
 {
 public:
+    ServerApp(int fps = 30) : frameRate(fps), frameTime(1000/frameRate) {}
     bool run();
 
     virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
@@ -30,7 +31,9 @@ private:
     Ogre::SceneManager* sceneMgr;
     Encoder* encoder;
     Ogre::PixelBox buffer;
-    GLWindowStream* window_stream;
+    const int frameRate;
+    const int frameTime;
+    int timeSinceLastFrame;
 };
 
 #endif
