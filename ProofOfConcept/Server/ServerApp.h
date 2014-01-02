@@ -7,7 +7,14 @@
 extern "C" {
 #include <libavcodec\avcodec.h>
 }
-#include "GLWindowStream.h"
+#include <websocketpp/config/asio_no_tls.hpp>
+#include <websocketpp/server.hpp>
+#include <boost/smart_ptr/owner_less.hpp>
+#include <mutex>
+
+typedef websocketpp::server<websocketpp::config::asio> server;
+
+using websocketpp::connection_hdl;
 
 class ServerApp : public Ogre::FrameListener
 {
@@ -18,8 +25,14 @@ public:
     virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
 
 private:
+    typedef std::set<connection_hdl,boost::owner_less<connection_hdl>> con_list;
+
     bool _initOgre();
     void _createScene();
+    void _initServer();
+
+    void _onOpen(connection_hdl hdl);
+    void _onClose(connection_hdl hdl);
 
     Ogre::Log* ogreLog;
     Ogre::Root* root;
@@ -34,6 +47,10 @@ private:
     const int frameRate;
     const int frameTime;
     int timeSinceLastFrame;
+
+    server mServer;
+    con_list mConnections;
+    std::mutex mMutex;
 };
 
 #endif

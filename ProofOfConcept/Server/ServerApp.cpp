@@ -1,6 +1,7 @@
+#include <thread>
+
 #include "ServerApp.h"
 #include "ConcurrentQueue.h"
-#include "Server.h"
 
 extern ConcurrentQueue<AVPacket*> packet_queue;
 
@@ -11,18 +12,19 @@ bool ServerApp::run()
 
     _createScene();
 
-    Server::getInstance();
 #pragma push_macro("PixelFormat")
 #undef PixelFormat
     buffer = Ogre::PixelBox(renderWnd->getWidth(), renderWnd->getHeight(), 1,
         Ogre::PixelFormat::PF_B8G8R8, malloc(renderWnd->getWidth()*renderWnd->getHeight()*3));
 #pragma pop_macro("PixelFormat")
 
-    /* ffmpeg init */
+    /* ffmpeg init, also try AV_CODEC_ID_H264 */
     encoder = new Encoder();
     if (!encoder->bootstrap(AV_CODEC_ID_MPEG1VIDEO, renderWnd->getWidth(), renderWnd->getHeight(), frameRate))
-    //if (!encoder->bootstrap(AV_CODEC_ID_H264, width, height, frameRate))
         exit(EXIT_FAILURE);
+
+    _initServer();
+    std::thread t(std::bind(&server::run, &mServer));
 
     bool shutdown = false;
     int startTime = 0;
@@ -71,7 +73,10 @@ bool ServerApp::frameRenderingQueued(const Ogre::FrameEvent& evt)
     av_init_packet(pkt);
     encoder->write_rgb_data_to_frame(static_cast<uint8_t*>(buffer.data));
     encoder->encode_frame(*pkt);
-    packet_queue.push(pkt);
+    for (auto it : mConnections)
+        mServer.send(it, pkt->data, pkt->size, websocketpp::frame::opcode::binary);
+    av_free_packet(pkt);
+    //packet_queue.push(pkt);
 
     return true;
 }
@@ -150,4 +155,35 @@ void ServerApp::_createScene()
     camera->setAspectRatio(Ogre::Real(viewport->getActualWidth()) / Ogre::Real(viewport->getActualHeight()));
 
     root->addFrameListener(this);
+}
+
+void ServerApp::_initServer()
+{
+    mServer.init_asio();
+    mServer.clear_access_channels(websocketpp::log::alevel::frame_payload);
+    //mServer.clear_access_channels(websocketpp::log::alevel::frame_header);
+    mServer.set_open_handler(boost::bind(&ServerApp::_onOpen, this, _1));
+    mServer.set_close_handler(boost::bind(&ServerApp::_onClose, this, _1));
+    mServer.listen(9002);
+    mServer.start_accept();
+}
+
+void ServerApp::_onOpen(connection_hdl hdl)
+{
+    std::cout << "socket opened!" << std::endl;
+    std::lock_guard<std::mutex> lock(mMutex);
+    mConnections.insert(hdl);
+
+	uint16_t first_message[4];
+	memcpy(first_message, "jsmp", 4);
+	first_message[2] = htons(300);
+	first_message[3] = htons(300);
+	mServer.send(hdl, first_message, 8, websocketpp::frame::opcode::binary);
+}
+
+void ServerApp::_onClose(connection_hdl hdl)
+{
+    std::cout << "socket closed!" << std::endl;
+    std::lock_guard<std::mutex> lock(mMutex);
+    mConnections.erase(hdl);
 }
