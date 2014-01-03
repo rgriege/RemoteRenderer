@@ -74,8 +74,11 @@ bool ServerApp::frameRenderingQueued(const Ogre::FrameEvent& evt)
     av_init_packet(pkt);
     encoder->write_rgb_data_to_frame(static_cast<uint8_t*>(buffer.data));
     encoder->encode_frame(*pkt);
-    for (auto it : mConnections)
-        mServer.send(it, pkt->data, pkt->size, websocketpp::frame::opcode::binary);
+    for (auto it : mConnections) {
+		try {
+			mServer.send(it, pkt->data, pkt->size, websocketpp::frame::opcode::binary);
+		} catch (websocketpp::lib::error_code&) {}
+	}
     av_free_packet(pkt);
     //packet_queue.push(pkt);
 

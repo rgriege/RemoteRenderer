@@ -42,6 +42,7 @@
 
         // use WebGL if possible (much faster)
         if (this.initWebGL()) {
+            console.log("using WebGL for rendering");
             this.renderFrame = this.renderFrameGL;
         } else {
             this.canvasContext = this.canvas.getContext('2d');
@@ -199,7 +200,8 @@
     jsmpeg.prototype.socketBufferSize = 512 * 1024; // 512kb each
     jsmpeg.prototype.onlostconnection = null;
 
-    jsmpeg.prototype.initSocketClient = function (client) {
+    jsmpeg.prototype.initSocketClient = function () {
+        console.log("socket open!");
         this.buffer = new BitReader(new ArrayBuffer(this.socketBufferSize));
 
         this.nextPictureBuffer = new BitReader(new ArrayBuffer(this.socketBufferSize));
@@ -209,9 +211,13 @@
 
         this.client.binaryType = 'arraybuffer';
         this.client.onmessage = this.receiveSocketMessage.bind(this);
+
+        this.frameNumber = 0;
+        this.frameRate = 0;
+        this.lastFrameTime = 0;
     };
 
-    jsmpeg.prototype.decodeSocketHeader = function (data) {
+    jsmpeg.prototype.decodeSocketHeader = function (data, timestamp) {
         // Custom header sent to all newly connected clients when streaming
         // over websockets:
         // struct { char magic[4] = "jsmp"; unsigned short width, height; };
@@ -224,6 +230,7 @@
             this.width = (data[4] * 256 + data[5]);
             this.height = (data[6] * 256 + data[7]);
             this.initBuffers();
+            this.lastFrameTime = timestamp;
         }
     };
 
@@ -231,7 +238,14 @@
         var messageData = new Uint8Array(event.data);
 
         if (!this.sequenceStarted) {
-            this.decodeSocketHeader(messageData);
+            this.decodeSocketHeader(messageData, event.timeStamp);
+        } else {
+            var totalTime = (this.frameRate * this.frameNumber) + (event.timeStamp - this.lastFrameTime);
+            ++this.frameNumber;
+            this.frameRate = totalTime / this.frameNumber;
+            this.lastFrameTime = event.timeStamp;
+            if (this.frameNumber % 40 == 0)
+                console.log(Math.round(this.frameRate) + " fps");
         }
 
         var current = this.buffer;
