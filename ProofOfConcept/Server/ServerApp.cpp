@@ -26,7 +26,7 @@ bool ServerApp::run()
     _initServer();
     std::thread t(std::bind(&server::run, &mServer));
 
-    bool shutdown = false;
+	bool shutdown = false;
     int startTime = 0;
     while(!shutdown)
     {
@@ -38,7 +38,8 @@ bool ServerApp::run()
         if(renderWnd->isActive())
         {
             startTime = timer->getMillisecondsCPU();
-            root->renderOneFrame();
+			if (!mConnections.empty())
+				root->renderOneFrame();
             timeSinceLastFrame = timer->getMillisecondsCPU() - startTime;
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
             Sleep(std::max(frameTime - timeSinceLastFrame, 0));
