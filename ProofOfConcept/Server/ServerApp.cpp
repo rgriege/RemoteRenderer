@@ -12,6 +12,8 @@ bool ServerApp::run()
 
     _createScene();
 
+	_initOis();
+
 #pragma push_macro("PixelFormat")
 #undef PixelFormat
     buffer = Ogre::PixelBox(renderWnd->getWidth(), renderWnd->getHeight(), 1,
@@ -38,8 +40,11 @@ bool ServerApp::run()
         if(renderWnd->isActive())
         {
             startTime = timer->getMillisecondsCPU();
-			if (!mConnections.empty())
+			if (!mConnections.empty()) {
 				root->renderOneFrame();
+				mKeyboard->capture();
+				mMouse->capture();
+			}
             timeSinceLastFrame = timer->getMillisecondsCPU() - startTime;
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
             Sleep(std::max(frameTime - timeSinceLastFrame, 0));
@@ -83,6 +88,36 @@ bool ServerApp::frameRenderingQueued(const Ogre::FrameEvent& evt)
     //packet_queue.push(pkt);
 
     return true;
+}
+
+bool ServerApp::mouseMoved( const OIS::MouseEvent &arg )
+{
+	//std::cout << "Mouse Moved!" << std::endl;
+	return true;
+}
+
+bool ServerApp::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
+{
+	std::cout << "Mouse Pressed!" << std::endl;
+	return true;
+}
+
+bool ServerApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
+{
+	std::cout << "Mouse Released!" << std::endl;
+	return true;
+}
+
+bool ServerApp::keyPressed(const OIS::KeyEvent &arg)
+{
+	std::cout << "Key Pressed!" << std::endl;
+	return true;
+}
+
+bool ServerApp::keyReleased(const OIS::KeyEvent &arg)
+{
+	std::cout << "Key Released!" << std::endl;
+	return true;
 }
 
 bool ServerApp::_initOgre()
@@ -165,11 +200,23 @@ void ServerApp::_initServer()
 {
     mServer.init_asio();
     mServer.clear_access_channels(websocketpp::log::alevel::frame_payload);
-    //mServer.clear_access_channels(websocketpp::log::alevel::frame_header);
+    mServer.clear_access_channels(websocketpp::log::alevel::frame_header);
     mServer.set_open_handler(boost::bind(&ServerApp::_onOpen, this, _1));
     mServer.set_close_handler(boost::bind(&ServerApp::_onClose, this, _1));
     mServer.listen(9002);
     mServer.start_accept();
+}
+
+void ServerApp::_initOis()
+{
+	size_t hWnd = 0;
+	renderWnd->getCustomAttribute("WINDOW", &hWnd);
+	mInputMgr = OIS::InputManager::createInputSystem(hWnd);
+
+	mMouse = static_cast<OIS::Mouse*>(mInputMgr->createInputObject(OIS::OISMouse, true));
+	mMouse->setEventCallback(this);
+	mKeyboard = static_cast<OIS::Keyboard*>(mInputMgr->createInputObject(OIS::OISKeyboard, true));
+	mKeyboard->setEventCallback(this);
 }
 
 void ServerApp::_onOpen(connection_hdl hdl)
