@@ -70,7 +70,7 @@ bool ServerApp::run()
 
 bool ServerApp::frameRenderingQueued(const Ogre::FrameEvent& evt)
 {
-    cameraNode->yaw(Ogre::Radian(1.f/8000 * std::max(timeSinceLastFrame, frameTime) * Ogre::Math::TWO_PI));
+    cameraNode->yaw(Ogre::Radian(angularVelocity * std::max(timeSinceLastFrame, frameTime)));
 
     renderWnd->copyContentsToMemory(buffer, Ogre::RenderTarget::FrameBuffer::FB_AUTO);
 
@@ -99,12 +99,14 @@ bool ServerApp::mouseMoved( const OIS::MouseEvent &arg )
 bool ServerApp::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 {
 	std::cout << "Mouse Pressed!" << std::endl;
+	angularVelocity *= -1;
 	return true;
 }
 
 bool ServerApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 {
 	std::cout << "Mouse Released!" << std::endl;
+	angularVelocity *= -1;
 	return true;
 }
 

@@ -20,7 +20,11 @@ using websocketpp::connection_hdl;
 class ServerApp : public Ogre::FrameListener, public OIS::MouseListener, public OIS::KeyListener
 {
 public:
-    ServerApp(int fps = 30) : frameRate(fps), frameTime(1000/frameRate) {}
+    ServerApp(int fps = 30)
+		: frameRate(fps),
+		frameTime(1000/frameRate),
+		angularVelocity(1.f/8000 * Ogre::Math::TWO_PI) {}
+
     bool run();
 
     virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
@@ -56,6 +60,7 @@ private:
     const int frameRate;
     const int frameTime;
     int timeSinceLastFrame;
+	Ogre::Real angularVelocity;
 
 	OIS::InputManager* mInputMgr;
 	OIS::Mouse* mMouse;
