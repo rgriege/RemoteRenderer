@@ -28,30 +28,6 @@
         </p>
     </canvas>
     <button id="toggleButton"></button>
-    <script type="text/javascript" src="js/jsmpg.js"></script>
-    <script type="text/javascript">
-        // Show loading notice
-        var canvas = document.getElementById('videoCanvas');
-        var ctx = canvas.getContext('2d');
-        ctx.fillStyle = '#444';
-        ctx.fillText('Loading...', canvas.width / 2 - 30, canvas.height / 3);
-
-        var client;
-        var player;
-
-        var button = document.getElementById('toggleButton');
-        button.textContent = 'Start';
-        button.onclick = function() {
-            if (this.textContent === 'Start') {
-                // Setup the WebSocket connection and start the player
-                client = new WebSocket('ws://172.16.1.63:9002');
-                player = new jsmpeg(client, { canvas: canvas });
-                this.textContent = 'Stop';
-            } else {
-                client.close();
-                this.textContent = 'Start';
-            }
-        };
-    </script>
+    <script type="text/javascript" data-main="js/main" src="js/require.js"></script>
 </body>
 </html>

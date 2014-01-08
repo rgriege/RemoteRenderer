@@ -5,14 +5,15 @@
 
 extern ConcurrentQueue<AVPacket*> packet_queue;
 
+#define RENDER_PORT 9002
+#define INPUT_PORT 9003
+
 bool ServerApp::run()
 {
     if (!_initOgre())
         return false;
 
     _createScene();
-
-	_initOis();
 
 #pragma push_macro("PixelFormat")
 #undef PixelFormat
@@ -25,8 +26,12 @@ bool ServerApp::run()
     if (!encoder->bootstrap(AV_CODEC_ID_MPEG1VIDEO, renderWnd->getWidth(), renderWnd->getHeight(), frameRate))
         exit(EXIT_FAILURE);
 
+	mConnections = 0;
     _initServer();
-    std::thread t(std::bind(&server::run, &mServer));
+    std::thread t(std::bind(&server::run, &mRenderServer));
+	std::thread t2(std::bind(&server::run, &mInputServer));
+
+	_initOis(true);
 
 	bool shutdown = false;
     int startTime = 0;
@@ -40,9 +45,10 @@ bool ServerApp::run()
         if(renderWnd->isActive())
         {
             startTime = timer->getMillisecondsCPU();
-			if (!mConnections.empty()) {
+			if (mConnections == 2) {
+			//if (!mRenderHdl._empty()) {
 				root->renderOneFrame();
-				mKeyboard->capture();
+				//mKeyboard->capture();
 				mMouse->capture();
 			}
             timeSinceLastFrame = timer->getMillisecondsCPU() - startTime;
@@ -79,11 +85,9 @@ bool ServerApp::frameRenderingQueued(const Ogre::FrameEvent& evt)
     av_init_packet(pkt);
     encoder->write_rgb_data_to_frame(static_cast<uint8_t*>(buffer.data));
     encoder->encode_frame(*pkt);
-    for (auto it : mConnections) {
-		try {
-			mServer.send(it, pkt->data, pkt->size, websocketpp::frame::opcode::binary);
-		} catch (websocketpp::lib::error_code&) {}
-	}
+	try {
+		mRenderServer.send(mRenderHdl, pkt->data, pkt->size, websocketpp::frame::opcode::binary);
+	} catch (websocketpp::lib::error_code&) {}
     av_free_packet(pkt);
     //packet_queue.push(pkt);
 
@@ -200,43 +204,69 @@ void ServerApp::_createScene()
 
 void ServerApp::_initServer()
 {
-    mServer.init_asio();
-    mServer.clear_access_channels(websocketpp::log::alevel::frame_payload);
-    mServer.clear_access_channels(websocketpp::log::alevel::frame_header);
-    mServer.set_open_handler(boost::bind(&ServerApp::_onOpen, this, _1));
-    mServer.set_close_handler(boost::bind(&ServerApp::_onClose, this, _1));
-    mServer.listen(9002);
-    mServer.start_accept();
+    mRenderServer.init_asio();
+    mRenderServer.clear_access_channels(websocketpp::log::alevel::frame_payload);
+    mRenderServer.clear_access_channels(websocketpp::log::alevel::frame_header);
+    mRenderServer.set_open_handler(boost::bind(&ServerApp::_onOpen, this, _1, true));
+    mRenderServer.set_close_handler(boost::bind(&ServerApp::_onClose, this, _1));
+    mRenderServer.listen(9002);
+    mRenderServer.start_accept();
+
+	mInputServer.init_asio();
+    mInputServer.clear_access_channels(websocketpp::log::alevel::frame_payload);
+    mInputServer.clear_access_channels(websocketpp::log::alevel::frame_header);
+    mInputServer.set_open_handler(boost::bind(&ServerApp::_onOpen, this, _1, false));
+    mInputServer.set_close_handler(boost::bind(&ServerApp::_onClose, this, _1));
+    mInputServer.listen(9003);
+    mInputServer.start_accept();
 }
 
-void ServerApp::_initOis()
+void ServerApp::_initOis(bool remote)
 {
 	size_t hWnd = 0;
 	renderWnd->getCustomAttribute("WINDOW", &hWnd);
-	mInputMgr = OIS::InputManager::createInputSystem(hWnd);
+	mLocalInputMgr = OIS::InputManager::createInputSystem(hWnd);
+	
+	std::unique_lock<std::mutex> lk(mInputConMtx);
+	mInputConCv.wait(lk, [&]() { return !mInputHdl._empty(); });
+	lk.unlock();
+	OIS::RemoteConnection* con = new OIS::WebSocketppConnection(mInputServer.get_con_from_hdl(mInputHdl));
+	mRemoteInputMgr = OIS::RemoteInputManager::createInputSystem(con);
 
-	mMouse = static_cast<OIS::Mouse*>(mInputMgr->createInputObject(OIS::OISMouse, true));
+	if (remote) {
+		mMouse = static_cast<OIS::Mouse*>(mRemoteInputMgr->createInputObject(OIS::OISMouse, true));
+	} else {
+		mMouse = static_cast<OIS::Mouse*>(mLocalInputMgr->createInputObject(OIS::OISMouse, true));
+	}
+	mKeyboard = static_cast<OIS::Keyboard*>(mLocalInputMgr->createInputObject(OIS::OISKeyboard, true));
+
 	mMouse->setEventCallback(this);
-	mKeyboard = static_cast<OIS::Keyboard*>(mInputMgr->createInputObject(OIS::OISKeyboard, true));
 	mKeyboard->setEventCallback(this);
 }
 
-void ServerApp::_onOpen(connection_hdl hdl)
+void ServerApp::_onOpen(connection_hdl hdl, bool render)
 {
     std::cout << "socket opened!" << std::endl;
-    std::lock_guard<std::mutex> lock(mMutex);
-    mConnections.insert(hdl);
 
-	uint16_t first_message[4];
-	memcpy(first_message, "jsmp", 4);
-	first_message[2] = htons(300);
-	first_message[3] = htons(300);
-	mServer.send(hdl, first_message, 8, websocketpp::frame::opcode::binary);
+	if (render) {
+		mRenderHdl = hdl;
+		uint16_t first_message[4];
+		memcpy(first_message, "jsmp", 4);
+		first_message[2] = htons(300);
+		first_message[3] = htons(300);
+		mRenderServer.send(hdl, first_message, 8, websocketpp::frame::opcode::binary);
+	} else {
+		{
+			std::lock_guard<std::mutex> lk(mInputConMtx);
+			mInputHdl = hdl;
+		}
+		mInputConCv.notify_one();
+	}
+	++mConnections;
 }
 
 void ServerApp::_onClose(connection_hdl hdl)
 {
     std::cout << "socket closed!" << std::endl;
-    std::lock_guard<std::mutex> lock(mMutex);
-    mConnections.erase(hdl);
+	--mConnections;
 }

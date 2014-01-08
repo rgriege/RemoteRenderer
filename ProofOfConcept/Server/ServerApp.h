@@ -3,6 +3,8 @@
 
 #include <OGRE\Ogre.h>
 #include <OIS.h>
+#include <remote\RemoteOIS.h>
+#include <remote\WebSocketppConnection.h>
 #include <Encoder.h>
 #include <rgbData.h>
 extern "C" {
@@ -12,6 +14,8 @@ extern "C" {
 #include <websocketpp/server.hpp>
 #include <boost/smart_ptr/owner_less.hpp>
 #include <mutex>
+#include <condition_variable>
+#include <atomic>
 
 typedef websocketpp::server<websocketpp::config::asio> server;
 
@@ -42,9 +46,9 @@ private:
     bool _initOgre();
     void _createScene();
     void _initServer();
-	void _initOis();
+	void _initOis(bool remote);
 
-    void _onOpen(connection_hdl hdl);
+    void _onOpen(connection_hdl hdl, bool render);
     void _onClose(connection_hdl hdl);
 
     Ogre::Log* ogreLog;
@@ -62,13 +66,20 @@ private:
     int timeSinceLastFrame;
 	Ogre::Real angularVelocity;
 
-	OIS::InputManager* mInputMgr;
+	OIS::InputManager* mLocalInputMgr;
+	OIS::InputManager* mRemoteInputMgr;
 	OIS::Mouse* mMouse;
 	OIS::Keyboard* mKeyboard;
+	server mInputServer;
+	connection_hdl mInputHdl;
+	std::mutex mInputConMtx;
+	std::condition_variable mInputConCv;
 
-    server mServer;
-    con_list mConnections;
-    std::mutex mMutex;
+    server mRenderServer;
+	connection_hdl mRenderHdl;
+    std::mutex mRenderConMtx;
+
+	std::atomic_int mConnections;
 };
 
 #endif

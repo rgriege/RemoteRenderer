@@ -1,4 +1,4 @@
-(function (window) {
+define(['domReady!'], function (document) {
     "use strict";
 
     // jsmpeg by Dominic Szablewski - phoboslab.org, github.com/phoboslab
@@ -25,7 +25,7 @@
             };
     })();
 
-    var jsmpeg = window.jsmpeg = function (url, opts) {
+    var jsmpeg = function (url, opts) {
         opts = opts || {};
         this.canvas = opts.canvas || document.createElement('canvas');
         this.width = this.canvas.width;
@@ -2334,4 +2334,7 @@
         return (this.index -= count);
     };
 
-})(window);
+    return {
+        Player: jsmpeg
+    };
+});
