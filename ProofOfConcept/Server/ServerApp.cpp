@@ -8,6 +8,15 @@ extern ConcurrentQueue<AVPacket*> packet_queue;
 #define RENDER_PORT 9002
 #define INPUT_PORT 9003
 
+ServerApp::ServerApp(int fps)
+	: frameRate(fps),
+	frameTime(1000/frameRate),
+	angularVelocity(1.f/8000 * Ogre::Math::TWO_PI),
+	cameraVelocity(1.f/12000)
+{
+	w = a = s = d = false;
+}
+
 bool ServerApp::run()
 {
     if (!_initOgre())

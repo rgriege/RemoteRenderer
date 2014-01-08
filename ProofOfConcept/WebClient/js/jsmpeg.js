@@ -15,6 +15,17 @@ define(['domReady!'], function (document) {
     // Inspired by "MPEG Decoder in Java ME" by Nokia:
     // http://www.developer.nokia.com/Community/Wiki/MPEG_decoder_in_Java_ME
 
+    var TimeSpan = function() {
+        var now = Date.now();
+        return {
+            start: now,
+            end: now
+        };
+    };
+
+    TimeSpan.prototype.diff = function() {
+        return this.end - this.start;
+    };
 
     var requestAnimFrame = (function () {
         return window.requestAnimationFrame ||
@@ -212,9 +223,10 @@ define(['domReady!'], function (document) {
         this.client.binaryType = 'arraybuffer';
         this.client.onmessage = this.receiveSocketMessage.bind(this);
 
-        this.frameNumber = 0;
-        this.frameRate = 0;
-        this.lastFrameTime = 0;
+        this.previousFrameSpans = new Array(10);
+        this.frameSpanIndex = 0;
+        this.previousPacketTimes = new Array(10);
+        this.packetTimeIndex = 0;
     };
 
     jsmpeg.prototype.decodeSocketHeader = function (data, timestamp) {
@@ -234,18 +246,28 @@ define(['domReady!'], function (document) {
         }
     };
 
+    jsmpeg.prototype.getPing = function() {
+        var result = 0;
+        var count = 0;
+        var prev = 0;
+        this.previousPacketTimes.forEach(function (elem) {
+            if (prev && elem > prev) {
+                result += elem - prev;
+                ++count;
+            }
+            prev = elem;
+        });
+        return Math.round(result / count);
+    };
+
     jsmpeg.prototype.receiveSocketMessage = function (event) {
         var messageData = new Uint8Array(event.data);
 
         if (!this.sequenceStarted) {
             this.decodeSocketHeader(messageData, event.timeStamp);
         } else {
-            var totalTime = (this.frameRate * this.frameNumber) + (event.timeStamp - this.lastFrameTime);
-            ++this.frameNumber;
-            this.frameRate = totalTime / this.frameNumber;
-            this.lastFrameTime = event.timeStamp;
-            if (this.frameNumber % 40 == 0)
-                console.log(Math.round(this.frameRate) + " fps");
+            this.previousPacketTimes[this.packetTimeIndex] = event.timeStamp;
+            this.packetTimeIndex = (this.packetTimeIndex + 1) % this.previousPacketTimes.length;
         }
 
         var current = this.buffer;
@@ -678,6 +700,29 @@ define(['domReady!'], function (document) {
     jsmpeg.prototype.forwardRSize = 0;
     jsmpeg.prototype.forwardF = 0;
 
+    jsmpeg.prototype.getFrameRate = function() {
+        var result = 0;
+        var count = 0;
+        var prev = undefined;
+        this.previousFrameSpans.forEach(function (elem, idx) {
+            if (prev && elem.start > prev.start) {
+                result += (elem.start - prev.start);
+                ++count;
+            }
+            prev = elem;
+        });
+        return Math.round(result / count);
+    };
+
+    jsmpeg.prototype.getFrameTime = function () {
+        var result = 0;
+        var count = 0;
+        this.previousFrameSpans.forEach(function (elem, idx) {
+            result += (elem.end - elem.start);
+            ++count;
+        });
+        return Math.round(result / count);
+    };
 
     jsmpeg.prototype.decodePicture = function (skipOutput) {
         this.buffer.advance(10); // skip temporalReference
@@ -719,7 +764,10 @@ define(['domReady!'], function (document) {
         this.recordFrameFromCurrentBuffer();
 
         if (skipOutput != DECODE_SKIP_OUTPUT) {
+            this.previousFrameSpans[this.frameSpanIndex] = new TimeSpan();
             this.renderFrame();
+            this.previousFrameSpans[this.frameSpanIndex].end = Date.now();
+            this.frameSpanIndex = (this.frameSpanIndex + 1) % this.previousFrameSpans.length;
 
             if (this.externalDecodeCallback) {
                 this.externalDecodeCallback(this, this.canvas);

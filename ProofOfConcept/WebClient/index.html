@@ -7,14 +7,17 @@
         body {
             background: #333;
             text-align: center;
-            margin-top: 10%;
-        }
-        #toggleButton {
-            display: block;
-            margin: auto;
+            margin-top: 30px;
         }
         canvas {
             background: #2b2b2b;
+        }
+        #statsTbl {
+            background: white;
+            opacity: 0.3;
+            display: none;
+            position: absolute;
+            font-size: 11px;
         }
     </style>
 </head>
@@ -27,7 +30,16 @@
             <a href="http://www.apple.com/safari/">Safari</a> or Internet Explorer 10
         </p>
     </canvas>
-    <button id="toggleButton"></button>
+    <div id="controlPanel">
+        <button id="connectBtn"></button>
+        <button id="statsBtn"></button>
+    </div>
+    <table id="statsTbl">
+        <tr><th colspan="2">App Stats</th></tr>
+        <tr><th>Ping</th><td id="pingCell">0</td></tr>
+        <tr><th>FPS</th><td id="fpsCell">0</td></tr>
+        <tr><th>Frame Time</th><td id="frameTimeCell">0</td></tr>
+    </table>
     <script type="text/javascript" data-main="js/main" src="js/require.js"></script>
 </body>
 </html>

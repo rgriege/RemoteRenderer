@@ -24,11 +24,7 @@ using websocketpp::connection_hdl;
 class ServerApp : public Ogre::FrameListener, public OIS::MouseListener, public OIS::KeyListener
 {
 public:
-    ServerApp(int fps = 30)
-		: frameRate(fps),
-		frameTime(1000/frameRate),
-		angularVelocity(1.f/8000 * Ogre::Math::TWO_PI),
-		cameraVelocity(1.f/12000) {}
+    ServerApp(int fps = 30);
 
     bool run();
 
