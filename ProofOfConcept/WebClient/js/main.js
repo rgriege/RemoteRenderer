@@ -1,4 +1,4 @@
-﻿require(['domReady!', 'jsmpeg', 'mouse'], function(doc, jsmpeg, ois) {
+﻿require(['domReady!', 'jsmpeg', 'ois'], function(doc, jsmpeg, ois) {
     // Show loading notice
     var canvas = doc.getElementById('videoCanvas');
     var ctx = canvas.getContext('2d');
@@ -6,6 +6,7 @@
     ctx.fillText('Loading...', canvas.width / 2 - 30, canvas.height / 3);
 
     var mouse = new ois.Mouse(canvas);
+    var keyboard = new ois.Keyboard(canvas);
     var inputSocket;
 
     var renderSocket;
@@ -22,10 +23,12 @@
                 var f = new FileReader();
                 f.readAsText(msg.data);
                 f.onload = function () {
-                    if (this.result.charCodeAt(0) === 77) {
-                        mouse.capture();
+                    if (inputSocket.readyState !== inputSocket.OPEN)
+                        return;
+                    if (this.result.charCodeAt(0) === 77)
                         inputSocket.send(mouse.stringify());
-                    }
+                    else if (this.result.charCodeAt(0) === 75)
+                        inputSocket.send(keyboard.stringify());
                 };
                 f.onerror = function(e) { console.log("Error", e); };
             };

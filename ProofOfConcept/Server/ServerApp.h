@@ -27,7 +27,8 @@ public:
     ServerApp(int fps = 30)
 		: frameRate(fps),
 		frameTime(1000/frameRate),
-		angularVelocity(1.f/8000 * Ogre::Math::TWO_PI) {}
+		angularVelocity(1.f/8000 * Ogre::Math::TWO_PI),
+		cameraVelocity(1.f/12000) {}
 
     bool run();
 
@@ -58,6 +59,7 @@ private:
     Ogre::Timer* timer;
     Ogre::Camera* camera;
     Ogre::SceneNode* cameraNode;
+	Ogre::SceneNode* headNode;
     Ogre::SceneManager* sceneMgr;
     Encoder* encoder;
     Ogre::PixelBox buffer;
@@ -65,6 +67,8 @@ private:
     const int frameTime;
     int timeSinceLastFrame;
 	Ogre::Real angularVelocity;
+	Ogre::Real cameraVelocity;
+	bool w, a, s, d;
 
 	OIS::InputManager* mLocalInputMgr;
 	OIS::InputManager* mRemoteInputMgr;

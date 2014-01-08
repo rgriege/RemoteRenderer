@@ -46,16 +46,15 @@ bool ServerApp::run()
         {
             startTime = timer->getMillisecondsCPU();
 			if (mConnections == 2) {
-			//if (!mRenderHdl._empty()) {
 				root->renderOneFrame();
-				//mKeyboard->capture();
+				mKeyboard->capture();
 				mMouse->capture();
 			}
             timeSinceLastFrame = timer->getMillisecondsCPU() - startTime;
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
             Sleep(std::max(frameTime - timeSinceLastFrame, 0));
 #else
-            //sleep(1);
+            sleep(1);
 #endif
         }
         else
@@ -76,7 +75,16 @@ bool ServerApp::run()
 
 bool ServerApp::frameRenderingQueued(const Ogre::FrameEvent& evt)
 {
-    cameraNode->yaw(Ogre::Radian(angularVelocity * std::max(timeSinceLastFrame, frameTime)));
+    headNode->yaw(Ogre::Radian(angularVelocity * std::max(timeSinceLastFrame, frameTime)));
+	
+	if (a)
+		cameraNode->yaw(Ogre::Radian(-cameraVelocity * std::max(timeSinceLastFrame, frameTime)));
+	else if (d)
+		cameraNode->yaw(Ogre::Radian(cameraVelocity * std::max(timeSinceLastFrame, frameTime)));
+	if (w)
+		cameraNode->roll(Ogre::Radian(cameraVelocity * std::max(timeSinceLastFrame, frameTime)));
+	else if (s)
+		cameraNode->roll(Ogre::Radian(-cameraVelocity * std::max(timeSinceLastFrame, frameTime)));
 
     renderWnd->copyContentsToMemory(buffer, Ogre::RenderTarget::FrameBuffer::FB_AUTO);
 
@@ -117,12 +125,40 @@ bool ServerApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id
 bool ServerApp::keyPressed(const OIS::KeyEvent &arg)
 {
 	std::cout << "Key Pressed!" << std::endl;
+	switch (arg.key) {
+	case OIS::KC_A:
+		a = true;
+		break;
+	case OIS::KC_D:
+		d = true;
+		break;
+	case OIS::KC_W:
+		w = true;
+		break;
+	case OIS::KC_S:
+		s = true;
+		break;
+	}
 	return true;
 }
 
 bool ServerApp::keyReleased(const OIS::KeyEvent &arg)
 {
 	std::cout << "Key Released!" << std::endl;
+	switch (arg.key) {
+	case OIS::KC_A:
+		a = false;
+		break;
+	case OIS::KC_D:
+		d = false;
+		break;
+	case OIS::KC_W:
+		w = false;
+		break;
+	case OIS::KC_S:
+		s = false;
+		break;
+	}
 	return true;
 }
 
@@ -181,7 +217,7 @@ void ServerApp::_createScene()
     sceneMgr = root->createSceneManager(Ogre::ST_GENERIC);
 
     Ogre::Entity* ogreHead = sceneMgr->createEntity("Head", "ogrehead.mesh");
-    Ogre::SceneNode* headNode = sceneMgr->getRootSceneNode()->createChildSceneNode();
+    headNode = sceneMgr->getRootSceneNode()->createChildSceneNode();
     headNode->attachObject(ogreHead);
 
     Ogre::Light* light = sceneMgr->createLight();
@@ -235,10 +271,11 @@ void ServerApp::_initOis(bool remote)
 
 	if (remote) {
 		mMouse = static_cast<OIS::Mouse*>(mRemoteInputMgr->createInputObject(OIS::OISMouse, true));
+		mKeyboard = static_cast<OIS::Keyboard*>(mRemoteInputMgr->createInputObject(OIS::OISKeyboard, true));
 	} else {
 		mMouse = static_cast<OIS::Mouse*>(mLocalInputMgr->createInputObject(OIS::OISMouse, true));
+		mKeyboard = static_cast<OIS::Keyboard*>(mLocalInputMgr->createInputObject(OIS::OISKeyboard, true));
 	}
-	mKeyboard = static_cast<OIS::Keyboard*>(mLocalInputMgr->createInputObject(OIS::OISKeyboard, true));
 
 	mMouse->setEventCallback(this);
 	mKeyboard->setEventCallback(this);
