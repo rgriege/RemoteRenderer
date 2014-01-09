@@ -8,7 +8,11 @@
 
     var renderSocket;
     var videoPlayer;
-
+    document.getElementById('fileInput').addEventListener('change', function (evt) {
+        videoPlayer = new jsmpeg.Player(evt.target.files[0],
+            { canvas: canvas, renderer: 'webgl', source: 'local', autoplay: true, loop: true });
+    });
+    
     var connectBtn = doc.getElementById('connectBtn');
     connectBtn.textContent = 'Connect';
     connectBtn.onclick = function () {
@@ -29,7 +33,7 @@
                 };
                 f.onerror = function(e) { console.log("Error", e); };
             };
-            videoPlayer = new jsmpeg.Player(renderSocket, { canvas: canvas });
+            videoPlayer = new jsmpeg.Player(renderSocket, { canvas: canvas, renderer: 'webgl' });
             this.textContent = 'Disconnect';
         } else {
             renderSocket.close();

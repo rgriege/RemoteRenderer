@@ -14,32 +14,33 @@
         }
         #statsTbl {
             background: white;
-            opacity: 0.3;
+            opacity: 0.7;
             display: none;
             position: absolute;
             font-size: 11px;
         }
     </style>
 </head>
-<body>
-    <canvas id="videoCanvas" width="300" height="300" tabindex="1">
-        <p>
-            Please use a browser that supports the Canvas Element, like
-            <a href="http://www.google.com/chrome">Chrome</a>,
-            <a href="http://www.mozilla.com/firefox/">Firefox</a>,
-            <a href="http://www.apple.com/safari/">Safari</a> or Internet Explorer 10
-        </p>
-    </canvas>
-    <div id="controlPanel">
-        <button id="connectBtn"></button>
-        <button id="statsBtn"></button>
-    </div>
-    <table id="statsTbl">
-        <tr><th colspan="2">App Stats</th></tr>
-        <tr><th>Ping</th><td id="pingCell">0</td></tr>
-        <tr><th>FPS</th><td id="fpsCell">0</td></tr>
-        <tr><th>Frame Time</th><td id="frameTimeCell">0</td></tr>
-    </table>
-    <script type="text/javascript" data-main="js/main" src="js/require.js"></script>
-</body>
+    <body>
+        <input type="file" id="fileInput"/>
+        <canvas id="videoCanvas" width="400" height="300" tabindex="1">
+            <p>
+                Please use a browser that supports the Canvas Element, like
+                <a href="http://www.google.com/chrome">Chrome</a>,
+                <a href="http://www.mozilla.com/firefox/">Firefox</a>,
+                <a href="http://www.apple.com/safari/">Safari</a> or Internet Explorer 10
+            </p>
+        </canvas>
+        <div id="controlPanel">
+            <button id="connectBtn"></button>
+            <button id="statsBtn"></button>
+        </div>
+        <table id="statsTbl">
+            <tr><th colspan="2">App Stats</th></tr>
+            <tr><th>Ping</th><td id="pingCell">0</td></tr>
+            <tr><th>FPS</th><td id="fpsCell">0</td></tr>
+            <tr><th>Frame Time</th><td id="frameTimeCell">0</td></tr>
+        </table>
+        <script type="text/javascript" data-main="js/main" src="js/require.js"></script>
+    </body>
 </html>

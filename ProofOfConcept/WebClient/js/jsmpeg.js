@@ -39,8 +39,8 @@ define(['domReady!'], function (document) {
     var jsmpeg = function (url, opts) {
         opts = opts || {};
         this.canvas = opts.canvas || document.createElement('canvas');
-        this.width = this.canvas.width;
-        this.height = this.canvas.height;
+        this.sourceWidth = this.canvas.width;
+        this.sourceHeight = this.canvas.height;
         this.autoplay = !!opts.autoplay;
         this.loop = !!opts.loop;
         this.externalLoadCallback = opts.onload || null;
@@ -51,8 +51,11 @@ define(['domReady!'], function (document) {
         this.customNonIntraQuantMatrix = new Uint8Array(64);
         this.blockData = new Int32Array(64);
 
+        this.previousFrameSpans = new Array(10);
+        this.frameSpanIndex = 0;
+
         // use WebGL if possible (much faster)
-        if (this.initWebGL()) {
+        if (opts.renderer && opts.renderer == 'webgl' && this.tryInitWebGL()) {
             console.log("using WebGL for rendering");
             this.renderFrame = this.renderFrameGL;
         } else {
@@ -63,9 +66,10 @@ define(['domReady!'], function (document) {
         if (url instanceof WebSocket) {
             this.client = url;
             this.client.onopen = this.initSocketClient.bind(this);
-        }
-        else {
-            this.load(url);
+        } else if (url instanceof File) {
+            this.loadLocalFile(url);
+        } else {
+            this.loadRemoteFile(url);
         }
     };
 
@@ -93,10 +97,12 @@ define(['domReady!'], function (document) {
     jsmpeg.vertexShader = [
         'attribute vec2 vertex;',
         'varying vec2 texCoord;',
+        'uniform vec2 scale;',
 
         'void main() {',
             'texCoord = vertex;',
-            'gl_Position = vec4((vertex * 2.0 - 1.0) * vec2(1, -1), 0.0, 1.0);',
+            'vec2 transformedVertex = vertex;',
+            'gl_Position = vec4((transformedVertex * 2.0 - 1.0) * vec2(1, -1), 0.0, 1.0);',
         '}'
     ];
 
@@ -126,10 +132,10 @@ define(['domReady!'], function (document) {
         return shader;
     };
 
-    jsmpeg.prototype.initWebGL = function () {
+    jsmpeg.prototype.tryInitWebGL = function () {
         // attempt to get a webgl context
         try {
-            var gl = this.gl = this.canvas.getContext('experimental-webgl');
+            var gl = this.gl = this.canvas.getContext('webgl') || this.canvas.getContext('experimental-webgl');
         } catch (e) {
             return false;
         }
@@ -147,6 +153,7 @@ define(['domReady!'], function (document) {
             throw new Error(gl.getProgramInfoLog(this.program));
 
         gl.useProgram(this.program);
+        this.setScale(1.0, 1.0);
 
         // setup textures
         this.YTexture = this.createTexture(0, 'YTexture');
@@ -165,29 +172,39 @@ define(['domReady!'], function (document) {
         return true;
     };
 
+    jsmpeg.prototype.setScale = function (scaleX, scaleY) {
+        if (scaleX)
+            this.scale = [scaleX, scaleY];
+        var gl = this.gl;
+        if (gl) {
+            var scaleLoc = gl.getUniformLocation(this.program, "scale");
+            gl.uniform2fv(scaleLoc, this.scale);
+        };
+    };
+
     jsmpeg.prototype.renderFrameGL = function () {
         var gl = this.gl;
 
         gl.activeTexture(gl.TEXTURE0);
         gl.bindTexture(gl.TEXTURE_2D, this.YTexture);
         gl.texImage2D(
-        gl.TEXTURE_2D, 0, gl.LUMINANCE, this.width, this.height, 0,
-        gl.LUMINANCE, gl.UNSIGNED_BYTE, this.currentY8
-      );
+            gl.TEXTURE_2D, 0, gl.LUMINANCE, this.halfWidth << 1, this.halfHeight << 1, 0,
+            gl.LUMINANCE, gl.UNSIGNED_BYTE, this.currentY8
+        );
 
         gl.activeTexture(gl.TEXTURE1);
         gl.bindTexture(gl.TEXTURE_2D, this.UTexture);
         gl.texImage2D(
-        gl.TEXTURE_2D, 0, gl.LUMINANCE, this.halfWidth, this.halfHeight, 0,
-        gl.LUMINANCE, gl.UNSIGNED_BYTE, this.currentCr8
-      );
+            gl.TEXTURE_2D, 0, gl.LUMINANCE, this.halfWidth, this.halfHeight, 0,
+            gl.LUMINANCE, gl.UNSIGNED_BYTE, this.currentCr8
+        );
 
         gl.activeTexture(gl.TEXTURE2);
         gl.bindTexture(gl.TEXTURE_2D, this.VTexture);
         gl.texImage2D(
-        gl.TEXTURE_2D, 0, gl.LUMINANCE, this.halfWidth, this.halfHeight, 0,
-        gl.LUMINANCE, gl.UNSIGNED_BYTE, this.currentCb8
-      );
+            gl.TEXTURE_2D, 0, gl.LUMINANCE, this.halfWidth, this.halfHeight, 0,
+            gl.LUMINANCE, gl.UNSIGNED_BYTE, this.currentCb8
+        );
 
         gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
     };
@@ -223,8 +240,6 @@ define(['domReady!'], function (document) {
         this.client.binaryType = 'arraybuffer';
         this.client.onmessage = this.receiveSocketMessage.bind(this);
 
-        this.previousFrameSpans = new Array(10);
-        this.frameSpanIndex = 0;
         this.previousPacketTimes = new Array(10);
         this.packetTimeIndex = 0;
     };
@@ -239,14 +254,17 @@ define(['domReady!'], function (document) {
             data[2] == SOCKET_MAGIC_BYTES.charCodeAt(2) &&
             data[3] == SOCKET_MAGIC_BYTES.charCodeAt(3)
         ) {
-            this.width = (data[4] * 256 + data[5]);
-            this.height = (data[6] * 256 + data[7]);
+            this.sourceWidth = (data[4] * 256 + data[5]);
+            this.sourceHeight = (data[6] * 256 + data[7]);
             this.initBuffers();
             this.lastFrameTime = timestamp;
         }
     };
 
-    jsmpeg.prototype.getPing = function() {
+    jsmpeg.prototype.getPing = function () {
+        if (!this.previousPacketTimes)
+            return 0;
+
         var result = 0;
         var count = 0;
         var prev = 0;
@@ -265,10 +283,10 @@ define(['domReady!'], function (document) {
 
         if (!this.sequenceStarted) {
             this.decodeSocketHeader(messageData, event.timeStamp);
-        } else {
-            this.previousPacketTimes[this.packetTimeIndex] = event.timeStamp;
-            this.packetTimeIndex = (this.packetTimeIndex + 1) % this.previousPacketTimes.length;
         }
+
+        this.previousPacketTimes[this.packetTimeIndex] = event.timeStamp;
+        this.packetTimeIndex = (this.packetTimeIndex + 1) % this.previousPacketTimes.length;
 
         var current = this.buffer;
         var next = this.nextPictureBuffer;
@@ -383,9 +401,9 @@ define(['domReady!'], function (document) {
         // Fudge a simple Sequence Header for the MPEG file
 
         // 3 bytes width & height, 12 bits each
-        var wh1 = (this.width >> 4),
-            wh2 = ((this.width & 0xf) << 4) | (this.height >> 8),
-            wh3 = (this.height & 0xff);
+        var wh1 = (this.sourceWidth >> 4),
+            wh2 = ((this.sourceWidth & 0xf) << 4) | (this.sourceHeight >> 8),
+            wh3 = (this.sourceHeight & 0xff);
 
         this.recordBuffers.push(new Uint8Array([
             0x00, 0x00, 0x01, 0xb3, // Sequence Start Code
@@ -433,14 +451,36 @@ define(['domReady!'], function (document) {
 
 
     // ----------------------------------------------------------------------------
+    // Loading via FileSystem
+
+    jsmpeg.prototype.loadLocalFile = function (url) {
+        this.url = url;
+        var that = this;
+        var reader = new FileReader();
+        reader.onload = function () {
+            console.log('Loaded');
+            that.loadCallback(this.result);
+        };
+        reader.onerror = function (e) {
+            console.log('Error', e);
+        };
+        reader.onloadstart = function () {
+            console.log('Loading');
+        };
+
+        reader.readAsArrayBuffer(this.url);
+    };
+
+
+
+    // ----------------------------------------------------------------------------
     // Loading via Ajax
 
-    jsmpeg.prototype.load = function (url) {
+    jsmpeg.prototype.loadRemoteFile = function (url) {
         this.url = url;
-
         var request = new XMLHttpRequest();
         var that = this;
-        request.onreadystatechange = function () {
+        request.onreadystatechange = function() {
             if (request.readyState == request.DONE && request.status == 200) {
                 that.loadCallback(request.response);
             }
@@ -594,8 +634,8 @@ define(['domReady!'], function (document) {
     };
 
     jsmpeg.prototype.decodeSequenceHeader = function () {
-        this.width = this.buffer.getBits(12);
-        this.height = this.buffer.getBits(12);
+        this.sourceWidth = this.buffer.getBits(12);
+        this.sourceHeight = this.buffer.getBits(12);
         this.buffer.advance(4); // skip pixel aspect ratio
         this.pictureRate = PICTURE_RATE[this.buffer.getBits(4)];
         this.buffer.advance(18 + 1 + 10 + 1); // skip bitRate, marker, bufferSize and constrained bit
@@ -621,8 +661,8 @@ define(['domReady!'], function (document) {
         this.intraQuantMatrix = DEFAULT_INTRA_QUANT_MATRIX;
         this.nonIntraQuantMatrix = DEFAULT_NON_INTRA_QUANT_MATRIX;
 
-        this.mbWidth = (this.width + 15) >> 4;
-        this.mbHeight = (this.height + 15) >> 4;
+        this.mbWidth = (this.sourceWidth + 15) >> 4;
+        this.mbHeight = (this.sourceHeight + 15) >> 4;
         this.mbSize = this.mbWidth * this.mbHeight;
 
         this.codedWidth = this.mbWidth << 4;
@@ -658,11 +698,10 @@ define(['domReady!'], function (document) {
             this.forwardCb = new Uint8ClampedArray(this.codedSize >> 2);
             this.forwardCb32 = new Uint32Array(this.forwardCb.buffer);
 
-            this.canvas.width = this.width;
-            this.canvas.height = this.height;
+            this.setScale(this.canvas.width / this.sourceWidth, this.canvas.height / this.sourceHeight);
 
             if (this.renderFrame === this.renderFrame2D) {
-                this.currentRGBA = this.canvasContext.getImageData(0, 0, this.width, this.height);
+                this.currentRGBA = this.canvasContext.getImageData(0, 0, this.sourceWidth, this.sourceHeight);
                 this.currentRGBA32 = new Uint32Array(this.currentRGBA.data.buffer);
                 this.fillArray(this.currentRGBA.data, 255);
             } else {
@@ -823,17 +862,17 @@ define(['domReady!'], function (document) {
 
         var yIndex1 = 0;
         var yIndex2 = this.codedWidth;
-        var yNext2Lines = this.codedWidth + (this.codedWidth - this.width);
+        var yNext2Lines = this.codedWidth + (this.codedWidth - this.sourceWidth);
 
         var cIndex = 0;
-        var cNextLine = this.halfWidth - (this.width >> 1);
+        var cNextLine = this.halfWidth - (this.sourceWidth >> 1);
 
         var rgbaIndex1 = 0;
-        var rgbaIndex2 = this.width * 4;
-        var rgbaNext2Lines = this.width * 4;
+        var rgbaIndex2 = this.sourceWidth * 4;
+        var rgbaNext2Lines = this.sourceWidth * 4;
 
-        var cols = this.width >> 1;
-        var rows = this.height >> 1;
+        var cols = this.sourceWidth >> 1;
+        var rows = this.sourceHeight >> 1;
 
         var y, cb, cr, r, g, b;
 
@@ -889,11 +928,11 @@ define(['domReady!'], function (document) {
         var pRGBA = this.currentRGBA32;
 
         var yIndex = 0;
-        var yNext2Lines = (this.codedWidth - this.width);
+        var yNext2Lines = (this.codedWidth - this.sourceWidth);
 
         var rgbaIndex = 0;
-        var cols = this.width;
-        var rows = this.height;
+        var cols = this.sourceWidth;
+        var rows = this.sourceHeight;
 
         var y;
 
