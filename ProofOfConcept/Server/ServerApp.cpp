@@ -147,6 +147,9 @@ bool ServerApp::keyPressed(const OIS::KeyEvent &arg)
 	case OIS::KC_S:
 		s = true;
 		break;
+	case OIS::KC_ESCAPE:
+		renderWnd->destroy();
+		break;
 	}
 	return true;
 }
