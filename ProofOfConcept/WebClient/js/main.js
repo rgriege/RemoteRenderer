@@ -8,10 +8,6 @@
 
     var renderSocket;
     var videoPlayer;
-    document.getElementById('fileInput').addEventListener('change', function (evt) {
-        videoPlayer = new jsmpeg.Player(evt.target.files[0],
-            { canvas: canvas, renderer: 'webgl', source: 'local', autoplay: true, loop: true });
-    });
     
     var connectBtn = doc.getElementById('connectBtn');
     connectBtn.textContent = 'Connect';
