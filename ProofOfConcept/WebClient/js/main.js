@@ -1,9 +1,6 @@
 ﻿require(['domReady!', 'jsmpeg', 'ois'], function(doc, jsmpeg, ois) {
     // Show loading notice
     var canvas = doc.getElementById('videoCanvas');
-    var ctx = canvas.getContext('2d');
-    ctx.fillStyle = '#444';
-    ctx.fillText('Loading...', canvas.width / 2 - 30, canvas.height / 3);
 
     var mouse = new ois.Mouse(canvas);
     var keyboard = new ois.Keyboard(canvas);
