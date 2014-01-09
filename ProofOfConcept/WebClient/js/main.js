@@ -65,4 +65,17 @@
             this.textContent = 'Show Stats';
         }
     };
+
+    var resolutionSelector = doc.getElementById('resolutionSelector');
+    resolutionSelector.onchange = function () {
+        var val = resolutionSelector.selectedOptions[0].value;
+        if (val === 'native') {
+            if(videoPlayer)
+                videoPlayer.resizeCanvas();
+        } else {
+            var res = val.split('x');
+            if (videoPlayer)
+              videoPlayer.resizeCanvas(res[0], res[1]);
+        }
+    };
 });

@@ -41,6 +41,7 @@ define(['domReady!'], function (document) {
         this.canvas = opts.canvas || document.createElement('canvas');
         this.sourceWidth = this.canvas.width;
         this.sourceHeight = this.canvas.height;
+        this.size = opts.size || 'source';
         this.autoplay = !!opts.autoplay;
         this.loop = !!opts.loop;
         this.externalLoadCallback = opts.onload || null;
@@ -50,6 +51,7 @@ define(['domReady!'], function (document) {
         this.customIntraQuantMatrix = new Uint8Array(64);
         this.customNonIntraQuantMatrix = new Uint8Array(64);
         this.blockData = new Int32Array(64);
+        this.scale = [];
 
         this.previousFrameSpans = new Array(10);
         this.frameSpanIndex = 0;
@@ -101,8 +103,8 @@ define(['domReady!'], function (document) {
 
         'void main() {',
             'texCoord = vertex;',
-            'vec2 transformedVertex = vertex;',
-            'gl_Position = vec4((transformedVertex * 2.0 - 1.0) * vec2(1, -1), 0.0, 1.0);',
+            'vec2 transformedVertex = scale * vertex;',
+            'gl_Position = vec4((vertex * 2.0 - 1.0) * vec2(1, -1), 0.0, 1.0);',
         '}'
     ];
 
@@ -153,7 +155,6 @@ define(['domReady!'], function (document) {
             throw new Error(gl.getProgramInfoLog(this.program));
 
         gl.useProgram(this.program);
-        this.setScale(1.0, 1.0);
 
         // setup textures
         this.YTexture = this.createTexture(0, 'YTexture');
@@ -170,16 +171,6 @@ define(['domReady!'], function (document) {
         gl.vertexAttribPointer(vertexAttr, 2, gl.FLOAT, false, 0, 0);
 
         return true;
-    };
-
-    jsmpeg.prototype.setScale = function (scaleX, scaleY) {
-        if (scaleX)
-            this.scale = [scaleX, scaleY];
-        var gl = this.gl;
-        if (gl) {
-            var scaleLoc = gl.getUniformLocation(this.program, "scale");
-            gl.uniform2fv(scaleLoc, this.scale);
-        };
     };
 
     jsmpeg.prototype.renderFrameGL = function () {
@@ -217,6 +208,19 @@ define(['domReady!'], function (document) {
             this.YCbCrToRGBA();
         }
         this.canvasContext.putImageData(this.currentRGBA, 0, 0);
+    };
+
+    jsmpeg.prototype.resizeCanvas = function (width, height) {
+        this.canvas.width = width || this.sourceWidth;
+        this.canvas.height = height || this.sourceHeight;
+        this.scale = [this.canvas.width / this.sourceWidth, this.canvas.height / this.sourceHeight];
+
+        var gl = this.gl;
+        if (gl) {
+            gl.viewport(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight);
+        } else {
+            
+        }
     };
 
 
@@ -698,7 +702,8 @@ define(['domReady!'], function (document) {
             this.forwardCb = new Uint8ClampedArray(this.codedSize >> 2);
             this.forwardCb32 = new Uint32Array(this.forwardCb.buffer);
 
-            this.setScale(this.canvas.width / this.sourceWidth, this.canvas.height / this.sourceHeight);
+            if (this.size === 'canvas')
+                this.resizeCanvas();
 
             if (this.renderFrame === this.renderFrame2D) {
                 this.currentRGBA = this.canvasContext.getImageData(0, 0, this.sourceWidth, this.sourceHeight);
