@@ -10,9 +10,9 @@
     var videoPlayer;
     
     var connectBtn = doc.getElementById('connectBtn');
-    connectBtn.textContent = 'Connect';
+    var playing = false;
     connectBtn.onclick = function () {
-        if (this.textContent === 'Connect') {
+        if (!playing) {
             // Setup the WebSocket connection and start the player
             renderSocket = new WebSocket('ws://172.16.1.63:9002');
             inputSocket = new WebSocket('ws://172.16.1.63:9003');
@@ -30,23 +30,23 @@
                 f.onerror = function(e) { console.log("Error", e); };
             };
             videoPlayer = new jsmpeg.Player(renderSocket, { canvas: canvas, renderer: 'webgl' });
-            this.textContent = 'Disconnect';
+            playing = true;
+            this.src = 'images/pause.png';
         } else {
             renderSocket.close();
             inputSocket.close();
-            this.textContent = 'Connect';
+            playing = false;
+            this.src = 'images/play.png';
         }
     };
 
     var statsTbl = doc.getElementById('statsTbl');
-    statsTbl.style.top = canvas.offsetTop + 10 + "px";
     var statsIntervalId;
     var statsBtn = doc.getElementById('statsBtn');
-    statsBtn.textContent = 'Show Stats';
+    var monitoring = false;
     statsBtn.onclick = function() {
-        if (this.textContent === 'Show Stats') {
+        if (!monitoring) {
             statsTbl.style.display = 'table';
-            statsTbl.style.left = canvas.offsetLeft + canvas.width - 10 - statsTbl.offsetWidth + "px";
             statsIntervalId = setInterval(function () {
                 if (videoPlayer) {
                     doc.getElementById('pingCell').textContent = videoPlayer.getPing();
@@ -54,11 +54,11 @@
                     doc.getElementById('frameTimeCell').textContent = videoPlayer.getFrameTime();
                 }
             }, 1000);
-            this.textContent = 'Hide Stats';
+            monitoring = true;
         } else {
             statsTbl.style.display = 'none';
             clearInterval(statsIntervalId);
-            this.textContent = 'Show Stats';
+            monitoring = false;
         }
     };
 
@@ -70,8 +70,19 @@
                 videoPlayer.resizeCanvas();
         } else {
             var res = val.split('x');
-            if (videoPlayer)
-              videoPlayer.resizeCanvas(res[0], res[1]);
+            if (videoPlayer) {
+                videoPlayer.resizeCanvas(res[0], res[1]);
+            } else {
+                canvas.width = res[0];
+                canvas.height = res[1];
+            }
         }
+    };
+
+    var footer = doc.getElementById('footer');
+    footer.onmouseout = function() {
+        window.setTimeout(function() {
+            
+        }, 300);
     };
 });

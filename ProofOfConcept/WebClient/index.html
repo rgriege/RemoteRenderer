@@ -5,20 +5,81 @@
     <title>jsmpeg streaming</title>
     <style type="text/css">
         body {
-            background: #333;
+            /*background: #444;*/
+            background-image: url('images/bg.jpg');
             text-align: center;
-            margin-top: 30px;
+            margin: 0;
         }
         canvas {
-            background: #2b2b2b;
+            background: #333;
+            margin: auto;
+            left: 0;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            position: fixed;
+            border: rgb(192, 135, 23) solid 1px;
         }
         #statsTbl {
-            background: white;
+            background: #333;
+            color: white;
+            top: 10px;
+            right: 10px;
             -ms-opacity: 0.7;
             opacity: 0.7;
             display: none;
             position: absolute;
             font-size: 11px;
+        }
+        #footer {
+            background: #333;
+            padding: 10px 1% 10px 1%;
+            position: fixed;
+            bottom: 0;
+            width: 98%;
+            clear: both;
+            border-top: 1px solid #555;
+            opacity: 0.9;
+        }
+        .icon {
+            margin: 9px;
+            opacity: 0.7;
+        }
+        .icon:hover {
+            opacity: 1;
+        }
+        .left {
+            float: left;
+        }
+        .right {
+            float: right;
+        }
+        #footerLeft {
+            width: 140px;
+        }
+        #footerRight {
+            width: 140px;
+        }
+        select {
+            background-color: inherit;
+            color: white;
+            opacity: 0.7;
+            border: none;
+           -moz-appearance: none;
+           -webkit-appearance: none;
+           appearance: none;
+        }
+        select:hover {
+            opacity: 1;
+        }
+        select:focus {
+            outline: none;
+        }
+        .centeredContainer {
+            position: relative;
+        }
+        #connectBtn {
+            float: left;
         }
     </style>
 </head>
@@ -31,32 +92,37 @@
                 <a href="http://www.apple.com/safari/">Safari</a> or Internet Explorer 10
             </p>
         </canvas>
-        <div id="controlPanel">
-            <button id="connectBtn"></button>
-            <button id="statsBtn"></button>
-            <select id="resolutionSelector">
-                <option value="native">Native</option>
-                <option value="640x360" selected>640 x 360</option>
-                <option value="640x480">640 x 480</option>
-                <option value="800x600">800 x 600</option>
-                <option value="1024x768">1024 x 768</option>
-                <option value="1280x800">1280 x 800</option>
-                <option value="1280x1024">1280 x 1024</option>
-                <option value="1360x768">1360 x 768</option>
-                <option value="1366x768">1366 x 768</option>
-                <option value="1440x900">1440 x 900</option>
-                <option value="1600x900">1600 x 900</option>
-                <option value="1680x1050">1680 x 1050</option>
-                <option value="1920x1080">1920 x 1080</option>
-                <option value="1920x1200">1920 x 1200</option>
-            </select>
-        </div>
         <table id="statsTbl">
             <tr><th colspan="2">App Stats</th></tr>
             <tr><th>Ping</th><td id="pingCell">0</td></tr>
             <tr><th>FPS</th><td id="fpsCell">0</td></tr>
             <tr><th>Frame Time</th><td id="frameTimeCell">0</td></tr>
         </table>
+        <div id="footer">
+            <div class="left" id="footerLeft">
+                <img id="connectBtn" class="icon" src="images/play.png" />
+            </div>
+            <div class="right" id="footerRight">
+                <img id="statsBtn" class="icon" src="images/monitor.png" />
+                <select id="resolutionSelector">
+                    <option value="native">Native</option>
+                    <option value="640x360" selected>640 x 360</option>
+                    <option value="640x480">640 x 480</option>
+                    <option value="800x600">800 x 600</option>
+                    <option value="1024x768">1024 x 768</option>
+                    <option value="1280x800">1280 x 800</option>
+                    <option value="1280x1024">1280 x 1024</option>
+                    <option value="1360x768">1360 x 768</option>
+                    <option value="1366x768">1366 x 768</option>
+                    <option value="1440x900">1440 x 900</option>
+                    <option value="1600x900">1600 x 900</option>
+                    <option value="1680x1050">1680 x 1050</option>
+                    <option value="1920x1080">1920 x 1080</option>
+                    <option value="1920x1200">1920 x 1200</option>
+                </select>
+            </div>
+            <img src="images/logo.png"/>
+        </div>
         <script type="text/javascript" data-main="js/main" src="js/require.js"></script>
     </body>
 </html>
