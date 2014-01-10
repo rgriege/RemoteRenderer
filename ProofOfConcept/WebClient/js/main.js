@@ -1,4 +1,4 @@
-﻿require(['domReady!', 'jsmpeg', 'ois'], function(doc, jsmpeg, ois) {
+﻿require(['domReady!', 'jsmpeg', 'ois', 'jquery'], function(doc, jsmpeg, ois) {
     // Show loading notice
     var canvas = doc.getElementById('videoCanvas');
 
@@ -9,17 +9,36 @@
     var renderSocket;
     var videoPlayer;
     
-    var connectBtn = doc.getElementById('connectBtn');
-    connectBtn.textContent = 'Connect';
-    connectBtn.onclick = function () {
-        if (this.textContent === 'Connect') {
+    var footer = $('#footer');
+    function detectFooterRequest() {
+        window.onmousemove = function(evt) {
+            if (evt.clientY > window.innerHeight - 20) {
+                footer.slideDown(500);
+                window.onmousemove = null;
+            }
+        };
+    }
+    function hideFooter() {
+        if (list.is(':visible'))
+            list.hide(0, function() { footer.slideUp(500, detectFooterRequest);});
+        else
+            footer.slideUp(500, detectFooterRequest);
+    }
+    footer.mouseleave(function() { footerTimeout = setTimeout(hideFooter, 2000); });
+    footer.mouseenter(function() { clearTimeout(footerTimeout); });
+    var footerTimeout = setTimeout(hideFooter, 2000);
+
+    var connectBtn = $('#connectBtn');
+    var playing = false;
+    connectBtn.click(function() {
+        if (!playing) {
             // Setup the WebSocket connection and start the player
             renderSocket = new WebSocket('ws://172.16.1.63:9002');
             inputSocket = new WebSocket('ws://172.16.1.63:9003');
-            inputSocket.onmessage = function (msg) {
+            inputSocket.onmessage = function(msg) {
                 var f = new FileReader();
                 f.readAsText(msg.data);
-                f.onload = function () {
+                f.onload = function() {
                     if (inputSocket.readyState !== inputSocket.OPEN)
                         return;
                     if (this.result.charCodeAt(0) === 77)
@@ -30,48 +49,71 @@
                 f.onerror = function(e) { console.log("Error", e); };
             };
             videoPlayer = new jsmpeg.Player(renderSocket, { canvas: canvas, renderer: 'webgl' });
-            this.textContent = 'Disconnect';
+            playing = true;
+            this.src = 'images/pause.png';
         } else {
             renderSocket.close();
             inputSocket.close();
-            this.textContent = 'Connect';
+            playing = false;
+            this.src = 'images/play.png';
         }
-    };
+    });
 
-    var statsTbl = doc.getElementById('statsTbl');
-    statsTbl.style.top = canvas.offsetTop + 10 + "px";
+    var statsTbl = $('#statsTbl');
     var statsIntervalId;
-    var statsBtn = doc.getElementById('statsBtn');
-    statsBtn.textContent = 'Show Stats';
-    statsBtn.onclick = function() {
-        if (this.textContent === 'Show Stats') {
+    var statsBtn = $('#statsBtn');
+    var monitoring = false;
+    statsBtn.click(function() {
+        if (!monitoring) {
             statsTbl.style.display = 'table';
-            statsTbl.style.left = canvas.offsetLeft + canvas.width - 10 - statsTbl.offsetWidth + "px";
-            statsIntervalId = setInterval(function () {
+            statsIntervalId = setInterval(function() {
                 if (videoPlayer) {
-                    doc.getElementById('pingCell').textContent = videoPlayer.getPing();
-                    doc.getElementById('fpsCell').textContent = videoPlayer.getFrameRate();
-                    doc.getElementById('frameTimeCell').textContent = videoPlayer.getFrameTime();
+                    $('#pingCell').textContent = videoPlayer.getPing();
+                    $('#fpsCell').textContent = videoPlayer.getFrameRate();
+                    $('#frameTimeCell').textContent = videoPlayer.getFrameTime();
                 }
             }, 1000);
-            this.textContent = 'Hide Stats';
+            monitoring = true;
         } else {
             statsTbl.style.display = 'none';
             clearInterval(statsIntervalId);
-            this.textContent = 'Show Stats';
+            monitoring = false;
         }
-    };
+    });
 
-    var resolutionSelector = doc.getElementById('resolutionSelector');
-    resolutionSelector.onchange = function () {
-        var val = resolutionSelector.selectedOptions[0].value;
+    var btn = $('#resolutionBtn');
+    var list = $('#resolutionList');
+    btn.click(function (evt) {
+        if (list.is(':visible'))
+            list.hide();
+        else
+            list.show();
+        evt.preventDefault();
+    });
+    var items = list.find('li');
+    items.click(function () {
+        var succeeded = true;
+        var val = $(this).attr('data-value');
         if (val === 'native') {
-            if(videoPlayer)
+            if (videoPlayer)
                 videoPlayer.resizeCanvas();
+            else
+                succeeded = false;
         } else {
             var res = val.split('x');
-            if (videoPlayer)
-              videoPlayer.resizeCanvas(res[0], res[1]);
+            if (videoPlayer) {
+                videoPlayer.resizeCanvas(res[0], res[1]);
+            } else {
+                canvas.width = res[0];
+                canvas.height = res[1];
+            }
         }
-    };
+        if (succeeded) {
+            items.removeClass('selected');
+            $(this).addClass('selected');
+            list.hide();
+            btn.text($(this).text());
+            footerTimeout = setTimeout(hideFooter, 2000);
+        }
+    });
 });

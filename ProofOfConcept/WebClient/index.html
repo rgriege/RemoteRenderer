@@ -3,24 +3,7 @@
 <head>
     <meta name="viewport" content="width=320, initial-scale=1" />
     <title>jsmpeg streaming</title>
-    <style type="text/css">
-        body {
-            background: #333;
-            text-align: center;
-            margin-top: 30px;
-        }
-        canvas {
-            background: #2b2b2b;
-        }
-        #statsTbl {
-            background: white;
-            -ms-opacity: 0.7;
-            opacity: 0.7;
-            display: none;
-            position: absolute;
-            font-size: 11px;
-        }
-    </style>
+    <link rel="stylesheet" href="styles/style.css"/>
 </head>
     <body>
         <canvas id="videoCanvas" width="640" height="360" tabindex="1">
@@ -31,32 +14,47 @@
                 <a href="http://www.apple.com/safari/">Safari</a> or Internet Explorer 10
             </p>
         </canvas>
-        <div id="controlPanel">
-            <button id="connectBtn"></button>
-            <button id="statsBtn"></button>
-            <select id="resolutionSelector">
-                <option value="native">Native</option>
-                <option value="640x360" selected>640 x 360</option>
-                <option value="640x480">640 x 480</option>
-                <option value="800x600">800 x 600</option>
-                <option value="1024x768">1024 x 768</option>
-                <option value="1280x800">1280 x 800</option>
-                <option value="1280x1024">1280 x 1024</option>
-                <option value="1360x768">1360 x 768</option>
-                <option value="1366x768">1366 x 768</option>
-                <option value="1440x900">1440 x 900</option>
-                <option value="1600x900">1600 x 900</option>
-                <option value="1680x1050">1680 x 1050</option>
-                <option value="1920x1080">1920 x 1080</option>
-                <option value="1920x1200">1920 x 1200</option>
-            </select>
-        </div>
         <table id="statsTbl">
             <tr><th colspan="2">App Stats</th></tr>
             <tr><th>Ping</th><td id="pingCell">0</td></tr>
             <tr><th>FPS</th><td id="fpsCell">0</td></tr>
             <tr><th>Frame Time</th><td id="frameTimeCell">0</td></tr>
         </table>
+        <div id="footer">
+            <div id="footerLeft">
+                <img id="connectBtn" class="icon" src="images/play.png" />
+            </div>
+            <div id="footerRight">
+                <div id="resolutionBtn">640 x 360</div>
+                <ol id="resolutionList">
+                    <li data-value="native">Native</li>
+                    <li data-value="640x360" class="selected">640 x 360</li>
+                    <li data-value="640x480">640 x 480</li>
+                    <li data-value="800x600">800 x 600</li>
+                    <li data-value="1024x768">1024 x 768</li>
+                    <li data-value="1280x800">1280 x 800</li>
+                    <li data-value="1280x1024">1280 x 1024</li>
+                    <li data-value="1360x768">1360 x 768</li>
+                    <li data-value="1366x768">1366 x 768</li>
+                    <li data-value="1440x900">1440 x 900</li>
+                    <li data-value="1600x900">1600 x 900</li>
+                    <li data-value="1680x1050">1680 x 1050</li>
+                    <li data-value="1920x1080">1920 x 1080</li>
+                    <li data-value="1920x1200">1920 x 1200</li>
+                </ol>
+                <img id="statsBtn" class="icon" src="images/monitor.png" />
+            </div>
+            <div id="footerCenter">
+                <img id="logo" src="images/logo.png"/>
+            </div>
+        </div>
         <script type="text/javascript" data-main="js/main" src="js/require.js"></script>
+        <script>
+            require.config({
+                paths: {
+                    jquery: 'jquery-2.0.3'
+                }
+            })
+        </script>
     </body>
 </html>

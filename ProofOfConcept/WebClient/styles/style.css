@@ -1,0 +1,123 @@
+﻿body {
+    /*background: #444;*/
+    background-image: url('../images/bg.jpg');
+    text-align: center;
+    margin: 0;
+}
+
+canvas {
+    background: #333;
+    margin: auto;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    position: fixed;
+    border: rgb(192, 135, 23) solid 1px;
+}
+
+#statsTbl {
+    background: #333;
+    color: white;
+    top: 10px;
+    right: 10px;
+    -ms-opacity: 0.7;
+    opacity: 0.7;
+    display: none;
+    position: absolute;
+    font-size: 11px;
+}
+
+#footer {
+    background: #333;
+    padding: 5px 1%;
+    position: fixed;
+    bottom: 0;
+    width: 98%;
+    clear: both;
+    border-top: 1px solid #555;
+    -ms-opacity: 0.9;
+    opacity: 0.9;
+}
+
+#footerCenter {
+    position: absolute;
+    left: 50%;
+}
+
+#logo {
+    margin-left: -185px;
+}
+
+.icon {
+    margin: 9px;
+    -ms-opacity: 0.7;
+    opacity: 0.7;
+}
+
+.icon:hover {
+    -ms-opacity: 1;
+    opacity: 1;
+}
+
+#footerLeft {
+    float: left;
+}
+
+#footerRight {
+    display: table;
+    float: right;
+}
+
+#statsBtn {
+    display: table-cell;
+    float: right;
+}
+
+#resolutionBtn {
+    color: white;
+    -ms-opacity: 0.7;
+    opacity: 0.7;
+    cursor: default;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+#resolutionBtn:hover {
+    -ms-opacity: 1;
+    opacity: 1;
+}
+
+#resolutionList {
+    display: none;
+    color: white;
+    position: absolute;
+    bottom: 63px;
+    right: 56px;
+    margin: 0;
+    padding: 0 8px 1px;
+    background-color: #333;
+    border: 1px solid gray;
+    border-bottom: none;
+}
+
+#resolutionList li {
+    list-style-type: none;
+    cursor: default;
+    -ms-opacity: 0.7;
+    opacity: 0.7;
+}
+
+#resolutionList li:hover {
+    -ms-opacity: 1;
+    opacity: 1;
+}
+
+#resolutionList .selected {
+    -ms-opacity: 1;
+    opacity: 1;
+}
+
+#connectBtn {
+    float: left;
+}
