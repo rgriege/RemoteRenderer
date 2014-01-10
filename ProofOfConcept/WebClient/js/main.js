@@ -78,11 +78,4 @@
             }
         }
     };
-
-    var footer = doc.getElementById('footer');
-    footer.onmouseout = function() {
-        window.setTimeout(function() {
-            
-        }, 300);
-    };
 });
