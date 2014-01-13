@@ -65,7 +65,8 @@
     var monitoring = false;
     statsBtn.click(function() {
         if (!monitoring) {
-            statsTbl.style.display = 'table';
+            statsBtn.addClass('active');
+            statsTbl.show();
             statsIntervalId = setInterval(function() {
                 if (videoPlayer) {
                     $('#pingCell').textContent = videoPlayer.getPing();
@@ -75,11 +76,13 @@
             }, 1000);
             monitoring = true;
         } else {
-            statsTbl.style.display = 'none';
+            statsBtn.removeClass('active');
+            statsTbl.hide();
             clearInterval(statsIntervalId);
             monitoring = false;
         }
     });
+    statsTbl.hide();
 
     var btn = $('#resolutionBtn');
     var list = $('#resolutionList');

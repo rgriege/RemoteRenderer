@@ -23,7 +23,7 @@ canvas {
     right: 10px;
     -ms-opacity: 0.7;
     opacity: 0.7;
-    display: none;
+    display: table;
     position: absolute;
     font-size: 11px;
 }
@@ -56,6 +56,11 @@ canvas {
 }
 
 .icon:hover {
+    -ms-opacity: 1;
+    opacity: 1;
+}
+
+.icon.active {
     -ms-opacity: 1;
     opacity: 1;
 }
