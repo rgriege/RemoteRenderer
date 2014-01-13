@@ -94,21 +94,24 @@
     items.click(function () {
         var succeeded = true;
         var val = $(this).attr('data-value');
+        var res = [];
         if (val === 'native') {
             if (videoPlayer)
-                videoPlayer.resizeCanvas();
+                res = [videoPlayer.sourceWidth, videoPlayer.sourceHeight];
             else
                 succeeded = false;
+        } else if (val === 'fullscreen') {
+            res = [window.innerWidth, window.innerHeight];
         } else {
-            var res = val.split('x');
+            res = val.split('x');
+        }
+        if (succeeded) {
             if (videoPlayer) {
                 videoPlayer.resizeCanvas(res[0], res[1]);
             } else {
                 canvas.width = res[0];
                 canvas.height = res[1];
             }
-        }
-        if (succeeded) {
             items.removeClass('selected');
             $(this).addClass('selected');
             list.hide();
