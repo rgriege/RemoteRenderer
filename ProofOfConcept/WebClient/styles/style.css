@@ -13,7 +13,7 @@ canvas {
     right: 0;
     bottom: 0;
     position: fixed;
-    border: rgb(192, 135, 23) solid 1px;
+    border: #C08717 solid 1px;
 }
 
 #statsTbl {

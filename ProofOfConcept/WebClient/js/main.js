@@ -105,6 +105,7 @@
                 succeeded = false;
         } else if (val === 'fullscreen') {
             res = [window.innerWidth, window.innerHeight];
+            canvas.style.border = 'none';
         } else {
             res = val.split('x');
         }
@@ -118,6 +119,8 @@
             items.removeClass('selected');
             $(this).addClass('selected');
             list.hide();
+            if (btn.text() === 'Fullscreen')
+                canvas.style.border = '#C08717 solid 1px';
             btn.text($(this).text());
             footerTimeout = setTimeout(hideFooter, 2000);
         }
