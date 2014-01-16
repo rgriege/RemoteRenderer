@@ -62,14 +62,20 @@ private:
     const int frameRate;
     const int frameTime;
     int timeSinceLastFrame;
-	Ogre::Real angularVelocity;
-	Ogre::Real cameraVelocity;
-	bool w, a, s, d;
+	bool mShutdown;
 
 	OIS::InputManager* mLocalInputMgr;
 	OIS::InputManager* mRemoteInputMgr;
 	OIS::Mouse* mMouse;
 	OIS::Keyboard* mKeyboard;
+
+	const Ogre::Real mZoomScale;
+	Ogre::Vector3 mMouseDownPos;
+	Ogre::Quaternion mMouseDownOrientation;
+	Ogre::Vector3 mMouseDownScale;
+	bool rotating;
+	bool zooming;
+
 	server mInputServer;
 	connection_hdl mInputHdl;
 	std::mutex mInputConMtx;

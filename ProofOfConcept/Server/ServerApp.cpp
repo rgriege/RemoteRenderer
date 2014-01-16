@@ -8,13 +8,35 @@ extern ConcurrentQueue<AVPacket*> packet_queue;
 #define RENDER_PORT 9002
 #define INPUT_PORT 9003
 
+OIS::MouseState scaleMouseState(const OIS::MouseState& state, Ogre::RenderTarget* target)
+{
+	OIS::MouseState result;
+	result.X.abs = (state.X.abs * target->getWidth()) / state.width;
+	result.X.rel = (state.X.rel * target->getWidth()) / state.width;
+	result.Y.abs = (state.Y.abs * target->getHeight()) / state.height;
+	result.Y.rel = (state.Y.rel * target->getHeight()) / state.height;
+	result.width = target->getWidth();
+	result.height = target->getHeight();
+	result.buttons = state.buttons;
+	return result;
+}
+
+Ogre::Vector3 toSphere(Ogre::RenderTarget* wnd, float x, float y)
+{
+	float sx = (x - wnd->getWidth()/2)/(wnd->getWidth()/2);
+	float sy = -(y - wnd->getHeight()/2)/(wnd->getHeight()/2);
+	float pows = pow(sx, 2) + pow(sy, 2);
+	return (pows > 1) ? Ogre::Vector3::ZERO : Ogre::Vector3(sx, sy, sqrt(1-pows));
+}
+
 ServerApp::ServerApp(int fps)
 	: frameRate(fps),
 	frameTime(1000/frameRate),
-	angularVelocity(1.f/8000 * Ogre::Math::TWO_PI),
-	cameraVelocity(1.f/12000)
+	mShutdown(false),
+	mZoomScale(30),
+	rotating(false),
+	zooming(false)
 {
-	w = a = s = d = false;
 }
 
 bool ServerApp::run()
@@ -42,12 +64,11 @@ bool ServerApp::run()
 
 	_initOis(true);
 
-	bool shutdown = false;
     int startTime = 0;
-    while(!shutdown)
+    while(!mShutdown)
     {
         if(renderWnd->isClosed())
-            shutdown = true;
+            mShutdown = true;
 
         Ogre::WindowEventUtilities::messagePump();
 
@@ -55,9 +76,9 @@ bool ServerApp::run()
         {
             startTime = timer->getMillisecondsCPU();
 			if (mConnections == 2) {
-				root->renderOneFrame();
 				mKeyboard->capture();
 				mMouse->capture();
+				root->renderOneFrame();
 			}
             timeSinceLastFrame = timer->getMillisecondsCPU() - startTime;
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
@@ -84,17 +105,6 @@ bool ServerApp::run()
 
 bool ServerApp::frameRenderingQueued(const Ogre::FrameEvent& evt)
 {
-    headNode->yaw(Ogre::Radian(angularVelocity * std::max(timeSinceLastFrame, frameTime)));
-	
-	if (a)
-		cameraNode->yaw(Ogre::Radian(-cameraVelocity * std::max(timeSinceLastFrame, frameTime)));
-	else if (d)
-		cameraNode->yaw(Ogre::Radian(cameraVelocity * std::max(timeSinceLastFrame, frameTime)));
-	if (w)
-		cameraNode->roll(Ogre::Radian(cameraVelocity * std::max(timeSinceLastFrame, frameTime)));
-	else if (s)
-		cameraNode->roll(Ogre::Radian(-cameraVelocity * std::max(timeSinceLastFrame, frameTime)));
-
     renderWnd->copyContentsToMemory(buffer, Ogre::RenderTarget::FrameBuffer::FB_AUTO);
 
     // create the packet
@@ -113,43 +123,66 @@ bool ServerApp::frameRenderingQueued(const Ogre::FrameEvent& evt)
 
 bool ServerApp::mouseMoved( const OIS::MouseEvent &arg )
 {
+	OIS::MouseState state = scaleMouseState(arg.state, renderWnd);
 	//std::cout << "Mouse Moved!" << std::endl;
+	if (rotating) {
+		Ogre::Vector3 currentMousePos = toSphere(renderWnd, state.X.abs, state.Y.abs);
+		Ogre::Vector3 rotationAxis = mMouseDownPos.crossProduct(currentMousePos);
+		rotationAxis.normalise();
+		Ogre::Radian rotationAngle = Ogre::Math::ACos(
+			currentMousePos.dotProduct(mMouseDownPos) /
+			(currentMousePos.length()*mMouseDownPos.length()));
+		headNode->setOrientation(mMouseDownOrientation);
+		headNode->rotate(rotationAxis, rotationAngle, Ogre::Node::TS_WORLD);
+	} 
+	if (zooming) {
+		Ogre::Vector3 currentMousePos = Ogre::Vector3(0, state.Y.abs, 0);
+		headNode->setScale(mMouseDownScale + 
+			Ogre::Vector3((state.Y.abs - mMouseDownPos.y) / mZoomScale));
+	}
 	return true;
 }
 
 bool ServerApp::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 {
+	OIS::MouseState state = scaleMouseState(arg.state, renderWnd);
 	std::cout << "Mouse Pressed!" << std::endl;
-	angularVelocity *= -1;
+	switch(id) {
+	case OIS::MB_Left:
+		mMouseDownPos = toSphere(renderWnd, state.X.abs, state.Y.abs);
+		mMouseDownOrientation = headNode->getOrientation();
+		rotating = true;
+		break;
+	case OIS::MB_Right:
+		mMouseDownPos = Ogre::Vector3(0, state.Y.abs, 0);
+		mMouseDownScale = headNode->getScale();
+		zooming = true;
+		break;
+	}
 	return true;
 }
 
 bool ServerApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 {
+	OIS::MouseState state = scaleMouseState(arg.state, renderWnd);
 	std::cout << "Mouse Released!" << std::endl;
-	angularVelocity *= -1;
+	switch(id) {
+	case OIS::MB_Left:
+		rotating = false;
+		break;
+	case OIS::MB_Right:
+		zooming = false;
+		break;
+	}
 	return true;
 }
 
 bool ServerApp::keyPressed(const OIS::KeyEvent &arg)
 {
 	std::cout << "Key Pressed!" << std::endl;
-	switch (arg.key) {
-	case OIS::KC_A:
-		a = true;
-		break;
-	case OIS::KC_D:
-		d = true;
-		break;
-	case OIS::KC_W:
-		w = true;
-		break;
-	case OIS::KC_S:
-		s = true;
-		break;
-	case OIS::KC_ESCAPE:
-		renderWnd->destroy();
-		break;
+	if (arg.key == OIS::KC_R) {
+		headNode->resetOrientation();
+		headNode->setScale(Ogre::Vector3::UNIT_SCALE);
 	}
 	return true;
 }
@@ -157,20 +190,6 @@ bool ServerApp::keyPressed(const OIS::KeyEvent &arg)
 bool ServerApp::keyReleased(const OIS::KeyEvent &arg)
 {
 	std::cout << "Key Released!" << std::endl;
-	switch (arg.key) {
-	case OIS::KC_A:
-		a = false;
-		break;
-	case OIS::KC_D:
-		d = false;
-		break;
-	case OIS::KC_W:
-		w = false;
-		break;
-	case OIS::KC_S:
-		s = false;
-		break;
-	}
 	return true;
 }
 

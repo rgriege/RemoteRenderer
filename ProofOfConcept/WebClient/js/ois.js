@@ -36,11 +36,11 @@
     };
 
     Mouse.prototype.onmousedown = function (evt) {
-        this.state.buttons |= (1 << evt.which); // (e.keyCode || e.which)
+        this.state.buttons |= (1 << mouseMap[evt.which]); // (e.keyCode || e.which)
     };
 
     Mouse.prototype.onmouseup = function (evt) {
-        this.state.buttons &= ~(1 << evt.which);
+        this.state.buttons &= ~(1 << mouseMap[evt.which]);
     };
 
     Mouse.prototype.onmousemove = function (evt) {
@@ -81,6 +81,12 @@
     Keyboard.prototype.stringify = function () {
         return this._stringify(this.keyBuffer);
     };
+
+    //-----------------------------------------------------------------------//
+    var mouseMap = [];
+    mouseMap[1] = 0;
+    mouseMap[3] = 1;
+    mouseMap[2] = 2;
 
     //-----------------------------------------------------------------------//
     var keyMap = [];

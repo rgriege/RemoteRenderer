@@ -33,8 +33,8 @@
     connectBtn.click(function() {
         if (!playing) {
             // Setup the WebSocket connection and start the player
-            renderSocket = new WebSocket('ws://172.16.1.63:9002');
-            inputSocket = new WebSocket('ws://172.16.1.63:9003');
+            renderSocket = new WebSocket('ws://192.168.0.75:9002');
+            inputSocket = new WebSocket('ws://192.168.0.75:9003');
             inputSocket.onmessage = function(msg) {
                 var f = new FileReader();
                 f.readAsText(msg.data);
