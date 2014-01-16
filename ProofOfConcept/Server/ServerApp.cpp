@@ -59,7 +59,7 @@ bool ServerApp::run()
 
 	mConnections = 0;
     _initServer();
-    std::thread t(std::bind(&server::run, &mRenderServer));
+    std::thread t1(std::bind(&server::run, &mRenderServer));
 	std::thread t2(std::bind(&server::run, &mInputServer));
 
 	_initOis(true);
@@ -99,6 +99,11 @@ bool ServerApp::run()
 
     free(buffer.data);
     delete encoder;
+
+	mRenderServer.stop();
+	mInputServer.stop();
+	t1.join();
+	t2.join();
 
     return true;
 }
