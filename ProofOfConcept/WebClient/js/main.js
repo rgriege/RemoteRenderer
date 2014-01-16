@@ -69,9 +69,9 @@
             statsTbl.show();
             statsIntervalId = setInterval(function() {
                 if (videoPlayer) {
-                    $('#pingCell').textContent = videoPlayer.getPing();
-                    $('#fpsCell').textContent = videoPlayer.getFrameRate();
-                    $('#frameTimeCell').textContent = videoPlayer.getFrameTime();
+                    $('#pingCell').text(videoPlayer.getPing());
+                    $('#fpsCell').text(videoPlayer.getFrameRate());
+                    $('#frameTimeCell').text(videoPlayer.getFrameTime());
                 }
             }, 1000);
             monitoring = true;
