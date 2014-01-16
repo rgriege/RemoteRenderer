@@ -51,6 +51,7 @@ private:
     Ogre::Log* ogreLog;
     Ogre::Root* root;
     Ogre::RenderWindow* renderWnd;
+	Ogre::RenderTexture* renderTex;
     Ogre::Viewport* viewport;
     Ogre::Timer* timer;
     Ogre::Camera* camera;

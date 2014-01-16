@@ -105,7 +105,8 @@ bool ServerApp::run()
 
 bool ServerApp::frameRenderingQueued(const Ogre::FrameEvent& evt)
 {
-    renderWnd->copyContentsToMemory(buffer, Ogre::RenderTarget::FrameBuffer::FB_AUTO);
+	renderTex->copyContentsToMemory(buffer, Ogre::RenderTarget::FrameBuffer::FB_AUTO);
+    //renderWnd->copyContentsToMemory(buffer, Ogre::RenderTarget::FrameBuffer::FB_AUTO);
 
     // create the packet
     AVPacket* pkt = new AVPacket();
@@ -180,9 +181,14 @@ bool ServerApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id
 bool ServerApp::keyPressed(const OIS::KeyEvent &arg)
 {
 	std::cout << "Key Pressed!" << std::endl;
-	if (arg.key == OIS::KC_R) {
+	switch(arg.key) {
+	case OIS::KC_R:
 		headNode->resetOrientation();
 		headNode->setScale(Ogre::Vector3::UNIT_SCALE);
+		break;
+	case OIS::KC_ESCAPE:
+		mShutdown = true;
+		break;
 	}
 	return true;
 }
@@ -262,9 +268,17 @@ void ServerApp::_createScene()
     cameraNode = sceneMgr->getRootSceneNode()->createChildSceneNode();
     cameraNode->attachObject(camera);
 
-    viewport = renderWnd->addViewport(camera);
-    viewport->setBackgroundColour(Ogre::ColourValue(0, 0, 0, 0));
-    camera->setAspectRatio(Ogre::Real(viewport->getActualWidth()) / Ogre::Real(viewport->getActualHeight()));
+	Ogre::TexturePtr rtt_texture = Ogre::TextureManager::getSingleton().createManual(
+		"RttTex", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, Ogre::TEX_TYPE_2D,
+		renderWnd->getWidth(), renderWnd->getHeight(), 0, Ogre::PF_R8G8B8, Ogre::TU_RENDERTARGET);
+	renderTex = rtt_texture->getBuffer()->getRenderTarget();
+	viewport = renderTex->addViewport(camera);
+	viewport->setBackgroundColour(Ogre::ColourValue::Black);
+	camera->setAspectRatio(Ogre::Real(viewport->getActualWidth()) / Ogre::Real(viewport->getActualHeight()));
+
+    /*viewport = renderWnd->addViewport(camera);
+    viewport->setBackgroundColour(Ogre::ColourValue::Black);
+    camera->setAspectRatio(Ogre::Real(viewport->getActualWidth()) / Ogre::Real(viewport->getActualHeight()));*/
 
     root->addFrameListener(this);
 }
