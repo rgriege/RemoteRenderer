@@ -71,7 +71,7 @@ namespace OIS
 	class RemoteDeviceProtocol
 	{
 	public:
-		virtual WindowDataRequest createCaptureRequest(Type iType) const = 0;
+		virtual WindowDataRequest createCaptureRequest() const = 0;
 		virtual bool canParseResponse(WindowDataResponse response) const = 0;
 		virtual Type deviceType() const = 0;
 	};

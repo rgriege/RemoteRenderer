@@ -32,6 +32,8 @@ RemoteMouse::RemoteMouse( InputManager* creator, RemoteConnection* connection, b
 	: Mouse(creator->inputSystemName(), buffered, 0, creator), mConnection(connection), mProtocol(protocol)
 {
 	mConnection->addMessageListener(this);
+	mState.width = 0;
+	mState.height = 0;
 }
 
 //--------------------------------------------------------------------------------------------------//
@@ -54,10 +56,10 @@ void RemoteMouse::capture()
 	//Clear old relative values
 	mState.X.rel = mState.Y.rel = mState.Z.rel = 0;
 
-	WindowDataRequest request = mProtocol->createCaptureRequest(mType);
+	WindowDataRequest request = mProtocol->createCaptureRequest();
 	{
 		std::lock_guard<std::mutex> updateGuard(mUpdateLock);
-		mUpdated = true;
+		mUpdated = false;
 	}
 	mConnection->send(request);
 	//wait on interpret to be called with matching response
@@ -68,6 +70,9 @@ void RemoteMouse::capture()
 	bool mouseMoved = false;
 	uint8_t buttonPressed = 0;
 	uint8_t buttonReleased = 0;
+
+	if(mState.width != mTempState.width) mState.width = mTempState.width;
+	if(mState.height != mTempState.height) mState.height = mTempState.height;
 	    
 	if(mTempState.X.rel || mTempState.Y.rel || mTempState.Z.rel)
 	{

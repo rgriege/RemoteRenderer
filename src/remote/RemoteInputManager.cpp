@@ -107,19 +107,19 @@ void RemoteInputManager::_initialize( RemoteConnection* connection,
 //--------------------------------------------------------------------------------//
 DeviceList RemoteInputManager::freeDeviceList()
 {
-	return DeviceList(); //mWindow->requestFreeDeviceList();
+	return DeviceList();
 }
 
 //--------------------------------------------------------------------------------//
 int RemoteInputManager::totalDevices(Type iType)
 {
-	return 0; //mWindow->requestTotalDeviceCount(iType);
+	return 0;
 }
 
 //--------------------------------------------------------------------------------//
 int RemoteInputManager::freeDevices(Type iType)
 {
-	return 1; //mWindow->requestFreeDeviceCount(iType);
+	return 1;
 }
 
 //--------------------------------------------------------------------------------//
@@ -137,6 +137,9 @@ Object* RemoteInputManager::createObject(InputManager* creator, Type iType, bool
 	case OISMouse:
 		obj = createObject(creator, new DefaultRemoteMouseProtocol(), bufferMode, vendor);
 		break;
+	case OISKeyboard:
+		obj = createObject(creator, new DefaultRemoteKeyboardProtocol(), bufferMode, vendor);
+		break;
 	}
 	return obj;
 }
@@ -149,8 +152,8 @@ Object* RemoteInputManager::createObject(InputManager* creator, RemoteDeviceProt
 	{
 	case OISKeyboard: 
 	{
-		//if( mKeyboardUsed == false )
-			//obj = new RemoteKeyboard(this, mConnection, bufferMode, protocol);
+		if( mKeyboardUsed == false )
+			obj = new RemoteKeyboard(this, mConnection, bufferMode, protocol);
 		mKeyboardUsed = true;
 		break;
 	}
