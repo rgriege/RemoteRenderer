@@ -41,9 +41,9 @@ private:
     typedef std::set<connection_hdl,boost::owner_less<connection_hdl>> con_list;
 
     bool _initOgre();
-    void _createScene();
+    void _createScene(bool local);
     void _initServer();
-	void _initOis(bool remote);
+	void _initOis(bool local);
 
     void _onOpen(connection_hdl hdl, bool render);
     void _onClose(connection_hdl hdl);

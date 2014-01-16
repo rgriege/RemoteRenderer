@@ -44,17 +44,17 @@ bool ServerApp::run()
     if (!_initOgre())
         return false;
 
-    _createScene();
+    _createScene(false);
 
 #pragma push_macro("PixelFormat")
 #undef PixelFormat
-    buffer = Ogre::PixelBox(renderWnd->getWidth(), renderWnd->getHeight(), 1,
-        Ogre::PixelFormat::PF_B8G8R8, malloc(renderWnd->getWidth()*renderWnd->getHeight()*3));
+    buffer = Ogre::PixelBox(renderTex->getWidth(), renderTex->getHeight(), 1,
+        Ogre::PixelFormat::PF_B8G8R8, malloc(renderTex->getWidth()*renderTex->getHeight()*3));
 #pragma pop_macro("PixelFormat")
 
     /* ffmpeg init, also try AV_CODEC_ID_H264 */
     encoder = new Encoder();
-    if (!encoder->bootstrap(AV_CODEC_ID_MPEG1VIDEO, renderWnd->getWidth(), renderWnd->getHeight(), frameRate))
+    if (!encoder->bootstrap(AV_CODEC_ID_MPEG1VIDEO, renderTex->getWidth(), renderTex->getHeight(), frameRate))
         exit(EXIT_FAILURE);
 
 	mConnections = 0;
@@ -62,17 +62,17 @@ bool ServerApp::run()
     std::thread t1(std::bind(&server::run, &mRenderServer));
 	std::thread t2(std::bind(&server::run, &mInputServer));
 
-	_initOis(true);
+	_initOis(false);
 
     int startTime = 0;
     while(!mShutdown)
     {
-        if(renderWnd->isClosed())
-            mShutdown = true;
+        /*if(renderWnd->isClosed())
+            mShutdown = true;*/
 
         Ogre::WindowEventUtilities::messagePump();
 
-        if(renderWnd->isActive())
+        if(renderTex->isActive())
         {
             startTime = timer->getMillisecondsCPU();
 			if (mConnections == 2) {
@@ -129,10 +129,10 @@ bool ServerApp::frameRenderingQueued(const Ogre::FrameEvent& evt)
 
 bool ServerApp::mouseMoved( const OIS::MouseEvent &arg )
 {
-	OIS::MouseState state = scaleMouseState(arg.state, renderWnd);
+	OIS::MouseState state = scaleMouseState(arg.state, renderTex);
 	//std::cout << "Mouse Moved!" << std::endl;
 	if (rotating) {
-		Ogre::Vector3 currentMousePos = toSphere(renderWnd, state.X.abs, state.Y.abs);
+		Ogre::Vector3 currentMousePos = toSphere(renderTex, state.X.abs, state.Y.abs);
 		Ogre::Vector3 rotationAxis = mMouseDownPos.crossProduct(currentMousePos);
 		rotationAxis.normalise();
 		Ogre::Radian rotationAngle = Ogre::Math::ACos(
@@ -151,11 +151,11 @@ bool ServerApp::mouseMoved( const OIS::MouseEvent &arg )
 
 bool ServerApp::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 {
-	OIS::MouseState state = scaleMouseState(arg.state, renderWnd);
+	OIS::MouseState state = scaleMouseState(arg.state, renderTex);
 	std::cout << "Mouse Pressed!" << std::endl;
 	switch(id) {
 	case OIS::MB_Left:
-		mMouseDownPos = toSphere(renderWnd, state.X.abs, state.Y.abs);
+		mMouseDownPos = toSphere(renderTex, state.X.abs, state.Y.abs);
 		mMouseDownOrientation = headNode->getOrientation();
 		rotating = true;
 		break;
@@ -170,7 +170,7 @@ bool ServerApp::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id 
 
 bool ServerApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 {
-	OIS::MouseState state = scaleMouseState(arg.state, renderWnd);
+	OIS::MouseState state = scaleMouseState(arg.state, renderTex);
 	std::cout << "Mouse Released!" << std::endl;
 	switch(id) {
 	case OIS::MB_Left:
@@ -241,6 +241,7 @@ bool ServerApp::_initOgre()
         else
             return false;
     }
+	//root->initialise(false);
     renderWnd = root->initialise(true, "Ogre Remote Renderer");
     renderWnd->resize(300, 300);
 
@@ -249,12 +250,10 @@ bool ServerApp::_initOgre()
 
     Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 
-    renderWnd->setActive(true);
-
     return true;
 }
 
-void ServerApp::_createScene()
+void ServerApp::_createScene(bool local)
 {
     sceneMgr = root->createSceneManager(Ogre::ST_GENERIC);
 
@@ -275,15 +274,17 @@ void ServerApp::_createScene()
 
 	Ogre::TexturePtr rtt_texture = Ogre::TextureManager::getSingleton().createManual(
 		"RttTex", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, Ogre::TEX_TYPE_2D,
-		renderWnd->getWidth(), renderWnd->getHeight(), 0, Ogre::PF_R8G8B8, Ogre::TU_RENDERTARGET);
+		300, 300, 0, Ogre::PF_R8G8B8, Ogre::TU_RENDERTARGET);
 	renderTex = rtt_texture->getBuffer()->getRenderTarget();
 	viewport = renderTex->addViewport(camera);
 	viewport->setBackgroundColour(Ogre::ColourValue::Black);
 	camera->setAspectRatio(Ogre::Real(viewport->getActualWidth()) / Ogre::Real(viewport->getActualHeight()));
 
-    /*viewport = renderWnd->addViewport(camera);
-    viewport->setBackgroundColour(Ogre::ColourValue::Black);
-    camera->setAspectRatio(Ogre::Real(viewport->getActualWidth()) / Ogre::Real(viewport->getActualHeight()));*/
+	if (local) {
+		viewport = renderWnd->addViewport(camera);
+		viewport->setBackgroundColour(Ogre::ColourValue::Black);
+		camera->setAspectRatio(Ogre::Real(viewport->getActualWidth()) / Ogre::Real(viewport->getActualHeight()));
+	}
 
     root->addFrameListener(this);
 }
@@ -307,11 +308,13 @@ void ServerApp::_initServer()
     mInputServer.start_accept();
 }
 
-void ServerApp::_initOis(bool remote)
+void ServerApp::_initOis(bool local)
 {
-	size_t hWnd = 0;
-	renderWnd->getCustomAttribute("WINDOW", &hWnd);
-	mLocalInputMgr = OIS::InputManager::createInputSystem(hWnd);
+	if (local) {
+		size_t hWnd = 0;
+		renderWnd->getCustomAttribute("WINDOW", &hWnd);
+		mLocalInputMgr = OIS::InputManager::createInputSystem(hWnd);
+	}
 	
 	std::unique_lock<std::mutex> lk(mInputConMtx);
 	mInputConCv.wait(lk, [&]() { return !mInputHdl._empty(); });
@@ -319,13 +322,13 @@ void ServerApp::_initOis(bool remote)
 	OIS::RemoteConnection* con = new OIS::WebSocketppConnection(mInputServer.get_con_from_hdl(mInputHdl));
 	mRemoteInputMgr = OIS::RemoteInputManager::createInputSystem(con);
 
-	if (remote) {
+	//if (remote) {
 		mMouse = static_cast<OIS::Mouse*>(mRemoteInputMgr->createInputObject(OIS::OISMouse, true));
 		mKeyboard = static_cast<OIS::Keyboard*>(mRemoteInputMgr->createInputObject(OIS::OISKeyboard, true));
-	} else {
+	/*} else {
 		mMouse = static_cast<OIS::Mouse*>(mLocalInputMgr->createInputObject(OIS::OISMouse, true));
 		mKeyboard = static_cast<OIS::Keyboard*>(mLocalInputMgr->createInputObject(OIS::OISKeyboard, true));
-	}
+	}*/
 
 	mMouse->setEventCallback(this);
 	mKeyboard->setEventCallback(this);
