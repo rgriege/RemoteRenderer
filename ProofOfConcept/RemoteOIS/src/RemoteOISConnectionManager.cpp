@@ -1,18 +1,26 @@
-#include "RemoteConnectionManager.h"
+#include "RemoteOISConnectionManager.h"
+#include "OISException.h"
 
-using namespace OIS;
+using namespace RemoteOIS;
 
-RemoteConnectionManager* RemoteConnectionManager::sInstance = 0;
+ConnectionManager* ConnectionManager::sInstance = 0;
 
-RemoteConnectionManager* RemoteConnectionManager::getInstance()
+ConnectionManager* ConnectionManager::getInstance()
 {
 	if (!sInstance)
-		sInstance = new RemoteConnectionManager();
+		sInstance = new ConnectionManager();
 	return sInstance;
 }
 
-RemoteConnection* RemoteConnectionManager::find(const std::string& name)
+Connection* ConnectionManager::find(const std::string& name)
 {
 	connection_map::iterator it = mConnections.find(name);
 	return it != mConnections.end() ? it->second : NULL;
+}
+
+void ConnectionManager::add(Connection* connection, const std::string& name)
+{
+	if (mConnections.find(name) != mConnections.end())
+		OIS_EXCEPT(OIS::E_Duplicate, "A connection with that name already exists");
+	mConnections[name] = connection;
 }
