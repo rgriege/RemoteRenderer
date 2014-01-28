@@ -20,11 +20,11 @@ restrictions:
 
     3. This notice may not be removed or altered from any source distribution.
 */
-#include "remote/RemoteInputManager.h"
-#include "remote/RemoteKeyBoard.h"
-#include "remote/RemoteMouse.h"
-//#include "remote/RemoteJoyStick.h"
-#include "remote/RemoteConnectionManager.h"
+#include "RemoteInputManager.h"
+#include "RemoteKeyBoard.h"
+#include "RemoteMouse.h"
+//#include "RemoteJoyStick.h"
+#include "RemoteConnectionManager.h"
 #include "OISException.h"
 
 using namespace OIS;

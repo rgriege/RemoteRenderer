@@ -20,8 +20,8 @@ restrictions:
 
     3. This notice may not be removed or altered from any source distribution.
 */
-#include "remote/RemoteMouse.h"
-#include "remote/RemoteInputManager.h"
+#include "RemoteMouse.h"
+#include "RemoteInputManager.h"
 #include "OISException.h"
 #include "OISEvents.h"
 

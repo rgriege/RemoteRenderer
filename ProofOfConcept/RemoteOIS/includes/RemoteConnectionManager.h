@@ -26,7 +26,7 @@ restrictions:
 #include <string>
 #include <map>
 
-#include "remote/RemotePrereqs.h"
+#include "RemotePrereqs.h"
 
 namespace OIS
 {

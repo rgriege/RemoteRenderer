@@ -1,4 +1,4 @@
-#include "remote/RemoteConnectionManager.h"
+#include "RemoteConnectionManager.h"
 
 using namespace OIS;
 

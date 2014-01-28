@@ -1,4 +1,4 @@
-#include "remote/WebSocketppConnection.h"
+#include "WebSocketppConnection.h"
 
 using namespace OIS;
 

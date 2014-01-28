@@ -5,9 +5,9 @@
 #include <vector>
 #include <cassert>
 
-#include "remote/RemotePrereqs.h"
-#include "remote/RemoteMouse.h"
-#include "remote/RemoteKeyboard.h"
+#include "RemotePrereqs.h"
+#include "RemoteMouse.h"
+#include "RemoteKeyboard.h"
 
 namespace OIS
 {

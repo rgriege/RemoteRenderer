@@ -1,8 +1,8 @@
 #include <sstream>
 #include <deque>
 
-#include "remote/RemoteKeyboard.h"
-#include "remote/RemoteInputManager.h"
+#include "RemoteKeyboard.h"
+#include "RemoteInputManager.h"
 #include "OISException.h"
 #include "OISEvents.h"
 

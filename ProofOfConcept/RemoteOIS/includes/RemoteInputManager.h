@@ -27,9 +27,9 @@ restrictions:
 
 #include "OISInputManager.h"
 #include "OISFactoryCreator.h"
-#include "remote/RemotePrereqs.h"
-#include "remote/DefaultRemoteFactoryCreatorProtocol.h"
-#include "remote/DefaultRemoteDeviceProtocol.h"
+#include "RemotePrereqs.h"
+#include "DefaultRemoteFactoryCreatorProtocol.h"
+#include "DefaultRemoteDeviceProtocol.h"
 
 namespace OIS
 {

@@ -2,7 +2,7 @@
 #define _DEFAULT_REMOTE_FACTORY_CREATOR_PROTOCOL_H
 
 #include "OIS.h"
-#include "remote/RemotePrereqs.h"
+#include "RemotePrereqs.h"
 
 namespace OIS
 {	

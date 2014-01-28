@@ -27,7 +27,7 @@ restrictions:
 #include <mutex>
 
 #include "OISMouse.h"
-#include "remote/RemotePrereqs.h"
+#include "RemotePrereqs.h"
 
 namespace OIS
 {
