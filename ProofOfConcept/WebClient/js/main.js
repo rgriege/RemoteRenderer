@@ -59,27 +59,102 @@
         }
     });
 
+    var TimeSpan = function () {
+        var now = Date.now();
+        return {
+            start: now,
+            end: now
+        };
+    };
+
+    TimeSpan.prototype.diff = function () {
+        return this.end - this.start;
+    };
+
+    var statsListener = {
+        bufferSize: 10,
+        active: false,
+        packets: Array(this.bufferSize),
+        packetIdx: 0,
+        frames: Array(this.bufferSize),
+        frameIdx: 0,
+        intervalId: undefined,
+        onPacket: function() {
+            statsListener.packets[this.packetIdx] = Date.now();
+            statsListener.packetIdx = (this.packetIdx + 1) % this.bufferSize;
+        },
+        onFrameStart: function() {
+            statsListener.frames[this.frameIdx] = new TimeSpan();
+        },
+        onFrameEnd: function() {
+            statsListener.frames[statsListener.frameIdx].end = Date.now();
+            statsListener.frameIdx = (statsListener.frameIdx + 1) % statsListener.bufferSize;
+        },
+        start: function(broadcaster, interval) {
+            broadcaster.setFrameListener(statsListener);
+            broadcaster.setPacketListener(statsListener);
+            statsListener.intervalId = setInterval(statsListener.show, interval);
+            statsListener.active = true;
+        },
+        stop: function() {
+            if (statsListener.intervalId)
+                clearInterval(statsListener.intervalId);
+            statsListener.active = false;
+        },
+        getPing: function() {
+            var result = 0;
+            var count = 0;
+            var prev = 0;
+            statsListener.packets.forEach(function (elem) {
+                if (prev && elem > prev) {
+                    result += elem - prev;
+                    ++count;
+                }
+                prev = elem;
+            });
+            return Math.round(result / count);
+        },
+        getFrameRate: function() {
+            var result = 0;
+            var count = 0;
+            var prev = undefined;
+            statsListener.frames.forEach(function (elem) {
+                if (prev && elem.start > prev.start) {
+                    result += (elem.start - prev.start);
+                    ++count;
+                }
+                prev = elem;
+            });
+            return Math.round(result / count);
+        },
+        getFrameTime: function () {
+            var result = 0;
+            var count = 0;
+            statsListener.frames.forEach(function (elem) {
+                result += (elem.end - elem.start);
+                ++count;
+            });
+            return Math.round(result / count);
+        },
+        show: function() {
+            $('#pingCell').text(statsListener.getPing());
+            $('#fpsCell').text(statsListener.getFrameRate());
+            $('#frameTimeCell').text(statsListener.getFrameTime());
+        }
+    };
     var statsTbl = $('#statsTbl');
-    var statsIntervalId;
     var statsBtn = $('#statsBtn');
-    var monitoring = false;
     statsBtn.click(function() {
-        if (!monitoring) {
+        if (!statsBtn.hasClass('active')) {
             statsBtn.addClass('active');
             statsTbl.show();
-            statsIntervalId = setInterval(function() {
-                if (videoPlayer) {
-                    $('#pingCell').text(videoPlayer.getPing());
-                    $('#fpsCell').text(videoPlayer.getFrameRate());
-                    $('#frameTimeCell').text(videoPlayer.getFrameTime());
-                }
-            }, 1000);
-            monitoring = true;
+            if (videoPlayer)
+                statsListener.start(videoPlayer, 1000);
         } else {
             statsBtn.removeClass('active');
             statsTbl.hide();
-            clearInterval(statsIntervalId);
-            monitoring = false;
+            if (statsListener.active)
+                statsListener.stop();
         }
     });
     statsTbl.hide();

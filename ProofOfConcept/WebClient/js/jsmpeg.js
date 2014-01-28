@@ -15,18 +15,6 @@ define(['domReady!'], function (document) {
     // Inspired by "MPEG Decoder in Java ME" by Nokia:
     // http://www.developer.nokia.com/Community/Wiki/MPEG_decoder_in_Java_ME
 
-    var TimeSpan = function() {
-        var now = Date.now();
-        return {
-            start: now,
-            end: now
-        };
-    };
-
-    TimeSpan.prototype.diff = function() {
-        return this.end - this.start;
-    };
-
     var requestAnimFrame = (function () {
         return window.requestAnimationFrame ||
             window.webkitRequestAnimationFrame ||
@@ -52,9 +40,6 @@ define(['domReady!'], function (document) {
         this.customNonIntraQuantMatrix = new Uint8Array(64);
         this.blockData = new Int32Array(64);
         this.scale = [];
-
-        this.previousFrameSpans = new Array(10);
-        this.frameSpanIndex = 0;
 
         // use WebGL if possible (much faster)
         if (opts.renderer && opts.renderer == 'webgl' && this.tryInitWebGL()) {
@@ -243,12 +228,9 @@ define(['domReady!'], function (document) {
 
         this.client.binaryType = 'arraybuffer';
         this.client.onmessage = this.receiveSocketMessage.bind(this);
-
-        this.previousPacketTimes = new Array(10);
-        this.packetTimeIndex = 0;
     };
 
-    jsmpeg.prototype.decodeSocketHeader = function (data, timestamp) {
+    jsmpeg.prototype.decodeSocketHeader = function (data) {
         // Custom header sent to all newly connected clients when streaming
         // over websockets:
         // struct { char magic[4] = "jsmp"; unsigned short width, height; };
@@ -261,36 +243,18 @@ define(['domReady!'], function (document) {
             this.sourceWidth = (data[4] * 256 + data[5]);
             this.sourceHeight = (data[6] * 256 + data[7]);
             this.initBuffers();
-            this.lastFrameTime = timestamp;
         }
-    };
-
-    jsmpeg.prototype.getPing = function () {
-        if (!this.previousPacketTimes)
-            return 0;
-
-        var result = 0;
-        var count = 0;
-        var prev = 0;
-        this.previousPacketTimes.forEach(function (elem) {
-            if (prev && elem > prev) {
-                result += elem - prev;
-                ++count;
-            }
-            prev = elem;
-        });
-        return Math.round(result / count);
     };
 
     jsmpeg.prototype.receiveSocketMessage = function (event) {
         var messageData = new Uint8Array(event.data);
 
         if (!this.sequenceStarted) {
-            this.decodeSocketHeader(messageData, event.timeStamp);
+            this.decodeSocketHeader(messageData);
         }
 
-        this.previousPacketTimes[this.packetTimeIndex] = event.timeStamp;
-        this.packetTimeIndex = (this.packetTimeIndex + 1) % this.previousPacketTimes.length;
+        if (this.packetListener)
+            this.packetListener.onPacket(event);
 
         var current = this.buffer;
         var next = this.nextPictureBuffer;
@@ -450,6 +414,19 @@ define(['domReady!'], function (document) {
         this.discardRecordBuffers();
         this.isRecording = false;
         return blob;
+    };
+
+
+
+    // ----------------------------------------------------------------------------
+    // Diagnostic Event Listeners
+
+    jsmpeg.prototype.setPacketListener = function(listener) {
+        this.packetListener = listener;
+    };
+
+    jsmpeg.prototype.setFrameListener = function(listener) {
+        this.frameListener = listener;
     };
 
 
@@ -744,30 +721,6 @@ define(['domReady!'], function (document) {
     jsmpeg.prototype.forwardRSize = 0;
     jsmpeg.prototype.forwardF = 0;
 
-    jsmpeg.prototype.getFrameRate = function() {
-        var result = 0;
-        var count = 0;
-        var prev = undefined;
-        this.previousFrameSpans.forEach(function (elem, idx) {
-            if (prev && elem.start > prev.start) {
-                result += (elem.start - prev.start);
-                ++count;
-            }
-            prev = elem;
-        });
-        return Math.round(result / count);
-    };
-
-    jsmpeg.prototype.getFrameTime = function () {
-        var result = 0;
-        var count = 0;
-        this.previousFrameSpans.forEach(function (elem, idx) {
-            result += (elem.end - elem.start);
-            ++count;
-        });
-        return Math.round(result / count);
-    };
-
     jsmpeg.prototype.decodePicture = function (skipOutput) {
         this.buffer.advance(10); // skip temporalReference
         this.pictureCodingType = this.buffer.getBits(3);
@@ -808,10 +761,11 @@ define(['domReady!'], function (document) {
         this.recordFrameFromCurrentBuffer();
 
         if (skipOutput != DECODE_SKIP_OUTPUT) {
-            this.previousFrameSpans[this.frameSpanIndex] = new TimeSpan();
+            if (this.frameListener)
+                this.frameListener.onFrameStart();
             this.renderFrame();
-            this.previousFrameSpans[this.frameSpanIndex].end = Date.now();
-            this.frameSpanIndex = (this.frameSpanIndex + 1) % this.previousFrameSpans.length;
+            if (this.frameListener)
+                this.frameListener.onFrameEnd();
 
             if (this.externalDecodeCallback) {
                 this.externalDecodeCallback(this, this.canvas);
