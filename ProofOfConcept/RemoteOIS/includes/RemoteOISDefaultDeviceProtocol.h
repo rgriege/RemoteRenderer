@@ -5,16 +5,16 @@
 #include <vector>
 #include <cassert>
 
-#include "RemotePrereqs.h"
-#include "RemoteMouse.h"
-#include "RemoteKeyboard.h"
+#include "RemoteOISPrereqs.h"
+#include "RemoteOISMouse.h"
+#include "RemoteOISKeyboard.h"
 
-namespace OIS
+namespace RemoteOIS
 {
-	class DefaultRemoteMouseProtocol : public RemoteMouseProtocol
+	class _RemoteOISExport DefaultMouseProtocol : public MouseProtocol
 	{
 	public:
-		DefaultRemoteMouseProtocol()
+		DefaultMouseProtocol()
 			: prevX(0), prevY(0) {}
 
 		virtual WindowDataRequest createCaptureRequest() const
@@ -29,7 +29,7 @@ namespace OIS
 			return reinterpret_cast<const char*>(response.data)[0] == 'M';
 		}
 
-		virtual MouseState parseResponse(WindowDataResponse response) const
+		virtual OIS::MouseState parseResponse(WindowDataResponse response) const
 		{
 			if (!canParseResponse(response))
 				throw std::invalid_argument("Can't parse this response.");
@@ -41,14 +41,14 @@ namespace OIS
 			bool done = false;
 			while (!done) {
 				std::string s;
-				std::getline(sstream, s, ' ');
+				getline(sstream, s, ' ');
 				args.push_back(s);
 				done = sstream.eof();
 			}
 
 			assert (args.size() != 0);
 			
-			MouseState state;
+			OIS::MouseState state;
 			state.width = atoi(args[0].c_str());
 			state.height = atoi(args[1].c_str());
 			state.X.abs = atoi(args[2].c_str());
@@ -61,14 +61,14 @@ namespace OIS
 			return state;
 		}
 
-		virtual Type deviceType() const { return OISMouse; }
+		virtual OIS::Type deviceType() const { return OIS::OISMouse; }
 
 	private:
 		mutable int prevX;
 		mutable int prevY;
 	};
 
-	class DefaultRemoteKeyboardProtocol : public RemoteKeyboardProtocol
+	class _RemoteOISExport DefaultRemoteKeyboardProtocol : public KeyboardProtocol
 	{
 		virtual WindowDataRequest createCaptureRequest() const
 		{
@@ -94,7 +94,7 @@ namespace OIS
 			modifiers = *reinterpret_cast<const unsigned int*>(reinterpret_cast<const char*>(response.data) + 257);
 		}
 
-		virtual Type deviceType() const { return OISKeyboard; }
+		virtual OIS::Type deviceType() const { return OIS::OISKeyboard; }
 	};
 }
 

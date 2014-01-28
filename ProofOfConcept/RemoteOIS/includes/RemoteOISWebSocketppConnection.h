@@ -4,13 +4,13 @@
 #include <condition_variable>
 #include <mutex>
 
-#include "RemotePrereqs.h"
+#include "RemoteOISPrereqs.h"
 
 using websocketpp::connection_hdl;
 
-namespace OIS
+namespace RemoteOIS
 {
-	class WebSocketppConnection : public RemoteConnection
+	class _RemoteOISExport WebSocketppConnection : public Connection
 	{
 		typedef websocketpp::endpoint<websocketpp::connection<websocketpp::config::asio>, 
 			websocketpp::config::asio>::connection_ptr connection_ptr;

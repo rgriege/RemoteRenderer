@@ -49,7 +49,7 @@ bool ServerApp::run()
 #pragma push_macro("PixelFormat")
 #undef PixelFormat
     buffer = Ogre::PixelBox(renderTex->getWidth(), renderTex->getHeight(), 1,
-        Ogre::PixelFormat::PF_B8G8R8, malloc(renderTex->getWidth()*renderTex->getHeight()*3));
+        Ogre::PF_B8G8R8, malloc(renderTex->getWidth()*renderTex->getHeight()*3));
 #pragma pop_macro("PixelFormat")
 
     /* ffmpeg init, also try AV_CODEC_ID_H264 */
@@ -110,7 +110,7 @@ bool ServerApp::run()
 
 bool ServerApp::frameRenderingQueued(const Ogre::FrameEvent& evt)
 {
-	renderTex->copyContentsToMemory(buffer, Ogre::RenderTarget::FrameBuffer::FB_AUTO);
+	renderTex->copyContentsToMemory(buffer, Ogre::RenderTarget::FB_AUTO);
     //renderWnd->copyContentsToMemory(buffer, Ogre::RenderTarget::FrameBuffer::FB_AUTO);
 
     // create the packet
@@ -294,16 +294,16 @@ void ServerApp::_initServer()
     mRenderServer.init_asio();
     mRenderServer.clear_access_channels(websocketpp::log::alevel::frame_payload);
     mRenderServer.clear_access_channels(websocketpp::log::alevel::frame_header);
-    mRenderServer.set_open_handler(boost::bind(&ServerApp::_onOpen, this, _1, true));
-    mRenderServer.set_close_handler(boost::bind(&ServerApp::_onClose, this, _1));
+    mRenderServer.set_open_handler(bind(&ServerApp::_onOpen, this, _1, true));
+    mRenderServer.set_close_handler(bind(&ServerApp::_onClose, this, _1));
     mRenderServer.listen(9002);
     mRenderServer.start_accept();
 
 	mInputServer.init_asio();
     mInputServer.clear_access_channels(websocketpp::log::alevel::frame_payload);
     mInputServer.clear_access_channels(websocketpp::log::alevel::frame_header);
-    mInputServer.set_open_handler(boost::bind(&ServerApp::_onOpen, this, _1, false));
-    mInputServer.set_close_handler(boost::bind(&ServerApp::_onClose, this, _1));
+    mInputServer.set_open_handler(bind(&ServerApp::_onOpen, this, _1, false));
+    mInputServer.set_close_handler(bind(&ServerApp::_onClose, this, _1));
     mInputServer.listen(9003);
     mInputServer.start_accept();
 }
@@ -319,8 +319,8 @@ void ServerApp::_initOis(bool local)
 	std::unique_lock<std::mutex> lk(mInputConMtx);
 	mInputConCv.wait(lk, [&]() { return !mInputHdl._empty(); });
 	lk.unlock();
-	OIS::RemoteConnection* con = new OIS::WebSocketppConnection(mInputServer.get_con_from_hdl(mInputHdl));
-	mRemoteInputMgr = OIS::RemoteInputManager::createInputSystem(con);
+	RemoteOIS::Connection* con = new RemoteOIS::WebSocketppConnection(mInputServer.get_con_from_hdl(mInputHdl));
+	mRemoteInputMgr = RemoteOIS::InputManager::createInputSystem(con);
 
 	//if (remote) {
 		mMouse = static_cast<OIS::Mouse*>(mRemoteInputMgr->createInputObject(OIS::OISMouse, true));

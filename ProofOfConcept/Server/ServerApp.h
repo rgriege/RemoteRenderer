@@ -4,7 +4,7 @@
 #include <OGRE\Ogre.h>
 #include <OIS.h>
 #include <RemoteOIS.h>
-#include <WebSocketppConnection.h>
+#include <RemoteOISWebSocketppConnection.h>
 #include <Encoder.h>
 #include <rgbData.h>
 extern "C" {

@@ -1,16 +1,16 @@
 #include <sstream>
 #include <deque>
 
-#include "RemoteKeyboard.h"
-#include "RemoteInputManager.h"
+#include "RemoteOISKeyboard.h"
+#include "RemoteOISInputManager.h"
 #include "OISException.h"
 #include "OISEvents.h"
 
-using namespace OIS;
+using namespace RemoteOIS;
 
 //--------------------------------------------------------------------------------------------------//
-RemoteKeyboard::RemoteKeyboard(InputManager* creator, RemoteConnection* connection, bool buffered, RemoteDeviceProtocol* protocol)
-	: Keyboard(creator->inputSystemName(), buffered, 0, creator), mConnection(connection), mProtocol(protocol)
+Keyboard::Keyboard(InputManager* creator, Connection* connection, bool buffered, DeviceProtocol* protocol)
+	: OIS::Keyboard(creator->inputSystemName(), buffered, 0, creator), mConnection(connection), mProtocol(protocol)
 {
 	mConnection->addMessageListener(this);
 
@@ -19,19 +19,19 @@ RemoteKeyboard::RemoteKeyboard(InputManager* creator, RemoteConnection* connecti
 }
 
 //--------------------------------------------------------------------------------------------------//
-RemoteKeyboard::~RemoteKeyboard()
+Keyboard::~Keyboard()
 {
 	mConnection->removeMessageListener(this);
 }
 
 //--------------------------------------------------------------------------------------------------//
-bool RemoteKeyboard::isKeyDown(KeyCode key) const
+bool Keyboard::isKeyDown(OIS::KeyCode key) const
 {
 	return KeyBuffer[key] != 0 ? true : false;
 }
 
 //--------------------------------------------------------------------------------------------------//
-const std::string& RemoteKeyboard::getAsString(KeyCode kc)
+const std::string& Keyboard::getAsString(OIS::KeyCode kc)
 {
 	std::stringstream ss;
 	ss << "Key_" << (int)kc;
@@ -39,20 +39,20 @@ const std::string& RemoteKeyboard::getAsString(KeyCode kc)
 }
 
 //--------------------------------------------------------------------------------------------------//
-void RemoteKeyboard::copyKeyStates(char keys[256]) const
+void Keyboard::copyKeyStates(char keys[256]) const
 {
 	for(int i = 0; i < 256; ++i)
 		keys[i] = KeyBuffer[i] > 0;
 }
 
 //--------------------------------------------------------------------------------------------------//
-void RemoteKeyboard::setBuffered(bool buffered)
+void Keyboard::setBuffered(bool buffered)
 {
 	mBuffered = buffered;
 }
 
 //--------------------------------------------------------------------------------------------------//	
-void RemoteKeyboard::capture()
+void Keyboard::capture()
 {
 	WindowDataRequest request = mProtocol->createCaptureRequest();
 	{
@@ -77,30 +77,30 @@ void RemoteKeyboard::capture()
 		std::deque<std::pair<uint8_t, char> >::iterator it = changes.begin(),
 			end = changes.end();
 		for ( ; it != end; ++it) {
-			const KeyCode& kc = static_cast<KeyCode>(it->second);
+			const OIS::KeyCode& kc = static_cast<OIS::KeyCode>(it->second);
 			if (it->first)
-				mListener->keyPressed(KeyEvent(this, kc, _translateText(kc)));
+				mListener->keyPressed(OIS::KeyEvent(this, kc, _translateText(kc)));
 			else
-				mListener->keyReleased(KeyEvent(this, kc, _translateText(kc)));
+				mListener->keyReleased(OIS::KeyEvent(this, kc, _translateText(kc)));
 		}
 	}
 }
 
 //--------------------------------------------------------------------------------------------------//
-void RemoteKeyboard::_initialize()
+void Keyboard::_initialize()
 {
 }
 
 //--------------------------------------------------------------------------------------------------//
-bool RemoteKeyboard::understands(WindowDataResponse response)
+bool Keyboard::understands(WindowDataResponse response)
 {
 	return mProtocol->canParseResponse(response);
 }
 
 //--------------------------------------------------------------------------------------------------//
-void RemoteKeyboard::interpret(WindowDataResponse response)
+void Keyboard::interpret(WindowDataResponse response)
 {
-	static_cast<RemoteKeyboardProtocol*>(mProtocol)->parseResponse(response, TempKeyBuffer, mTempModifiers);
+	static_cast<KeyboardProtocol*>(mProtocol)->parseResponse(response, TempKeyBuffer, mTempModifiers);
 	{
 		std::lock_guard<std::mutex> updateGuard(mUpdateLock);
 		mUpdated = true;
@@ -109,7 +109,7 @@ void RemoteKeyboard::interpret(WindowDataResponse response)
 }
 
 //--------------------------------------------------------------------------------------------------//
-int RemoteKeyboard::_translateText(KeyCode kc)
+int Keyboard::_translateText(OIS::KeyCode kc)
 {
 	if( mTextMode == Off )
 		return 0;

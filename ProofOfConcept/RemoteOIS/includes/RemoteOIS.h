@@ -24,9 +24,9 @@ restrictions:
 #define REMOTEOIS_OISALL_H
 
 #include "OIS.h"
-#include "RemotePrereqs.h"
-#include "RemoteMouse.h"
-#include "RemoteKeyboard.h"
-#include "RemoteInputManager.h"
+#include "RemoteOISPrereqs.h"
+#include "RemoteOISMouse.h"
+#include "RemoteOISKeyboard.h"
+#include "RemoteOISInputManager.h"
 
 #endif

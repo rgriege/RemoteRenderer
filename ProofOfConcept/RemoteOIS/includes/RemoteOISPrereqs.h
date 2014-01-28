@@ -26,34 +26,43 @@ restrictions:
 #include "OISPrereqs.h"
 #include <inttypes.h>
 
-namespace OIS
+#define _RemoteOISExport _OISExport
+
+#define REMOTE_OIS_VERSION_MAJOR 0
+#define REMOTE_OIS_VERSION_MINOR 1
+#define REMOTE_OIS_VERSION_PATCH 0
+#define REMOTE_OIS_VERSION_NAME "0.1.0"
+
+#define REMOTE_OIS_VERSION ((REMOTE_OIS_VERSION_MAJOR << 16) | (REMOTE_OIS_VERSION_MINOR << 8) | REMOTE_OIS_VERSION_PATCH)
+
+namespace RemoteOIS
 {
-	//Local Forward declarations
-	class RemoteInputManager;
-	class RemoteKeyboard;
-	class RemoteMouse;
+	// Forward declarations
+	class InputManager;
+	class Keyboard;
+	class Mouse;
 	
-	struct WindowDataRequest
+	struct _RemoteOISExport WindowDataRequest
 	{
 		void* data;
 		size_t len;
 	};
 
-	struct WindowDataResponse
+	struct _RemoteOISExport WindowDataResponse
 	{
 		const void* data;
 		size_t len;
 	};
 
 	//Interface Declarations
-	class MessageListener
+	class _RemoteOISExport MessageListener
 	{
 	public:
 		virtual bool understands(WindowDataResponse) = 0;
 		virtual void interpret(WindowDataResponse) = 0;
 	};
 
-	class RemoteConnection
+	class _RemoteOISExport Connection
 	{
 	public:
 		virtual void open() = 0;
@@ -68,22 +77,22 @@ namespace OIS
 		virtual std::string name() const = 0;
 	};
 
-	class RemoteDeviceProtocol
+	class _RemoteOISExport DeviceProtocol
 	{
 	public:
 		virtual WindowDataRequest createCaptureRequest() const = 0;
 		virtual bool canParseResponse(WindowDataResponse response) const = 0;
-		virtual Type deviceType() const = 0;
+		virtual OIS::Type deviceType() const = 0;
 	};
 
-	class RemoteFactoryCreatorProtocol
+	class _RemoteOISExport FactoryCreatorProtocol
 	{
 	public:
 		virtual WindowDataRequest createFreeDeviceListRequest() const = 0;
-		virtual WindowDataRequest createTotalDeviceCountRequest(Type iType) const = 0;
-		virtual WindowDataRequest createFreeDeviceCountRequest(Type iType) const = 0;
+		virtual WindowDataRequest createTotalDeviceCountRequest(OIS::Type iType) const = 0;
+		virtual WindowDataRequest createFreeDeviceCountRequest(OIS::Type iType) const = 0;
 
-		virtual DeviceList parseFreeDeviceListResponse(WindowDataResponse response) const = 0;
+		virtual OIS::DeviceList parseFreeDeviceListResponse(WindowDataResponse response) const = 0;
 		virtual int parseTotalDeviceCountResponse(WindowDataResponse response) const = 0;
 		virtual int parseFreeDeviceCountResponse(WindowDataResponse response) const = 0;
 	};

@@ -20,16 +20,16 @@ restrictions:
 
     3. This notice may not be removed or altered from any source distribution.
 */
-#include "RemoteMouse.h"
-#include "RemoteInputManager.h"
+#include "RemoteOISMouse.h"
+#include "RemoteOISInputManager.h"
 #include "OISException.h"
 #include "OISEvents.h"
 
-using namespace OIS;
+using namespace RemoteOIS;
 
 //--------------------------------------------------------------------------------------------------//
-RemoteMouse::RemoteMouse( InputManager* creator, RemoteConnection* connection, bool buffered, RemoteDeviceProtocol* protocol )
-	: Mouse(creator->inputSystemName(), buffered, 0, creator), mConnection(connection), mProtocol(protocol)
+Mouse::Mouse( InputManager* creator, Connection* connection, bool buffered, DeviceProtocol* protocol )
+	: OIS::Mouse(creator->inputSystemName(), buffered, 0, creator), mConnection(connection), mProtocol(protocol)
 {
 	mConnection->addMessageListener(this);
 	mState.width = 0;
@@ -37,7 +37,7 @@ RemoteMouse::RemoteMouse( InputManager* creator, RemoteConnection* connection, b
 }
 
 //--------------------------------------------------------------------------------------------------//
-void RemoteMouse::_initialize()
+void Mouse::_initialize()
 {
 	//Clear old state
 	mState.clear();
@@ -45,13 +45,13 @@ void RemoteMouse::_initialize()
 }
 
 //--------------------------------------------------------------------------------------------------//
-RemoteMouse::~RemoteMouse()
+Mouse::~Mouse()
 {
 	mConnection->removeMessageListener(this);
 }
 
 //--------------------------------------------------------------------------------------------------//
-void RemoteMouse::capture()
+void Mouse::capture()
 {
 	//Clear old relative values
 	mState.X.rel = mState.Y.rel = mState.Z.rel = 0;
@@ -103,7 +103,7 @@ void RemoteMouse::capture()
 	}
 
 	for (uint8_t i = 0; i < 8; ++i) {
-		MouseButtonID id = static_cast<MouseButtonID>(i);
+		OIS::MouseButtonID id = static_cast<OIS::MouseButtonID>(i);
 		if (mTempState.buttonDown(id) && !mState.buttonDown(id))
 			buttonPressed |= (1 << i);
 		else if (!mTempState.buttonDown(id) && mState.buttonDown(id))
@@ -113,11 +113,11 @@ void RemoteMouse::capture()
 	
 	//Fire off events
 	if (mListener && mBuffered) {
-		MouseEvent mouseEvent(this, mState);
+		OIS::MouseEvent mouseEvent(this, mState);
 		if (mouseMoved)
 			mListener->mouseMoved(mouseEvent);
 		for (uint8_t i = 0; i < 8; ++i) {
-			MouseButtonID id = static_cast<MouseButtonID>(i);
+			OIS::MouseButtonID id = static_cast<OIS::MouseButtonID>(i);
 			if (buttonPressed & (1 << i))
 				mListener->mousePressed(mouseEvent, id);
 			else if (buttonReleased & (1 << i))
@@ -129,19 +129,19 @@ void RemoteMouse::capture()
 }
 
 //--------------------------------------------------------------------------------------------------//
-void RemoteMouse::setBuffered(bool buffered)
+void Mouse::setBuffered(bool buffered)
 {
 	mBuffered = buffered;
 }
 		
-bool RemoteMouse::understands(WindowDataResponse response)
+bool Mouse::understands(WindowDataResponse response)
 {
 	return mProtocol->canParseResponse(response);
 }
 
-void RemoteMouse::interpret(WindowDataResponse response)
+void Mouse::interpret(WindowDataResponse response)
 {
-	mTempState = static_cast<RemoteMouseProtocol*>(mProtocol)->parseResponse(response);
+	mTempState = static_cast<MouseProtocol*>(mProtocol)->parseResponse(response);
 	{
 		std::lock_guard<std::mutex> updateGuard(mUpdateLock);
 		mUpdated = true;

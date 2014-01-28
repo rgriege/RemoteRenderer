@@ -1,11 +1,11 @@
-#include "WebSocketppConnection.h"
+#include "RemoteOISWebSocketppConnection.h"
 
-using namespace OIS;
+using namespace RemoteOIS;
 
 WebSocketppConnection::WebSocketppConnection(connection_ptr connection)
 	: mConnection(connection)
 {
-	mConnection->set_message_handler(boost::bind(&WebSocketppConnection::_onmessage, this, _1, _2));
+	mConnection->set_message_handler(bind(&WebSocketppConnection::_onmessage, this, _1, _2));
 }
 
 void WebSocketppConnection::send(WindowDataRequest request) const

@@ -5,39 +5,39 @@
 #include <condition_variable>
 
 #include "OISKeyboard.h"
-#include "RemotePrereqs.h"
+#include "RemoteOISPrereqs.h"
 
-namespace OIS
+namespace RemoteOIS
 {
-	class RemoteKeyboardProtocol : public RemoteDeviceProtocol
+	class _RemoteOISExport KeyboardProtocol : public DeviceProtocol
 	{
 	public:
 		virtual void parseResponse(WindowDataResponse, char*, unsigned int&) const = 0;
 	};
 
-	class RemoteKeyboard : public Keyboard, public MessageListener
+	class _RemoteOISExport Keyboard : public OIS::Keyboard, public MessageListener
 	{
 	public:
-		RemoteKeyboard(InputManager* creator, RemoteConnection* connection, bool buffered, RemoteDeviceProtocol* protocol);
+		Keyboard(InputManager* creator, Connection* connection, bool buffered, DeviceProtocol* protocol);
 
-		virtual ~RemoteKeyboard();
+		virtual ~Keyboard();
 
-		virtual bool isKeyDown(KeyCode key) const;
+		virtual bool isKeyDown(OIS::KeyCode key) const;
 
-		virtual const std::string& getAsString(KeyCode kc);
+		virtual const std::string& getAsString(OIS::KeyCode kc);
 
 		virtual void copyKeyStates(char keys[256]) const;
 
-		/** @copydoc Object::setBuffered */
+		/** @copydoc OIS::Object::setBuffered */
 		virtual void setBuffered(bool buffered);
 		
-		/** @copydoc Object::capture */
+		/** @copydoc OIS::Object::capture */
 		virtual void capture();
 
-		/** @copydoc Object::queryInterface */
-		virtual Interface* queryInterface(Interface::IType type) {return 0;}
+		/** @copydoc OIS::Object::queryInterface */
+		virtual OIS::Interface* queryInterface(OIS::Interface::IType type) {return 0;}
 		
-		/** @copydoc Object::_initialize */
+		/** @copydoc OIS::Object::_initialize */
 		virtual void _initialize();
 		
 		virtual bool understands(WindowDataResponse);
@@ -46,11 +46,11 @@ namespace OIS
 
 	protected:
 		//! Internal method for translating KeyCodes to Text
-		int _translateText( KeyCode kc );
+		int _translateText( OIS::KeyCode kc );
 
-		RemoteConnection* mConnection;
+		Connection* mConnection;
 
-		RemoteDeviceProtocol* mProtocol;
+		DeviceProtocol* mProtocol;
 		
 		char KeyBuffer[256];
 

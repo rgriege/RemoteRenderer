@@ -27,33 +27,33 @@ restrictions:
 #include <mutex>
 
 #include "OISMouse.h"
-#include "RemotePrereqs.h"
+#include "RemoteOISPrereqs.h"
 
-namespace OIS
+namespace RemoteOIS
 {
-	class RemoteMouseProtocol : public RemoteDeviceProtocol
+	class _RemoteOISExport MouseProtocol : public DeviceProtocol
 	{
 	public:
-		virtual MouseState parseResponse(WindowDataResponse) const = 0;
+		virtual OIS::MouseState parseResponse(WindowDataResponse) const = 0;
 	};
 
-	class RemoteMouse : public Mouse, public MessageListener
+	class _RemoteOISExport Mouse : public OIS::Mouse, public MessageListener
 	{
 	public:
-		RemoteMouse( InputManager* creator, RemoteConnection* connection, bool buffered, RemoteDeviceProtocol* protocol);
+		Mouse( InputManager* creator, Connection* connection, bool buffered, DeviceProtocol* protocol);
 
-		virtual ~RemoteMouse();
+		virtual ~Mouse();
 		
-		/** @copydoc Object::setBuffered */
+		/** @copydoc OIS::Object::setBuffered */
 		virtual void setBuffered(bool buffered);
 
-		/** @copydoc Object::capture */
+		/** @copydoc OIS::Object::capture */
 		virtual void capture();
 
-		/** @copydoc Object::queryInterface */
-		virtual Interface* queryInterface(Interface::IType type) {return 0;}
+		/** @copydoc OIS::Object::queryInterface */
+		virtual OIS::Interface* queryInterface(OIS::Interface::IType type) {return 0;}
 
-		/** @copydoc Object::_initialize */
+		/** @copydoc OIS::Object::_initialize */
 		virtual void _initialize();
 		
 		virtual bool understands(WindowDataResponse);
@@ -61,11 +61,11 @@ namespace OIS
 		virtual void interpret(WindowDataResponse);
 
 	protected:
-		RemoteConnection* mConnection;
+		Connection* mConnection;
 
-		RemoteDeviceProtocol* mProtocol;
+		DeviceProtocol* mProtocol;
 		
-		MouseState mTempState;
+		OIS::MouseState mTempState;
 
 		bool mUpdated;
 

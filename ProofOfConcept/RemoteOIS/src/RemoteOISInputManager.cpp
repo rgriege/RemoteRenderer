@@ -20,18 +20,18 @@ restrictions:
 
     3. This notice may not be removed or altered from any source distribution.
 */
-#include "RemoteInputManager.h"
-#include "RemoteKeyBoard.h"
-#include "RemoteMouse.h"
+#include "RemoteOISInputManager.h"
+#include "RemoteOISKeyBoard.h"
+#include "RemoteOISMouse.h"
 //#include "RemoteJoyStick.h"
-#include "RemoteConnectionManager.h"
+#include "RemoteOISConnectionManager.h"
 #include "OISException.h"
 
-using namespace OIS;
+using namespace RemoteOIS;
 
 //--------------------------------------------------------------------------------//
-RemoteInputManager::RemoteInputManager()
-	: InputManager("Remote Input Manager"),
+InputManager::InputManager()
+	: OIS::InputManager("Remote Input Manager"),
 	mConnection(0),
 	mProtocol(0),
 	mKeyboardUsed(false),
@@ -41,14 +41,14 @@ RemoteInputManager::RemoteInputManager()
 }
 
 //--------------------------------------------------------------------------------//
-RemoteInputManager::~RemoteInputManager()
+InputManager::~InputManager()
 {
 }
 
 //----------------------------------------------------------------------------//
-RemoteInputManager* RemoteInputManager::createInputSystem( ParamList &paramList )
+InputManager* InputManager::createInputSystem( OIS::ParamList &paramList )
 {
-	RemoteInputManager* im = new RemoteInputManager();
+	InputManager* im = new InputManager();
 
 	try
 	{
@@ -64,10 +64,10 @@ RemoteInputManager* RemoteInputManager::createInputSystem( ParamList &paramList 
 }
 
 //--------------------------------------------------------------------------------//
-RemoteInputManager* RemoteInputManager::createInputSystem(RemoteConnection* connection, 
-	RemoteFactoryCreatorProtocol* protocol)
+InputManager* InputManager::createInputSystem(Connection* connection, 
+	FactoryCreatorProtocol* protocol)
 {
-	RemoteInputManager* im = new RemoteInputManager();
+	InputManager* im = new InputManager();
 
 	try
 	{
@@ -83,84 +83,84 @@ RemoteInputManager* RemoteInputManager::createInputSystem(RemoteConnection* conn
 }
 
 //--------------------------------------------------------------------------------//
-void RemoteInputManager::_initialize( ParamList &paramList )
+void InputManager::_initialize( OIS::ParamList &paramList )
 {
 	//First of all, get the Windows Handle and Instance
-	ParamList::iterator i = paramList.find("CONNECTION");
+	OIS::ParamList::iterator i = paramList.find("CONNECTION");
 	if(i == paramList.end())
-		OIS_EXCEPT( E_InvalidParam, "RemoteInputManager::RemoteInputManager >> No CONNECTION found!" );
+		OIS_EXCEPT( OIS::E_InvalidParam, "InputManager::InputManager >> No CONNECTION found!" );
 
-	_initialize(RemoteConnectionManager::getInstance()->find(i->second), 0);
+	_initialize(ConnectionManager::getInstance()->find(i->second), 0);
 }
 
 //--------------------------------------------------------------------------------//
-void RemoteInputManager::_initialize( RemoteConnection* connection,
-									  RemoteFactoryCreatorProtocol* protocol )
+void InputManager::_initialize( Connection* connection,
+									  FactoryCreatorProtocol* protocol )
 {
 	mConnection = connection;
 	if (!mConnection)
-		OIS_EXCEPT( E_InvalidParam, "RemoteInputManager::RemoteInputManager >> No CONNECTION found!" );
+		OIS_EXCEPT( OIS::E_InvalidParam, "InputManager::InputManager >> No CONNECTION found!" );
 
-	mProtocol = protocol ? protocol : new DefaultRemoteFactoryCreatorProtocol();
+	mProtocol = protocol ? protocol : new DefaultFactoryCreatorProtocol();
 }
 
 //--------------------------------------------------------------------------------//
-DeviceList RemoteInputManager::freeDeviceList()
+OIS::DeviceList InputManager::freeDeviceList()
 {
-	return DeviceList();
+	return OIS::DeviceList();
 }
 
 //--------------------------------------------------------------------------------//
-int RemoteInputManager::totalDevices(Type iType)
+int InputManager::totalDevices(OIS::Type iType)
 {
 	return 0;
 }
 
 //--------------------------------------------------------------------------------//
-int RemoteInputManager::freeDevices(Type iType)
+int InputManager::freeDevices(OIS::Type iType)
 {
 	return 1;
 }
 
 //--------------------------------------------------------------------------------//
-bool RemoteInputManager::vendorExist(Type iType, const std::string & vendor)
+bool InputManager::vendorExist(OIS::Type iType, const std::string & vendor)
 {
 	return true;
 }
 
 //--------------------------------------------------------------------------------//
-Object* RemoteInputManager::createObject(InputManager* creator, Type iType, bool bufferMode, const std::string & vendor)
+OIS::Object* InputManager::createObject(OIS::InputManager* creator, OIS::Type iType, bool bufferMode, const std::string & vendor)
 {
-	Object *obj = 0;
+	OIS::Object *obj = 0;
 	switch (iType)
 	{
-	case OISMouse:
-		obj = createObject(creator, new DefaultRemoteMouseProtocol(), bufferMode, vendor);
+	case OIS::OISMouse:
+		obj = createObject(creator, new DefaultMouseProtocol(), bufferMode, vendor);
 		break;
-	case OISKeyboard:
+	case OIS::OISKeyboard:
 		obj = createObject(creator, new DefaultRemoteKeyboardProtocol(), bufferMode, vendor);
 		break;
 	}
 	return obj;
 }
 
-Object* RemoteInputManager::createObject(InputManager* creator, RemoteDeviceProtocol* protocol, bool bufferMode, const std::string & vendor)
+OIS::Object* InputManager::createObject(OIS::InputManager* creator, DeviceProtocol* protocol, bool bufferMode, const std::string & vendor)
 {
-	Object *obj = 0;
+	OIS::Object *obj = 0;
 
 	switch(protocol->deviceType())
 	{
-	case OISKeyboard: 
+	case OIS::OISKeyboard: 
 	{
 		if( mKeyboardUsed == false )
-			obj = new RemoteKeyboard(this, mConnection, bufferMode, protocol);
+			obj = new Keyboard(this, mConnection, bufferMode, protocol);
 		mKeyboardUsed = true;
 		break;
 	}
-	case OISMouse:
+	case OIS::OISMouse:
 	{
 		if( mMouseUsed == false )
-			obj = new RemoteMouse(this, mConnection, bufferMode, protocol);
+			obj = new Mouse(this, mConnection, bufferMode, protocol);
 		mMouseUsed = true;
 		break;
 	}
@@ -169,13 +169,13 @@ Object* RemoteInputManager::createObject(InputManager* creator, RemoteDeviceProt
 	}
 
 	if( obj == 0 )
-		OIS_EXCEPT(E_InputDeviceNonExistant, "No devices match requested type.");
+		OIS_EXCEPT(OIS::E_InputDeviceNonExistant, "No devices match requested type.");
 	
 	return obj;
 }
 
 //--------------------------------------------------------------------------------//
-void RemoteInputManager::destroyObject(Object* obj)
+void InputManager::destroyObject(OIS::Object* obj)
 {
 	delete obj;
 }

@@ -20,30 +20,31 @@ restrictions:
 
     3. This notice may not be removed or altered from any source distribution.
 */
-#ifndef OIS_RemoteConnectionManager_H
-#define OIS_RemoteConnectionManager_H
+#ifndef RemoteOIS_ConnectionManager_H
+#define RemoteOIS_ConnectionManager_H
 
 #include <string>
 #include <map>
 
-#include "RemotePrereqs.h"
+#include "RemoteOISPrereqs.h"
 
-namespace OIS
+namespace RemoteOIS
 {
-	class RemoteConnectionManager
+	class _RemoteOISExport ConnectionManager
 	{
-		typedef std::map<std::string, RemoteConnection*> connection_map;
+		typedef std::map<std::string, Connection*> connection_map;
 
 	public:
-		static RemoteConnectionManager* getInstance();
-		RemoteConnection* find(const std::string& name);
+		static ConnectionManager* getInstance();
+		Connection* find(const std::string& name);
+		void add(Connection* connection, const std::string& name);
 
 	private:
-		RemoteConnectionManager() {}
-		RemoteConnectionManager(const RemoteConnectionManager&);
-		RemoteConnectionManager& operator=(const RemoteConnectionManager&);
+		ConnectionManager() {}
+		ConnectionManager(const ConnectionManager&);
+		ConnectionManager& operator=(const ConnectionManager&);
 		
-		static RemoteConnectionManager* sInstance;
+		static ConnectionManager* sInstance;
 		connection_map mConnections;
 	};
 }

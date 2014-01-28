@@ -20,46 +20,46 @@ restrictions:
 
     3. This notice may not be removed or altered from any source distribution.
 */
-#ifndef OIS_RemoteInputManager_H
-#define OIS_RemoteInputManager_H
+#ifndef RemoteOIS_InputManager_H
+#define RemoteOIS_InputManager_H
 
 #include <map>
 
 #include "OISInputManager.h"
 #include "OISFactoryCreator.h"
-#include "RemotePrereqs.h"
-#include "DefaultRemoteFactoryCreatorProtocol.h"
-#include "DefaultRemoteDeviceProtocol.h"
+#include "RemoteOISPrereqs.h"
+#include "RemoteOISDefaultFactoryCreatorProtocol.h"
+#include "RemoteOISDefaultDeviceProtocol.h"
 
-namespace OIS
+namespace RemoteOIS
 {
-	class RemoteInputManager : public InputManager, public FactoryCreator
+	class _RemoteOISExport InputManager : public OIS::InputManager, public OIS::FactoryCreator
 	{
 	public:
-		RemoteInputManager();
+		InputManager();
 
 		/**
 		@remarks
-			Creates appropriate input system dependent on platform. 
+			Creates input system. Hides OIS::InputManager::createInputSystem
 		@param paramList
-			ParamList contains OS specific info (such as HWND and HINSTANCE for window apps),
-			and access mode.
+			ParamList contains connection name as stored in ConnectionManager
 		@returns
 			A pointer to the created manager, or raises Exception
 		*/
-		static RemoteInputManager* createInputSystem( ParamList &paramList );
+		static InputManager* createInputSystem( OIS::ParamList &paramList );
 
 		/**
 		@remarks
-			Creates appropriate input system dependent on platform. 
-		@param paramList
-			ParamList contains OS specific info (such as HWND and HINSTANCE for window apps),
-			and access mode.
+			Creates input system. Hides OIS::InputManager::createInputSystem
+		@param connection
+			A connection to the remote window
+		@param protocol
+			The protocol to use when sending device information requests
 		@returns
 			A pointer to the created manager, or raises Exception
 		*/
-		static RemoteInputManager* createInputSystem( RemoteConnection* connection, 
-			RemoteFactoryCreatorProtocol* protocol = new DefaultRemoteFactoryCreatorProtocol() );
+		static InputManager* createInputSystem( Connection* connection, 
+			FactoryCreatorProtocol* protocol = new DefaultFactoryCreatorProtocol() );
 
 		/**
 		@remarks
@@ -67,51 +67,51 @@ namespace OIS
 		@param manager
 			Manager to destroy
 		*/
-		static void destroyInputSystem(RemoteInputManager* manager);
+		static void destroyRemoteInputSystem(InputManager* manager);
 
 		//FactoryCreator Overrides
 		/** @copydoc FactoryCreator::deviceList */
-		DeviceList freeDeviceList();
+		virtual OIS::DeviceList freeDeviceList();
 
 		/** @copydoc FactoryCreator::totalDevices */
-		int totalDevices(Type iType);
+		virtual int totalDevices(OIS::Type iType);
 
 		/** @copydoc FactoryCreator::freeDevices */
-		int freeDevices(Type iType);
+		virtual int freeDevices(OIS::Type iType);
 
 		/** @copydoc FactoryCreator::vendorExist */
-		bool vendorExist(Type iType, const std::string & vendor);
+		virtual bool vendorExist(OIS::Type iType, const std::string & vendor);
 
 		/** @copydoc FactoryCreator::createObject */
-		Object* createObject(InputManager* creator, Type iType, bool bufferMode,
+		virtual OIS::Object* createObject(OIS::InputManager* creator, OIS::Type iType, bool bufferMode,
 			const std::string & vendor = "");
 
-		Object* createObject(InputManager* creator, RemoteDeviceProtocol* protocol, bool bufferMode,
+		OIS::Object* createObject(OIS::InputManager* creator, DeviceProtocol* protocol, bool bufferMode,
 			const std::string & vendor = "");
 
 		/** @copydoc FactoryCreator::destroyObject */
-		void destroyObject(Object* obj);
+		virtual void destroyObject(OIS::Object* obj);
 
 	protected:
 		/**
 		@remarks
 			Derived classes must provide input system name
 		*/
-		RemoteInputManager(const std::string& name);
+		InputManager(const std::string& name);
 
 		/**
 		@remarks
 			Virtual Destructor - this base class will clean up all devices still opened in mFactoryObjects list
 		*/
-		virtual ~RemoteInputManager();
+		virtual ~InputManager();
 
-		void _initialize(ParamList& paramList);
+		virtual void _initialize(OIS::ParamList& paramList);
 
-		void _initialize(RemoteConnection* connection, RemoteFactoryCreatorProtocol* protocol);
+		void _initialize(Connection* connection, FactoryCreatorProtocol* protocol);
 
-		RemoteConnection* mConnection;
+		Connection* mConnection;
 
-		RemoteFactoryCreatorProtocol* mProtocol;
+		FactoryCreatorProtocol* mProtocol;
 
 		bool mKeyboardUsed;
 
