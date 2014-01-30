@@ -3,6 +3,6 @@
 #undef main
 int main(int argc, char **argv)
 {
-    ServerApp app;
+    Server app;
     return app.run();
 }

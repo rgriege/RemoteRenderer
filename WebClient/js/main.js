@@ -8,6 +8,35 @@
 
     var renderSocket;
     var videoPlayer;
+
+    var serverSocket = new WebSocket('ws://192.168.0.75:9001');
+    var gameSelected = false;
+    var gamePort;
+    serverSocket.onmessage = function (serverMsg) {
+        if (!gameSelected) {
+            serverSocket.send('ObjectBrowser');
+            gameSelected = true;
+        } else {
+            gamePort = parseInt(serverMsg.data);
+            // Setup the WebSocket connection and start the player
+            renderSocket = new WebSocket('ws://192.168.0.75:' + gamePort);
+            inputSocket = new WebSocket('ws://192.168.0.75:' + (gamePort + 1));
+            inputSocket.onmessage = function (inputMsg) {
+                var f = new FileReader();
+                f.readAsText(inputMsg.data);
+                f.onload = function () {
+                    if (inputSocket.readyState !== inputSocket.OPEN)
+                        return;
+                    if (this.result.charCodeAt(0) === 77)
+                        inputSocket.send(mouse.stringify());
+                    else if (this.result.charCodeAt(0) === 75)
+                        inputSocket.send(keyboard.stringify());
+                };
+                f.onerror = function (e) { console.log("Error", e); };
+            };
+            videoPlayer = new jsmpeg.Player(renderSocket, { canvas: canvas, renderer: 'webgl' });
+        }
+    };
     
     var footer = $('#footer');
     function detectFooterRequest() {
@@ -27,37 +56,6 @@
     footer.mouseleave(function() { footerTimeout = setTimeout(hideFooter, 2000); });
     footer.mouseenter(function() { clearTimeout(footerTimeout); });
     var footerTimeout = setTimeout(hideFooter, 2000);
-
-    var connectBtn = $('#connectBtn');
-    var playing = false;
-    connectBtn.click(function() {
-        if (!playing) {
-            // Setup the WebSocket connection and start the player
-            renderSocket = new WebSocket('ws://192.168.0.75:9002');
-            inputSocket = new WebSocket('ws://192.168.0.75:9003');
-            inputSocket.onmessage = function(msg) {
-                var f = new FileReader();
-                f.readAsText(msg.data);
-                f.onload = function() {
-                    if (inputSocket.readyState !== inputSocket.OPEN)
-                        return;
-                    if (this.result.charCodeAt(0) === 77)
-                        inputSocket.send(mouse.stringify());
-                    else if (this.result.charCodeAt(0) === 75)
-                        inputSocket.send(keyboard.stringify());
-                };
-                f.onerror = function(e) { console.log("Error", e); };
-            };
-            videoPlayer = new jsmpeg.Player(renderSocket, { canvas: canvas, renderer: 'webgl' });
-            playing = true;
-            this.src = 'images/pause.png';
-        } else {
-            renderSocket.close();
-            inputSocket.close();
-            playing = false;
-            this.src = 'images/play.png';
-        }
-    });
 
     var TimeSpan = function () {
         var now = Date.now();
