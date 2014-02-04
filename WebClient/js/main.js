@@ -1,8 +1,7 @@
 ﻿require(['domReady!', 'jsmpeg', 'ois', 'game', 'jquery'], function (doc, jsmpeg, ois, game) {
     // Show loading notice
     var canvas = doc.getElementById("videoCanvas");
-    var contextType = '2d';
-    var context = canvas.getContext(contextType);
+    var contextType = 'webgl';
     var videoPlayer;
 
     var serverSocket = new WebSocket('ws://192.168.0.75:9001');
@@ -11,33 +10,29 @@
     var libIdx = 0;
     var loadLibrary = function (obj) {
         library = obj;
-        console.log(library.length + ' Games');
         var wait = Math.max(connectionTime + maxWait - Date.now(), maxWait);
         setTimeout(loadLibraryView, wait);
     };
     var currentGame;
     var unloadGame = function (callback) {
-        currentGame.close();
+        if (currentGame && currentGame.active)
+            currentGame.close();
         $('#library').fadeOut(400, callback);
     };
     var loadGame = function(idx, callback) {
-        $('#name').text(library[0]['Name']);
-        var preview = new Image();
-        preview.src = library[0]['Preview'];
-        context.fillStyle = "black";
-        context.fillRect(0, 0, canvas.width, canvas.height);
-        context.drawImage(preview, (canvas.width - preview.width) / 2, (canvas.height - preview.height)/2);
-        $('#description').text(library[0]['Summary']);
+        $('#name').text(library[idx]['Name']);
+        $('#preview').attr('src', library[idx]['Preview']);
+        $('#description').text(library[idx]['Summary']);
         $('#library').fadeIn(400, callback);
     };
     $('#rightArrow').click(function() {
         unloadGame(function() {
-            loadGame((libIdx + 1) % library.length);
+            loadGame(++libIdx % library.length);
         });
     });
     $('#leftArrow').click(function () {
         unloadGame(function () {
-            loadGame(libIdx-1 === -1 ? library.length-1 : libIdx-1);
+            loadGame(--libIdx === -1 ? library.length-1 : libIdx);
         });
     });
     var loadLibraryView = function () {
@@ -65,6 +60,8 @@
         }, wait);
     };
     $('#play').click(function () {
+        $('#loader h3').text('Loading Game...');
+        $('#library').fadeOut(400, function() { $('#loader').fadeIn(400); });
         console.log($('#play').text());
         serverSocket.send($('#play').text());
     });
@@ -76,16 +73,14 @@
         var inputSocket = new WebSocket('ws://192.168.0.75:' + (gamePort + 1));
 
         currentGame = game.create(canvas, contextType, renderSocket, inputSocket);
+        currentGame.onload = function() {
+            $('#loader').fadeOut(400, function() { $('#videoCanvas').fadeIn(400); });
+        };
     };
-
-    var windowKeyboard = new ois.Keyboard(window);
-    windowKeyboard.setEventListener({
-        keyPressed: function (keyCode) {
-            if (keyCode == ois.KeyCode.KC_TAB && windowKeyboard.keydown(ois.KeyCode.KC_LSHIFT))
-                $('#footer').toggle();
-        },
-        keyReleased: function () {}
-    });
+    window.onkeydown = function (key) {
+        if (key.keyCode === 9 && key.shiftKey && currentGame && currentGame.active())
+            $('#footer').toggle();
+    };
     $('#footer').hide();
 
     var TimeSpan = function () {

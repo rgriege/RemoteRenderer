@@ -220,7 +220,6 @@ define(['domReady!'], function (document) {
     jsmpeg.prototype.onlostconnection = null;
 
     jsmpeg.prototype.initSocketClient = function () {
-        console.log("socket open!");
         this.buffer = new BitReader(new ArrayBuffer(this.socketBufferSize));
 
         this.nextPictureBuffer = new BitReader(new ArrayBuffer(this.socketBufferSize));

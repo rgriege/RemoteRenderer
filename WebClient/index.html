@@ -1,271 +1,13 @@
 <!DOCTYPE html>
 <style>
-    h1 {
-        background-color: #F1D6BF;
-        box-shadow: inset 0 0 10px #A34000;
-        color: #A34000;
-        border: 1px solid black;
-    }
 
-    p { color: #a34000; }
-
-    h2 {
-        background-color: #a34000;
-        color: #f1d6bf;
-        box-shadow: inset 0 0 5px #f1d6bf;
-        border: 1px solid #402011
-    }
-
-    h3, #leftHeader, button { color: #F1D6BF; }
-
-    #sliderNum, select {
-        color: #a34000;
-        background-color: #F1D6BF;
-        border: 1px solid gray;
-    }
-
-    .displayBox {
-        background-color: #fff;
-        box-shadow: inset 0 0 10px black;
-        border: 1px solid white;
-    }
-
-    .infoGroup, button {
-        background-color: #A34000;
-        border: 1px solid black;
-        box-shadow: inset 0 0 5px #f1d6bf;
-    }
-
-    .infoGroup2 {
-        background-color: #F1D6BF;
-        border: 1px solid black;
-    }
-
-    ::-webkit-scrollbar-track {
-        background-color: #F1D6BF;
-        /*box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-    background: #4D6137;
-    border: 1px solid black;*/
-    }
-
-    ::-webkit-scrollbar-thumb {
-        background-color: #CC9663;
-        /*border: 1px solid black;
-    background: #A8C983;
-    box-shadow: inset 0 0 6px rgba(0,0,0,0.5);*/
-    }
-
-    body {
-        text-align: center;
-        font-family: arial, sans-serif;
-        background-color: #333;
-        background-size: cover;
-    }
-
-    h1 {
-        padding: 0px;
-        margin: 0px;
-        border-radius: 12px;
-        font-size: 16px;
-    }
-
-    h2 {
-        padding: 2px;
-        margin: 0px;
-        font-size: 16px;
-        border-radius: 12px;
-        /*background-color: #779656;
-  border: 1px solid black;
-  box-shadow: inset 0 0 0 2px #A8C983;*/
-    }
-
-    h3 {
-        padding: 2px;
-        margin: 0px;
-        font-size: 16px;
-    }
-
-    p {
-        text-align: left;
-        margin: 10px 5px;
-        max-height: 100px;
-        overflow: auto;
-        font-size: 14px;
-    }
-
-    .displayBox {
-        /*background-color: white;
-  border: 1px solid #E66000;*/
-        border-radius: 12px;
-        padding: 5px 5px 4px 5px;
-    }
-
-    #info {
-        width: 660px;
-        height: 640px;
-        display: block;
-        margin: auto;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        position: fixed;
-        background-color: rgba(51, 51, 51, 0.5);
-    }
-
-    #leftArrow {
-        opacity: 0.7;
-        top: 0;
-        left: 0;
-        right: 60%;
-        bottom: 0;
-        margin: auto;
-        position: fixed;
-    }
-
-    #leftArrow:hover, #rightArrow:hover {
-        opacity: 1;
-    }
-
-    #rightArrow {
-        opacity: 0.7;
-        top: 0;
-        left: 60%;
-        right: 0;
-        bottom: 0;
-        margin: auto;
-        position: fixed;
-    }
-
-    .infoGroup {
-        /*border: 1px solid black;
-  background-color: #A34000;*/
-        border-radius: 12px;
-        margin-bottom: 3px;
-        /*box-shadow: inset 0 0 0 1px #CC9663;*/
-    }
-
-    .infoGroup2 {
-        /*background: #A8C983;
-  border: 1px solid black;*/
-        margin: 1px;
-        padding: 0px;
-        border-radius: 12px;
-        height: 95%;
-    }
-
-    #name {
-        margin-bottom: 1px;
-        padding: 5px 0 1px;
-        font-size: 32px;
-        /*box-shadow: inset 0 3px 0.4em 0.01em 
-    rgba(204, 85, 0, 0.7);*/
-    }
-
-    #play {
-        font-size: 28px;
-        cursor: pointer;
-    }
-
-    select {
-        /*color: black;
-  background-color: #CC9663;
-  border: 1px solid black;*/
-        border-radius: 5px;
-        padding: 0 4px;
-        width: 95%;
-        margin: 1px 2.5% 2px 2.5%;
-        text-align: left;
-    }
-
-    button {
-        /*background: linear-gradient(#e66000, #e2650f);
-  background-color: #A8C983;*/
-        border: 1px solid black;
-        border-radius: 8px;
-        padding: 2px 8px;
-        margin: 2px;
-        /*color: white;*/
-    }
-
-    button:hover { /*background: linear-gradient(#e2650f, #e66000);*/ }
-
-    ::-webkit-scrollbar {
-        width: 10px;
-        height: 10px;
-    }
-
-    ::-webkit-scrollbar-track {
-        /*box-shadow: inset 0 0 6px rgba(0,0,0,0.3);*/
-        border-radius: 3px;
-        /*background: #4D6137;
-    border: 1px solid black;*/
-    }
-
-    ::-webkit-scrollbar-thumb {
-        border-radius: 10px;
-        /*border: 1px solid black;
-    background: #A8C983; 
-    box-shadow: inset 0 0 6px rgba(0,0,0,0.5); */
-    }
-
-    #leftHeader {
-        font-weight: bold;
-        float: left;
-        margin: 4px;
-    }
-
-    #slider {
-        clear: both;
-        height: 10px;
-        overflow-x: scroll;
-        overflow-y: hidden;
-        margin: 4px;
-    }
-
-    #sliderNum {
-        /*background-color: #F1D6BF;
-  border: 1px solid black;*/
-        border-radius: 5px;
-        padding: 2px 8px;
-        float: right;
-        margin: 4px;
-        font-size: 14px;
-        min-width: 50px;
-        text-align: left;
-    }
-
-    #menu {
-        width: 120px;
-        height: 170px;
-        margin: auto;
-        top: 0;
-        right: 10px;
-        bottom: 0;
-        position: fixed;
-    }
-
-    #bottom {
-        margin: 5px;
-        width: 650px;
-        height: 130px;
-    }
-
-    #top {
-        margin: 5px;
-        height: 490px;
-        width: 650px;
-    }
-
-    #library {
-        display: none;
-    }
 </style>
 <html>
     <head>
         <meta name="viewport" content="width=320, initial-scale=1" />
         <title>jsmpeg streaming</title>
-        <link rel="stylesheet" href="styles/style.css"/>
+        <link rel="stylesheet" href="styles/library.css"/>
+        <link rel="stylesheet" href="styles/footer.css"/>
         <link rel="stylesheet" href="styles/bar.css"/>
     </head>
     <body>
@@ -279,17 +21,10 @@
             <img id="leftArrow" src='images/left.png'/>
             <div id='info' class='displayBox'>
                 <div id='top' class='infoGroup'>
-                    <canvas id="videoCanvas" width="640" height="480" tabindex="1">
-                        <p>
-                            Please use a browser that supports the Canvas Element, like
-                            <a href="http://www.google.com/chrome">Chrome</a>,
-                            <a href="http://www.mozilla.com/firefox/">Firefox</a>,
-                            <a href="http://www.apple.com/safari/">Safari</a> or Internet Explorer 10
-                        </p>
-                    </canvas>
+                    <img id="preview"/>
                 </div>
                 <div id='bottom' class='infoGroup'>
-                    <div class='infoGroup2'>
+                    <div class='infoSubGroup'>
                         <h2 id='play'>Object Browser</h2>
                         <p id='description'>
                             Semester: Spring 2013
@@ -304,6 +39,14 @@
             </div>
             <img id='rightArrow' src='images/right.png'/>
         </div>
+        <canvas id="videoCanvas" width="640" height="360" tabindex="1">
+            <p>
+                Please use a browser that supports the Canvas Element, like
+                <a href="http://www.google.com/chrome">Chrome</a>,
+                <a href="http://www.mozilla.com/firefox/">Firefox</a>,
+                <a href="http://www.apple.com/safari/">Safari</a> or Internet Explorer 10
+            </p>
+        </canvas>
         <table id="statsTbl">
             <tr><th colspan="2">App Stats</th></tr>
             <tr><th>Ping</th><td id="pingCell">0</td></tr>

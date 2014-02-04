@@ -5,6 +5,7 @@
         this.inputSocket = inputSocket;
         var mouse = new ois.Mouse(canvas);
         var keyboard = new ois.Keyboard(canvas);
+        this.active = true;
 
         this.inputSocket.onmessage = function (inputMsg) {
             var f = new FileReader();
@@ -20,12 +21,26 @@
             f.onerror = function (e) { console.log("Error", e); };
         };
 
-        var videoPlayer = new jsmpeg.Player(renderSocket, { canvas: canvas, renderer: contextType });
+        this.videoPlayer = new jsmpeg.Player(renderSocket, { canvas: canvas, renderer: contextType });
+        //var onload = this.onload;
+        renderSocket.onopen = function() {
+            console.log("game connected!");
+            this.videoPlayer.initSocketClient();
+            if (this.onload)
+                this.onload();
+        }.bind(this);
     };
 
     Game.prototype.close = function() {
         this.renderSocket.close();
         this.inputSocket.close();
+        this.active = false;
+        if (this.onexit)
+            this.onexit();
+    };
+
+    Game.prototype.active = function() {
+        return this.active;
     };
 
     return {

@@ -1,23 +1,4 @@
-﻿body {
-    /*background: #444;*/
-    background-image: url('../images/bg.jpg');
-    text-align: center;
-    margin: 0;
-}
-
-canvas {
-    margin: 5px;
-    /*background: #333;
-    margin: auto;
-    left: 0;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    position: fixed;
-    border: #C08717 solid 1px;*/
-}
-
-#statsTbl {
+﻿#statsTbl {
     background: #333;
     color: white;
     top: 10px;
