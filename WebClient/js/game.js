@@ -35,12 +35,6 @@
         this.renderSocket.close();
         this.inputSocket.close();
         this.active = false;
-        if (this.onexit)
-            this.onexit();
-    };
-
-    Game.prototype.active = function() {
-        return this.active;
     };
 
     return {

@@ -15,8 +15,6 @@
     };
     var currentGame;
     var unloadGame = function (callback) {
-        if (currentGame && currentGame.active)
-            currentGame.close();
         $('#library').fadeOut(400, callback);
     };
     var loadGame = function(idx, callback) {
@@ -70,6 +68,7 @@
         gamePort = parseInt(serverMsg.data);
         // Setup the WebSocket connection and start the player
         var renderSocket = new WebSocket('ws://192.168.0.75:' + gamePort);
+        renderSocket.onclose = closeGame;
         var inputSocket = new WebSocket('ws://192.168.0.75:' + (gamePort + 1));
 
         currentGame = game.create(canvas, contextType, renderSocket, inputSocket);
@@ -78,10 +77,16 @@
         };
     };
     window.onkeydown = function (key) {
-        if (key.keyCode === 9 && key.shiftKey && currentGame && currentGame.active())
+        if (key.keyCode === 9 && key.shiftKey && currentGame && currentGame.active)
             $('#footer').toggle();
     };
     $('#footer').hide();
+    var closeGame = function () {
+        $('#footer').hide();
+        currentGame.close();
+        $('#videoCanvas').fadeOut(400, function () { $('#library').fadeIn(400); });
+    };
+    $('#stopBtn').click(closeGame);
 
     var TimeSpan = function () {
         var now = Date.now();
