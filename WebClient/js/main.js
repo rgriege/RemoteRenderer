@@ -1,61 +1,112 @@
 ﻿require(['domReady!', 'jsmpeg', 'ois', 'jquery'], function(doc, jsmpeg, ois) {
     // Show loading notice
-    var canvas = doc.getElementById('videoCanvas');
-
-    var mouse = new ois.Mouse(canvas);
-    var keyboard = new ois.Keyboard(canvas);
-    var inputSocket;
-
-    var renderSocket;
+    var canvas = doc.getElementById("videoCanvas");
+    var contextType = '2d';
     var videoPlayer;
 
     var serverSocket = new WebSocket('ws://192.168.0.75:9001');
-    var gameSelected = false;
     var gamePort;
-    serverSocket.onmessage = function (serverMsg) {
-        if (!gameSelected) {
-            serverSocket.send('ObjectBrowser');
-            gameSelected = true;
-        } else {
-            gamePort = parseInt(serverMsg.data);
-            // Setup the WebSocket connection and start the player
-            renderSocket = new WebSocket('ws://192.168.0.75:' + gamePort);
-            inputSocket = new WebSocket('ws://192.168.0.75:' + (gamePort + 1));
-            inputSocket.onmessage = function (inputMsg) {
-                var f = new FileReader();
-                f.readAsText(inputMsg.data);
-                f.onload = function () {
-                    if (inputSocket.readyState !== inputSocket.OPEN)
-                        return;
-                    if (this.result.charCodeAt(0) === 77)
-                        inputSocket.send(mouse.stringify());
-                    else if (this.result.charCodeAt(0) === 75)
-                        inputSocket.send(keyboard.stringify());
-                };
-                f.onerror = function (e) { console.log("Error", e); };
-            };
-            videoPlayer = new jsmpeg.Player(renderSocket, { canvas: canvas, renderer: 'webgl' });
-        }
+    var library;
+    var libIdx = 0;
+    var loadLibrary = function (obj) {
+        library = obj;
+        console.log(library.length + ' Games');
+        var wait = Math.max(connectionTime + maxWait - Date.now(), maxWait);
+        setTimeout(loadLibraryView, wait);
     };
-    
-    var footer = $('#footer');
-    function detectFooterRequest() {
-        window.onmousemove = function(evt) {
-            if (evt.clientY > window.innerHeight - 20) {
-                footer.slideDown(500);
-                window.onmousemove = null;
-            }
+    var unloadGame = function(callback) {
+        $('#library').fadeOut(400, callback);
+    };
+    var loadGame = function(idx, callback) {
+        $('#name').text(library[0]['Name']);
+        var preview = new Image();
+        preview.src = library[0]['Preview'];
+        canvas.getContext(contextType).fillStyle = "black";
+        canvas.getContext(contextType).fillRect(0, 0, canvas.width, canvas.height);
+        canvas.getContext(contextType).drawImage(preview, (canvas.width - preview.width) / 2, (canvas.height - preview.height)/2);
+        $('#description').text(library[0]['Summary']);
+        $('#library').fadeIn(400, callback);
+    };
+    $('#rightArrow').click(function() {
+        unloadGame(function() {
+            loadGame((libIdx + 1) % library.length);
+        });
+    });
+    $('#leftArrow').click(function () {
+        unloadGame(function () {
+            loadGame(libIdx-1 === -1 ? library.length-1 : libIdx-1);
+        });
+    });
+    var loadLibraryView = function () {
+        serverSocket.onmessage = listenForGameMsg;
+        $('#loader').fadeOut(400, function () {
+            loadGame(0);
+        });
+    };
+    var maxWait = 500;
+    var connectionTime;
+    var listenForLibraryMsg = function (msg) {
+        var f = new FileReader();
+        f.readAsText(msg.data);
+        f.onload = function () { loadLibrary(JSON.parse(this.result)); };
+        f.onerror = function (e) { console.log("Error", e); };
+    };
+    var pageLoadTime = Date.now();
+    serverSocket.onopen = function () {
+        var now = Date.now();
+        var wait = Math.min(Math.max(pageLoadTime + maxWait - now, 0), maxWait);
+        connectionTime = now + wait;
+        serverSocket.onmessage = listenForLibraryMsg;
+        setTimeout(function() {
+            $('#loader h3').text('Loading Library...');
+        }, wait);
+    };
+    $('#play').click(function () {
+        console.log($('#play').text());
+        serverSocket.send($('#play').text());
+    });
+
+    var listenForGameMsg = function (serverMsg) {
+        gamePort = parseInt(serverMsg.data);
+        // Setup the WebSocket connection and start the player
+        var renderSocket = new WebSocket('ws://192.168.0.75:' + gamePort);
+        var inputSocket = new WebSocket('ws://192.168.0.75:' + (gamePort + 1));
+
+        var mouse = new ois.Mouse(canvas);
+        var keyboard = new ois.Keyboard(canvas);
+
+        /*renderSocket.onopen = function() {
+            var res = $('#resolutionList .selected').attr('data-value').split('x');
+            canvas.width = res[0];
+            canvas.height = res[1];
+        };*/
+
+        inputSocket.onmessage = function (inputMsg) {
+            var f = new FileReader();
+            f.readAsText(inputMsg.data);
+            f.onload = function () {
+                if (inputSocket.readyState !== inputSocket.OPEN)
+                    return;
+                if (this.result.charCodeAt(0) === 77)
+                    inputSocket.send(mouse.stringify());
+                else if (this.result.charCodeAt(0) === 75)
+                    inputSocket.send(keyboard.stringify());
+            };
+            f.onerror = function (e) { console.log("Error", e); };
         };
-    }
-    function hideFooter() {
-        if (list.is(':visible'))
-            list.hide(0, function() { footer.slideUp(500, detectFooterRequest);});
-        else
-            footer.slideUp(500, detectFooterRequest);
-    }
-    footer.mouseleave(function() { footerTimeout = setTimeout(hideFooter, 2000); });
-    footer.mouseenter(function() { clearTimeout(footerTimeout); });
-    var footerTimeout = setTimeout(hideFooter, 2000);
+
+        videoPlayer = new jsmpeg.Player(renderSocket, { canvas: canvas, renderer: contextType });
+    };
+
+    var windowKeyboard = new ois.Keyboard(window);
+    windowKeyboard.setEventListener({
+        keyPressed: function (keyCode) {
+            if (keyCode == ois.KeyCode.KC_TAB && windowKeyboard.keydown(ois.KeyCode.KC_LSHIFT))
+                $('#footer').toggle();
+        },
+        keyReleased: function () {}
+    });
+    $('#footer').hide();
 
     var TimeSpan = function () {
         var now = Date.now();
@@ -195,7 +246,6 @@
             if (btn.text() === 'Fullscreen')
                 canvas.style.border = '#C08717 solid 1px';
             btn.text($(this).text());
-            footerTimeout = setTimeout(hideFooter, 2000);
         }
     });
 });

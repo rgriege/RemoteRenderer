@@ -45,7 +45,8 @@ private:
     void _initServer();
 	void _initOis(bool local);
 
-    void _onOpen(connection_hdl hdl, bool render);
+    void _onRenderOpen(connection_hdl hdl);
+    void _onInputOpen(connection_hdl hdl);
     void _onClose(connection_hdl hdl);
 
     Ogre::Log* ogreLog;

@@ -6,14 +6,15 @@
 }
 
 canvas {
-    background: #333;
+    margin: 5px;
+    /*background: #333;
     margin: auto;
     left: 0;
     top: 0;
     right: 0;
     bottom: 0;
     position: fixed;
-    border: #C08717 solid 1px;
+    border: #C08717 solid 1px;*/
 }
 
 #statsTbl {
