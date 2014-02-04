@@ -1,4 +1,4 @@
-﻿require(['domReady!', 'jsmpeg', 'ois', 'jquery'], function(doc, jsmpeg, ois) {
+﻿require(['domReady!', 'jsmpeg', 'ois', 'game', 'jquery'], function (doc, jsmpeg, ois, game) {
     // Show loading notice
     var canvas = doc.getElementById("videoCanvas");
     var contextType = '2d';
@@ -15,7 +15,9 @@
         var wait = Math.max(connectionTime + maxWait - Date.now(), maxWait);
         setTimeout(loadLibraryView, wait);
     };
-    var unloadGame = function(callback) {
+    var currentGame;
+    var unloadGame = function (callback) {
+        currentGame.close();
         $('#library').fadeOut(400, callback);
     };
     var loadGame = function(idx, callback) {
@@ -73,30 +75,7 @@
         var renderSocket = new WebSocket('ws://192.168.0.75:' + gamePort);
         var inputSocket = new WebSocket('ws://192.168.0.75:' + (gamePort + 1));
 
-        var mouse = new ois.Mouse(canvas);
-        var keyboard = new ois.Keyboard(canvas);
-
-        /*renderSocket.onopen = function() {
-            var res = $('#resolutionList .selected').attr('data-value').split('x');
-            canvas.width = res[0];
-            canvas.height = res[1];
-        };*/
-
-        inputSocket.onmessage = function (inputMsg) {
-            var f = new FileReader();
-            f.readAsText(inputMsg.data);
-            f.onload = function () {
-                if (inputSocket.readyState !== inputSocket.OPEN)
-                    return;
-                if (this.result.charCodeAt(0) === 77)
-                    inputSocket.send(mouse.stringify());
-                else if (this.result.charCodeAt(0) === 75)
-                    inputSocket.send(keyboard.stringify());
-            };
-            f.onerror = function (e) { console.log("Error", e); };
-        };
-
-        videoPlayer = new jsmpeg.Player(renderSocket, { canvas: canvas, renderer: contextType });
+        currentGame = game.create(canvas, contextType, renderSocket, inputSocket);
     };
 
     var windowKeyboard = new ois.Keyboard(window);
