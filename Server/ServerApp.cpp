@@ -62,7 +62,7 @@ void Server::_onMessage(connection_hdl hdl, server::message_ptr msg)
     server::connection_ptr con = mServer.get_con_from_hdl(hdl);
     std::string name = msg->get_raw_payload();
     if (mConfig.hasGame(name)) {
-        std::cout << "Starting " << name << "on ports " << mNextPort << " & " << mNextPort+1 << std::endl;
+        std::cout << "Starting '" << name << "' on ports " << mNextPort << " & " << mNextPort+1 << std::endl;
         std::string path = mConfig.lookupGame(name).path;
 
         char remotePort[6];
@@ -87,7 +87,7 @@ void Server::_onMessage(connection_hdl hdl, server::message_ptr msg)
         PROCESS_INFORMATION pi;
         ZeroMemory(&pi, sizeof(pi));
 
-        if (!CreateProcess(path.c_str(), commandLine, NULL, NULL, false, 0, NULL, NULL, &si, &pi))
+        if (!CreateProcess(path.c_str(), commandLine, NULL, NULL, false, CREATE_NEW_CONSOLE, NULL, NULL, &si, &pi))
             printf("CreateProcess failed (%d).\n", GetLastError());
         delete[] commandLine;
 #else

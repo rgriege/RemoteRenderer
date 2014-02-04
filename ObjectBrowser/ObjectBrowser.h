@@ -7,6 +7,8 @@
 #include <RemoteOISWebSocketppConnection.h>
 #include <Encoder.h>
 #include <rgbData.h>
+#include <thread>
+
 extern "C" {
 #include <libavcodec\avcodec.h>
 }
@@ -43,6 +45,7 @@ private:
     bool _initOgre();
     void _createScene(bool local);
     void _initServer();
+    void _closeServer();
 	void _initOis(bool local);
 
     void _onRenderOpen(connection_hdl hdl);
@@ -64,7 +67,7 @@ private:
     const int frameRate;
     const int frameTime;
     int timeSinceLastFrame;
-	bool mShutdown;
+	std::atomic_bool mShutdown;
 
 	OIS::InputManager* mLocalInputMgr;
 	OIS::InputManager* mRemoteInputMgr;
@@ -79,11 +82,13 @@ private:
 	bool zooming;
 
 	server mInputServer;
+    std::thread* mInputThread;
 	connection_hdl mInputHdl;
 	std::mutex mInputConMtx;
 	std::condition_variable mInputConCv;
 
     server mRenderServer;
+    std::thread* mRenderThread;
 	connection_hdl mRenderHdl;
     std::mutex mRenderConMtx;
 

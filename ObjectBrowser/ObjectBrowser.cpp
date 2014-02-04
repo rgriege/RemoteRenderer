@@ -26,17 +26,24 @@ Ogre::Vector3 toSphere(Ogre::RenderTarget* wnd, float x, float y)
 ObjectBrowser::ObjectBrowser(char* remoteHost, char* remotePort, char* localPort, int fps)
     : mRemoteHost(remoteHost), mRemotePort(atoi(remotePort)), mLocalPort(atoi(localPort)), frameRate(fps),
       frameTime(1000/frameRate),
-      mShutdown(false),
       mZoomScale(30),
       rotating(false),
       zooming(false)
 {
+    mShutdown = false;
 }
 
 bool ObjectBrowser::run()
 {
-    if (!_initOgre())
+    mConnections = 0;
+    _initServer();
+    mRenderThread = new std::thread(std::bind(&server::run, &mRenderServer));
+    mInputThread = new std::thread(std::bind(&server::run, &mInputServer));
+
+    if (!_initOgre()) {
+        _closeServer();
         return false;
+    }
 
     _createScene(false);
 
@@ -48,13 +55,10 @@ bool ObjectBrowser::run()
 
     /* ffmpeg init, also try AV_CODEC_ID_H264 */
     encoder = new Encoder();
-    if (!encoder->bootstrap(AV_CODEC_ID_MPEG1VIDEO, renderTex->getWidth(), renderTex->getHeight(), frameRate))
-        exit(EXIT_FAILURE);
-
-    mConnections = 0;
-    _initServer();
-    std::thread t1(std::bind(&server::run, &mRenderServer));
-    std::thread t2(std::bind(&server::run, &mInputServer));
+    if (!encoder->bootstrap(AV_CODEC_ID_MPEG1VIDEO, renderTex->getWidth(), renderTex->getHeight(), frameRate)) {
+        _closeServer();
+        return false;
+    }
 
     _initOis(false);
 
@@ -91,10 +95,7 @@ bool ObjectBrowser::run()
     free(buffer.data);
     delete encoder;
 
-    mRenderServer.stop();
-    mInputServer.stop();
-    t1.join();
-    t2.join();
+    _closeServer();
 
     return true;
 }
@@ -294,6 +295,16 @@ void ObjectBrowser::_initServer()
     mInputServer.start_accept();
 }
 
+void ObjectBrowser::_closeServer()
+{
+    mRenderServer.stop();
+    mInputServer.stop();
+    mRenderThread->join();
+    mInputThread->join();
+    delete mRenderThread;
+    delete mInputThread;
+}
+
 void ObjectBrowser::_initOis(bool local)
 {
     if (local) {
@@ -354,4 +365,6 @@ void ObjectBrowser::_onClose(connection_hdl hdl)
 {
     std::cout << "socket closed!" << std::endl;
     --mConnections;
+    if (mConnections == 0)
+        mShutdown = true;
 }
