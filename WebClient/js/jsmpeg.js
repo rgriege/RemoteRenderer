@@ -192,7 +192,9 @@ define(['domReady!'], function (document) {
         else {
             this.YCbCrToRGBA();
         }
-        this.canvasContext.putImageData(this.currentRGBA, 0, 0);
+        this.canvasContext.putImageData(this.currentRGBA,
+            (this.canvas.width - this.sourceWidth) / 2,
+            (this.canvas.height - this.sourceHeight) / 2);
     };
 
     jsmpeg.prototype.resizeCanvas = function (width, height) {
@@ -204,7 +206,7 @@ define(['domReady!'], function (document) {
         if (gl) {
             gl.viewport(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight);
         } else {
-            
+            this.canvasContext.setTransform(1, 0, 0, 1, 0, 0);
         }
     };
 

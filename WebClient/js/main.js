@@ -2,6 +2,7 @@
     // Show loading notice
     var canvas = doc.getElementById("videoCanvas");
     var contextType = '2d';
+    var context = canvas.getContext(contextType);
     var videoPlayer;
 
     var serverSocket = new WebSocket('ws://192.168.0.75:9001');
@@ -21,9 +22,9 @@
         $('#name').text(library[0]['Name']);
         var preview = new Image();
         preview.src = library[0]['Preview'];
-        canvas.getContext(contextType).fillStyle = "black";
-        canvas.getContext(contextType).fillRect(0, 0, canvas.width, canvas.height);
-        canvas.getContext(contextType).drawImage(preview, (canvas.width - preview.width) / 2, (canvas.height - preview.height)/2);
+        context.fillStyle = "black";
+        context.fillRect(0, 0, canvas.width, canvas.height);
+        context.drawImage(preview, (canvas.width - preview.width) / 2, (canvas.height - preview.height)/2);
         $('#description').text(library[0]['Summary']);
         $('#library').fadeIn(400, callback);
     };
