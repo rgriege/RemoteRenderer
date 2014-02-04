@@ -2,6 +2,7 @@
 #include <fstream>
 
 #include "Config.h"
+#include "Base64.h"
 
 Game::Game(std::string name, std::string path, std::string summary, std::string preview)
     : name(name), path(path), summary(summary), preview(preview)
@@ -10,17 +11,20 @@ Game::Game(std::string name, std::string path, std::string summary, std::string 
 
 void Game::stringify(std::ostream& os) const
 {
-    os << "{\"Name\":\"" << name << "\",\"";
+    os << "{\"Name\":\"" << name << "\"";
     if (summary != "")
-        os << "Summary\":\"" << summary << "\",\"";
+        os << ",\"Summary\":\"" << summary << "\"";
     if (preview != "")
     {
-        os << "Preview\":\"";
-        std::ifstream previewIs(preview);
-        while(previewIs)
-            os << char(previewIs.get());
+        os << ",\"Preview\":\"data:image/png;base64,";
+        std::ifstream previewIs(preview, std::ios_base::binary);
+        size_t len = 15;
+        char buffer[15];
+        while(previewIs.read(buffer, len))
+            os << base64_encode(reinterpret_cast<unsigned char*>(buffer), len);
+        os << base64_encode(reinterpret_cast<unsigned char*>(buffer), previewIs.gcount()) << "\"";
     }
-    os << "\"}";
+    os << "}";
 }
 
 Game Game::create(std::map<std::string, std::string> params)
@@ -128,7 +132,7 @@ const Game& Config::lookupGame(std::string& name)
 
 void Config::stringify(std::ostream& os) const
 {
-    os << "{\"Games\":[";
+    os << "[";
     std::deque<Game>::const_iterator it = mGames.begin(), end = mGames.end();
     bool first = true;
     for ( ; it != end; ++it) {
@@ -138,5 +142,5 @@ void Config::stringify(std::ostream& os) const
             os << ',';
         it->stringify(os);
     }
-    os << "]}";
+    os << "]";
 }
