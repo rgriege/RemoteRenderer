@@ -29,7 +29,8 @@ using namespace RemoteOIS;
 
 //--------------------------------------------------------------------------------------------------//
 Mouse::Mouse( InputManager* creator, Connection* connection, bool buffered, DeviceProtocol* protocol )
-	: OIS::Mouse(creator->inputSystemName(), buffered, 0, creator), mConnection(connection), mProtocol(protocol)
+	: OIS::Mouse(creator->inputSystemName(), buffered, 0, creator), mConnection(connection),
+    mProtocol(protocol), mScalingInput(true)
 {
 	mConnection->addMessageListener(this);
 	mState.width = 0;
@@ -71,18 +72,20 @@ void Mouse::capture()
 	uint8_t buttonPressed = 0;
 	uint8_t buttonReleased = 0;
 
-	if(mState.width != mTempState.width)
-        mWidthScale = ((float) mState.width) / mTempState.width;
-	if(mState.height != mTempState.height)
-        mHeightScale = ((float) mState.height) / mTempState.height;
-	    
+    if (mScalingInput) {
+        if(mState.width != mTempState.width)
+            mWidthScale = ((float) mState.width) / mTempState.width;
+        if(mState.height != mTempState.height)
+            mHeightScale = ((float) mState.height) / mTempState.height;
+    }
+
 	if(mTempState.X.rel || mTempState.Y.rel || mTempState.Z.rel)
 	{
 		//printf("%i %i %i\n\n", mTempState.X.rel, mTempState.Y.rel, mTempState.Z.rel);
 
 		//Set new relative motion values
-		mState.X.rel = mTempState.X.rel * mWidthScale;
-		mState.Y.rel = mTempState.Y.rel * mHeightScale;
+        mState.X.rel = mScalingInput ? mTempState.X.rel * mWidthScale : mTempState.X.rel;
+        mState.Y.rel = mScalingInput ? mTempState.Y.rel * mHeightScale : mTempState.Y.rel;
 		mState.Z.rel = mTempState.Z.rel;
 		
 		//Update absolute position
@@ -151,7 +154,12 @@ void Mouse::interpret(WindowDataResponse response)
 	mUpdateCv.notify_one();
 }
 
-const OIS::MouseState& Mouse::getRawMouseState() const
+void Mouse::setScaling(bool scaling)
+{
+    mScalingInput = scaling;
+}
+
+OIS::MouseState Mouse::getRawMouseState() const
 {
     OIS::MouseState rawState = mState;
     rawState.width /= mWidthScale;

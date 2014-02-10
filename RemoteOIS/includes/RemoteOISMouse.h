@@ -60,7 +60,11 @@ namespace RemoteOIS
 
 		virtual void interpret(WindowDataResponse);
 
-        const OIS::MouseState& getRawMouseState() const;
+        bool scaling() { return mScalingInput; }
+
+        virtual void setScaling(bool scaling);
+
+        OIS::MouseState getRawMouseState() const;
 
 	protected:
 		Connection* mConnection;
@@ -74,8 +78,10 @@ namespace RemoteOIS
 		std::mutex mUpdateLock;
 
 		std::condition_variable mUpdateCv;
-
+ 
         float mWidthScale, mHeightScale;
+
+        bool mScalingInput;
 	};
 }
 
