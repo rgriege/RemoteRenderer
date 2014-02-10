@@ -26,7 +26,7 @@ using websocketpp::connection_hdl;
 class ObjectBrowser : public Ogre::FrameListener, public OIS::MouseListener, public OIS::KeyListener
 {
 public:
-    ObjectBrowser(char* remoteHost, char* remotePort, char* localPort, int fps = 30);
+    ObjectBrowser(std::string remoteHost = "", uint16_t remotePort = 0, uint16_t localPort = 0, int fps = 30);
 
     bool run();
 
@@ -43,10 +43,10 @@ private:
     typedef std::set<connection_hdl,boost::owner_less<connection_hdl>> con_list;
 
     bool _initOgre();
-    void _createScene(bool local);
+    void _createScene();
     void _initServer();
     void _closeServer();
-	void _initOis(bool local);
+	void _initOis();
 
     void _onRenderOpen(connection_hdl hdl);
     void _onInputOpen(connection_hdl hdl);
@@ -68,9 +68,9 @@ private:
     const int frameTime;
     int timeSinceLastFrame;
 	std::atomic_bool mShutdown;
+    bool mIsRemote;
 
-	OIS::InputManager* mLocalInputMgr;
-	OIS::InputManager* mRemoteInputMgr;
+	OIS::InputManager* mInputMgr;
 	OIS::Mouse* mMouse;
 	OIS::Keyboard* mKeyboard;
 
