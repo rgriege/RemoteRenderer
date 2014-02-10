@@ -18,7 +18,7 @@
         $('#library').fadeOut(400, callback);
     };
     var loadGame = function(idx, callback) {
-        $('#name').text(library[idx]['Name']);
+        $('#play').text(library[idx]['Name']);
         $('#preview').attr('src', library[idx]['Preview']);
         $('#description').text(library[idx]['Summary']);
         $('#library').fadeIn(400, callback);
