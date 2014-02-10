@@ -71,22 +71,24 @@ void Mouse::capture()
 	uint8_t buttonPressed = 0;
 	uint8_t buttonReleased = 0;
 
-	if(mState.width != mTempState.width) mState.width = mTempState.width;
-	if(mState.height != mTempState.height) mState.height = mTempState.height;
+	if(mState.width != mTempState.width)
+        mWidthScale = ((float) mState.width) / mTempState.width;
+	if(mState.height != mTempState.height)
+        mHeightScale = ((float) mState.height) / mTempState.height;
 	    
 	if(mTempState.X.rel || mTempState.Y.rel || mTempState.Z.rel)
 	{
 		//printf("%i %i %i\n\n", mTempState.X.rel, mTempState.Y.rel, mTempState.Z.rel);
 
 		//Set new relative motion values
-		mState.X.rel = mTempState.X.rel;
-		mState.Y.rel = mTempState.Y.rel;
+		mState.X.rel = mTempState.X.rel * mWidthScale;
+		mState.Y.rel = mTempState.Y.rel * mHeightScale;
 		mState.Z.rel = mTempState.Z.rel;
 		
 		//Update absolute position
-		mState.X.abs += mTempState.X.rel;
-		mState.Y.abs += mTempState.Y.rel;
-		mState.Z.abs += mTempState.Z.rel;
+		mState.X.abs += mState.X.rel;
+		mState.Y.abs += mState.Y.rel;
+		mState.Z.abs += mState.Z.rel;
 		
 		//Clip values to window
 		if(mState.X.abs > mState.width)
@@ -147,4 +149,16 @@ void Mouse::interpret(WindowDataResponse response)
 		mUpdated = true;
 	}
 	mUpdateCv.notify_one();
+}
+
+const OIS::MouseState& Mouse::getRawMouseState() const
+{
+    OIS::MouseState rawState = mState;
+    rawState.width /= mWidthScale;
+    rawState.X.abs /= mWidthScale;
+    rawState.X.rel /= mWidthScale;
+    rawState.height /= mHeightScale;
+    rawState.Y.abs /= mHeightScale;
+    rawState.Y.rel /= mHeightScale;
+    return rawState;
 }
