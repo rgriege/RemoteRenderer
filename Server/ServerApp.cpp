@@ -64,6 +64,7 @@ void Server::_onMessage(connection_hdl hdl, server::message_ptr msg)
     if (mConfig.hasGame(name)) {
         std::cout << "Starting '" << name << "' on ports " << mNextPort << " & " << mNextPort+1 << std::endl;
         std::string path = mConfig.lookupGame(name).path;
+        std::string directory = path.substr(0, path.rfind('/')+1);
 
         char remotePort[6];
         _itoa(con->get_port(), remotePort, 10);
@@ -87,7 +88,7 @@ void Server::_onMessage(connection_hdl hdl, server::message_ptr msg)
         PROCESS_INFORMATION pi;
         ZeroMemory(&pi, sizeof(pi));
 
-        if (!CreateProcess(path.c_str(), commandLine, NULL, NULL, false, CREATE_NEW_CONSOLE, NULL, NULL, &si, &pi))
+        if (!CreateProcess(path.c_str(), commandLine, NULL, NULL, false, CREATE_NEW_CONSOLE, NULL, directory.c_str(), &si, &pi))
             printf("CreateProcess failed (%d).\n", GetLastError());
         delete[] commandLine;
 #else
