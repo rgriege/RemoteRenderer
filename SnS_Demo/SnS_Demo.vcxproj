@@ -1,0 +1,163 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{D16A9FD4-8516-4679-84CF-F8F25742D1EF}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>SnS_Demo</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>..\Debug\</OutDir>
+    <TargetName>$(ProjectName)_d</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>..\bin\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>E:\Libraries\OGRE\include\OGRE;E:\Libraries\OGRE\include\OIS;E:\Libraries\bullet-2.82\install\include\bullet;E:\Libraries\SDL_mixer-1.2.12;E:\Libraries\SDL-1.2.15\include;E:\Libraries\SDL_net-1.2.8;E:\Libraries\cegui-0.7.9\include;E:\Documents\Ogre\RemoteRenderer\SnS_Demo\header;E:\Documents\Ogre\RemoteRenderer\RemoteOIS\includes;E:\Documents\Ogre\RemoteRenderer\Codec;E:\Libraries\websocketpp-0.3.x;E:\Libraries\ffmpeg\include;E:\Libraries\boost_1_51_0;E:\Documents\Ogre\RemoteRenderer\RemoteOgreFramework;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4251</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>E:\Libraries\OGRE\lib\$(Configuration);E:\Libraries\bullet-2.82\install-dynamic\lib;E:\Libraries\SDL_mixer-1.2.12\VisualC\$(Configuration);E:\Libraries\SDL-1.2.15\VisualC\$(Configuration);E:\Libraries\SDL-1.2.15\VisualC\SDLmain\$(Configuration);E:\Libraries\cegui-0.7.9\lib;E:\Documents\Ogre\RemoteRenderer\dll;E:\Libraries\ffmpeg\lib;E:\Libraries\boost_1_51_0\stage\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>OgreMain_d.lib;OIS_d.lib;RemoteOIS_d.lib;BulletDynamics_Debug.lib;BulletCollision_Debug.lib;LinearMath_Debug.lib;SDL.lib;SDL_mixer.lib;wsock32.lib;CEGUIBase_d.lib;CEGUIOgreRenderer_d.lib;avcodec.lib;avutil.lib;Codec_d.lib;libboost_thread-vc110-mt-gd-1_51.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>E:\Libraries\OGRE\include\OGRE;E:\Libraries\OGRE\include\OIS;E:\Libraries\bullet-2.82\install\include\bullet;E:\Libraries\SDL_mixer-1.2.12;E:\Libraries\SDL-1.2.15\include;E:\Libraries\SDL_net-1.2.8;E:\Libraries\cegui-0.7.9\include;E:\Documents\Ogre\RemoteRenderer\SnS_Demo\header;E:\Documents\Ogre\RemoteRenderer\RemoteOIS\includes;E:\Documents\Ogre\RemoteRenderer\Codec;E:\Libraries\websocketpp-0.3.x;E:\Libraries\ffmpeg\include;E:\Libraries\boost_1_51_0;E:\Documents\Ogre\RemoteRenderer\RemoteOgreFramework;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4251</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>E:\Libraries\OGRE\lib\$(Configuration);E:\Libraries\bullet-2.82\install-dynamic\lib;E:\Libraries\SDL_mixer-1.2.12\VisualC\$(Configuration);E:\Libraries\SDL-1.2.15\VisualC\$(Configuration);E:\Libraries\SDL-1.2.15\VisualC\SDLmain\$(Configuration);E:\Libraries\cegui-0.7.9\lib;E:\Documents\Ogre\RemoteRenderer\dll;E:\Libraries\boost_1_51_0\stage\lib;E:\Libraries\ffmpeg\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>OgreMain.lib;OIS.lib;RemoteOIS.lib;BulletDynamics.lib;BulletCollision.lib;LinearMath.lib;SDL.lib;SDL_mixer.lib;wsock32.lib;CEGUIBase.lib;CEGUIOgreRenderer.lib;avcodec.lib;avutil.lib;Codec.lib;libboost_thread-vc110-mt-1_51.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ImageHasSafeExceptionHandlers />
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="header\AppState.h" />
+    <ClInclude Include="header\AppStateManager.h" />
+    <ClInclude Include="header\Ball.h" />
+    <ClInclude Include="header\Blob.h" />
+    <ClInclude Include="header\Boss.h" />
+    <ClInclude Include="header\Box.h" />
+    <ClInclude Include="header\BoxChunk.h" />
+    <ClInclude Include="header\cd_wavefront.h" />
+    <ClInclude Include="header\Character.h" />
+    <ClInclude Include="header\CharacterCreateState.h" />
+    <ClInclude Include="header\CharacterSelectState.h" />
+    <ClInclude Include="header\Enemy.h" />
+    <ClInclude Include="header\FloatingNumber.h" />
+    <ClInclude Include="header\FloatingText.h" />
+    <ClInclude Include="header\float_math.h" />
+    <ClInclude Include="header\GameObject.h" />
+    <ClInclude Include="header\GameState.h" />
+    <ClInclude Include="header\Item.h" />
+    <ClInclude Include="header\ItemDatabase.h" />
+    <ClInclude Include="header\MenuState.h" />
+    <ClInclude Include="header\MotionState.h" />
+    <ClInclude Include="header\Plane.h" />
+    <ClInclude Include="header\Player.h" />
+    <ClInclude Include="header\Projectile.h" />
+    <ClInclude Include="header\pugiconfig.hpp" />
+    <ClInclude Include="header\pugixml.hpp" />
+    <ClInclude Include="header\RemoteOgreFramework.h" />
+    <ClInclude Include="header\Robot.h" />
+    <ClInclude Include="header\SoundManager.h" />
+    <ClInclude Include="header\SpacesAndShapes.h" />
+    <ClInclude Include="header\stdafx.h" />
+    <ClInclude Include="header\StringHelper.h" />
+    <ClInclude Include="header\World.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\AppStateManager.cpp" />
+    <ClCompile Include="src\Ball.cpp" />
+    <ClCompile Include="src\Blob.cpp" />
+    <ClCompile Include="src\Boss.cpp" />
+    <ClCompile Include="src\Box.cpp" />
+    <ClCompile Include="src\BoxChunk.cpp" />
+    <ClCompile Include="src\cd_wavefront.cpp" />
+    <ClCompile Include="src\Character.cpp" />
+    <ClCompile Include="src\CharacterCreateState.cpp" />
+    <ClCompile Include="src\CharacterSelectState.cpp" />
+    <ClCompile Include="src\Enemy.cpp" />
+    <ClCompile Include="src\FloatingNumber.cpp" />
+    <ClCompile Include="src\FloatingText.cpp" />
+    <ClCompile Include="src\float_math.cpp" />
+    <ClCompile Include="src\GameObject.cpp" />
+    <ClCompile Include="src\GameState.cpp" />
+    <ClCompile Include="src\Item.cpp" />
+    <ClCompile Include="src\ItemDatabase.cpp" />
+    <ClCompile Include="src\MenuState.cpp" />
+    <ClCompile Include="src\MotionState.cpp" />
+    <ClCompile Include="src\Plane.cpp" />
+    <ClCompile Include="src\Player.cpp" />
+    <ClCompile Include="src\Projectile.cpp" />
+    <ClCompile Include="src\pugixml.cpp" />
+    <ClCompile Include="src\RemoteOgreFramework.cpp" />
+    <ClCompile Include="src\Robot.cpp" />
+    <ClCompile Include="src\SoundManager.cpp" />
+    <ClCompile Include="src\SpacesAndShapes.cpp" />
+    <ClCompile Include="src\stdafx.cpp" />
+    <ClCompile Include="src\StringHelper.cpp" />
+    <ClCompile Include="src\World.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<enemies>
+  <enemy>
+    <name>Cube</name>
+    <mesh>sphere.mesh</mesh>
+    <health>100</health>
+    <damage>5</damage>
+    <attackspeed>1500</attackspeed>
+  </enemy>
+</enemies>

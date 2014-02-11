@@ -1,0 +1,3503 @@
+<?xml version="1.0"?>
+<map>
+  <tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='2301' y='0' z='-4244'/>
+	  <scale x='0.95' y='0.91' z='0.96'/>
+	  <yaw>-2.79253</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='1619' y='0' z='3444'/>
+	  <scale x='1.07' y='1.01' z='0.99'/>
+	  <yaw>0.698132</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='-519' y='0' z='771'/>
+	  <scale x='0.97' y='0.97' z='0.99'/>
+	  <yaw>2.70526</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='-2647' y='0' z='4497'/>
+	  <scale x='0.93' y='0.96' z='0.95'/>
+	  <yaw>-3.03687</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='-3472' y='0' z='3624'/>
+	  <scale x='0.93' y='0.99' z='1.02'/>
+	  <yaw>1.93732</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='-1632' y='0' z='3270'/>
+	  <scale x='0.99' y='0.9' z='1.05'/>
+	  <yaw>-1.6057</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='-2382' y='0' z='-4277'/>
+	  <scale x='0.91' y='1.01' z='0.96'/>
+	  <yaw>-0.610866</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='2488' y='0' z='-2621'/>
+	  <scale x='1' y='0.91' z='0.98'/>
+	  <yaw>0.767945</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='2034' y='0' z='-3500'/>
+	  <scale x='0.97' y='1.04' z='0.94'/>
+	  <yaw>0.0698132</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree4.mesh</mesh>
+	  <material>tree4.material</material>
+	  <position x='1491' y='0' z='-1257'/>
+	  <scale x='1.06' y='1.09' z='0.95'/>
+	  <yaw>1.8675</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='1437' y='0' z='-2449'/>
+	  <scale x='1.04' y='0.97' z='1.05'/>
+	  <yaw>0.488692</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='-605' y='0' z='3858'/>
+	  <scale x='1.03' y='1.05' z='1.07'/>
+	  <yaw>-1.58825</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree4.mesh</mesh>
+	  <material>tree4.material</material>
+	  <position x='1143' y='0' z='-572'/>
+	  <scale x='1.06' y='0.99' z='0.98'/>
+	  <yaw>0.890118</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='763' y='0' z='-557'/>
+	  <scale x='0.9' y='0.96' z='1.08'/>
+	  <yaw>0.925024</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='128' y='0' z='-182'/>
+	  <scale x='1.07' y='1.07' z='0.99'/>
+	  <yaw>-1.25664</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='2743' y='0' z='-1676'/>
+	  <scale x='1.09' y='1' z='0.93'/>
+	  <yaw>2.61799</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='644' y='0' z='1725'/>
+	  <scale x='1.04' y='1.09' z='0.95'/>
+	  <yaw>2.61799</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='3082' y='0' z='2669'/>
+	  <scale x='0.97' y='1.07' z='0.94'/>
+	  <yaw>-2.40855</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='1348' y='0' z='3804'/>
+	  <scale x='1.09' y='0.98' z='0.92'/>
+	  <yaw>2.28638</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='568' y='0' z='746'/>
+	  <scale x='1' y='1.01' z='0.92'/>
+	  <yaw>-2.44346</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='661' y='0' z='-3199'/>
+	  <scale x='0.9' y='0.95' z='1.08'/>
+	  <yaw>-0.523599</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree4.mesh</mesh>
+	  <material>tree4.material</material>
+	  <position x='3626' y='0' z='4444'/>
+	  <scale x='1.06' y='0.98' z='0.95'/>
+	  <yaw>0.733038</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='-2076' y='0' z='-1742'/>
+	  <scale x='0.9' y='0.94' z='0.92'/>
+	  <yaw>-0.0523599</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='-3101' y='0' z='-1548'/>
+	  <scale x='1.01' y='0.98' z='1'/>
+	  <yaw>-0.366519</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='-1119' y='0' z='2131'/>
+	  <scale x='0.9' y='1.04' z='1.03'/>
+	  <yaw>0.174533</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='2981' y='0' z='2199'/>
+	  <scale x='1.03' y='1.09' z='1.06'/>
+	  <yaw>-1.06465</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='2190' y='0' z='4668'/>
+	  <scale x='0.94' y='0.96' z='0.96'/>
+	  <yaw>-1.13446</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='2684' y='0' z='-2910'/>
+	  <scale x='0.97' y='1.06' z='0.92'/>
+	  <yaw>-2.51327</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='4179' y='0' z='4756'/>
+	  <scale x='0.98' y='1.02' z='0.97'/>
+	  <yaw>2.40855</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='-2991' y='0' z='-3341'/>
+	  <scale x='0.97' y='0.92' z='1'/>
+	  <yaw>3.07178</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='2713' y='0' z='4301'/>
+	  <scale x='1.09' y='1.05' z='0.91'/>
+	  <yaw>0.20944</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='4904' y='0' z='2721'/>
+	  <scale x='0.97' y='0.9' z='1.01'/>
+	  <yaw>0.331613</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='-3873' y='0' z='1228'/>
+	  <scale x='0.9' y='1.08' z='0.94'/>
+	  <yaw>-0.174533</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='2269' y='0' z='-2578'/>
+	  <scale x='0.94' y='1' z='0.91'/>
+	  <yaw>2.02458</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='2672' y='0' z='-3028'/>
+	  <scale x='0.92' y='0.95' z='0.95'/>
+	  <yaw>2.96706</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='1042' y='0' z='1640'/>
+	  <scale x='1' y='1.08' z='1.03'/>
+	  <yaw>-2.47837</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='3209' y='0' z='-2410'/>
+	  <scale x='1.02' y='1.06' z='1.09'/>
+	  <yaw>0.366519</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='3004' y='0' z='994'/>
+	  <scale x='1.06' y='1.03' z='0.99'/>
+	  <yaw>3.12414</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='-3140' y='0' z='2255'/>
+	  <scale x='1.03' y='0.94' z='1.09'/>
+	  <yaw>0.383973</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='4567' y='0' z='2621'/>
+	  <scale x='1.04' y='0.91' z='1.03'/>
+	  <yaw>-0.279253</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='3944' y='0' z='-741'/>
+	  <scale x='0.94' y='0.96' z='0.92'/>
+	  <yaw>-0.663225</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='-4132' y='0' z='-2158'/>
+	  <scale x='0.98' y='1.02' z='0.99'/>
+	  <yaw>2.93215</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='3036' y='0' z='-4502'/>
+	  <scale x='0.93' y='0.98' z='1.03'/>
+	  <yaw>0.837758</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='-3352' y='0' z='-2867'/>
+	  <scale x='0.96' y='0.97' z='1.04'/>
+	  <yaw>-2.61799</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree4.mesh</mesh>
+	  <material>tree4.material</material>
+	  <position x='-500' y='0' z='4529'/>
+	  <scale x='0.99' y='1.07' z='0.98'/>
+	  <yaw>-1.98968</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='-1967' y='0' z='-1697'/>
+	  <scale x='1.02' y='1.03' z='1.07'/>
+	  <yaw>2.14676</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='-3848' y='0' z='4125'/>
+	  <scale x='1.07' y='0.98' z='1.05'/>
+	  <yaw>1.32645</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='-2540' y='0' z='436'/>
+	  <scale x='0.94' y='0.9' z='0.91'/>
+	  <yaw>2.33874</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree4.mesh</mesh>
+	  <material>tree4.material</material>
+	  <position x='3050' y='0' z='3027'/>
+	  <scale x='1.04' y='0.92' z='1.06'/>
+	  <yaw>1.18682</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='-3957' y='0' z='3699'/>
+	  <scale x='0.93' y='0.98' z='0.92'/>
+	  <yaw>-0.0174535</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree4.mesh</mesh>
+	  <material>tree4.material</material>
+	  <position x='2647' y='0' z='-4319'/>
+	  <scale x='1.05' y='1.01' z='1.09'/>
+	  <yaw>0.314159</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree4.mesh</mesh>
+	  <material>tree4.material</material>
+	  <position x='-3308' y='0' z='-661'/>
+	  <scale x='0.99' y='0.94' z='0.97'/>
+	  <yaw>-1.8326</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='3285' y='0' z='-4036'/>
+	  <scale x='1.07' y='1.05' z='0.93'/>
+	  <yaw>1.90241</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='2971' y='0' z='238'/>
+	  <scale x='0.98' y='0.97' z='0.99'/>
+	  <yaw>-1.58825</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='-4257' y='0' z='795'/>
+	  <scale x='0.92' y='1' z='0.99'/>
+	  <yaw>-1.67552</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree4.mesh</mesh>
+	  <material>tree4.material</material>
+	  <position x='-4431' y='0' z='-1459'/>
+	  <scale x='0.92' y='0.91' z='1.02'/>
+	  <yaw>-1.64061</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='3023' y='0' z='4117'/>
+	  <scale x='1' y='0.99' z='0.91'/>
+	  <yaw>0.715585</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='1367' y='0' z='3996'/>
+	  <scale x='0.96' y='1' z='1.04'/>
+	  <yaw>1.3439</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='4614' y='0' z='1057'/>
+	  <scale x='1.02' y='1.08' z='0.95'/>
+	  <yaw>2.23402</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='-654' y='0' z='100'/>
+	  <scale x='1.02' y='1.06' z='1.04'/>
+	  <yaw>0.10472</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='3946' y='0' z='-1471'/>
+	  <scale x='1.01' y='1' z='0.97'/>
+	  <yaw>0.174533</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='3593' y='0' z='4631'/>
+	  <scale x='0.96' y='1.02' z='0.97'/>
+	  <yaw>1.69297</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='-1488' y='0' z='3355'/>
+	  <scale x='1' y='1.09' z='1.02'/>
+	  <yaw>0.872665</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='-2726' y='0' z='1189'/>
+	  <scale x='1.03' y='0.9' z='0.91'/>
+	  <yaw>2.70526</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='3338' y='0' z='2888'/>
+	  <scale x='1.06' y='0.94' z='1'/>
+	  <yaw>0.802852</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='-2740' y='0' z='-4394'/>
+	  <scale x='1.09' y='0.95' z='1.07'/>
+	  <yaw>-1.23918</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='-55' y='0' z='3518'/>
+	  <scale x='1.03' y='1.08' z='1.03'/>
+	  <yaw>-3.08923</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='-4517' y='0' z='-711'/>
+	  <scale x='1.04' y='1.07' z='1.08'/>
+	  <yaw>-1.97222</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='-3900' y='0' z='729'/>
+	  <scale x='0.95' y='1.08' z='1.08'/>
+	  <yaw>0.331613</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='-3767' y='0' z='-1926'/>
+	  <scale x='1.08' y='1.03' z='0.91'/>
+	  <yaw>0.645772</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='-1583' y='0' z='-4301'/>
+	  <scale x='0.92' y='0.93' z='0.99'/>
+	  <yaw>-0.715585</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='4847' y='0' z='-1827'/>
+	  <scale x='1' y='0.92' z='0.92'/>
+	  <yaw>-2.25147</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree4.mesh</mesh>
+	  <material>tree4.material</material>
+	  <position x='57' y='0' z='791'/>
+	  <scale x='1.04' y='1.07' z='0.91'/>
+	  <yaw>-2.87979</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='-2049' y='0' z='-3053'/>
+	  <scale x='0.9' y='1.07' z='0.91'/>
+	  <yaw>-0.15708</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='-902' y='0' z='-970'/>
+	  <scale x='1.06' y='1.06' z='0.91'/>
+	  <yaw>2.18166</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='1139' y='0' z='-2769'/>
+	  <scale x='0.9' y='1.08' z='0.94'/>
+	  <yaw>2.02458</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='-1030' y='0' z='4021'/>
+	  <scale x='1.07' y='1.09' z='1.02'/>
+	  <yaw>-0.314159</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='4904' y='0' z='-3464'/>
+	  <scale x='1.09' y='0.97' z='0.93'/>
+	  <yaw>-2.51327</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='-1501' y='0' z='4744'/>
+	  <scale x='1.06' y='1' z='0.97'/>
+	  <yaw>1.93732</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='105' y='0' z='2818'/>
+	  <scale x='1.01' y='0.94' z='0.99'/>
+	  <yaw>2.14676</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='-1709' y='0' z='4934'/>
+	  <scale x='0.99' y='1.04' z='1.05'/>
+	  <yaw>0.261799</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='-82' y='0' z='3993'/>
+	  <scale x='0.92' y='0.92' z='0.92'/>
+	  <yaw>0.785398</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='-1907' y='0' z='-970'/>
+	  <scale x='0.96' y='1.03' z='0.96'/>
+	  <yaw>-1.85005</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='-1926' y='0' z='-4457'/>
+	  <scale x='1.07' y='1.09' z='1.03'/>
+	  <yaw>-1.85005</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='2088' y='0' z='775'/>
+	  <scale x='1.04' y='1.02' z='1'/>
+	  <yaw>0.680678</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='-4765' y='0' z='-4654'/>
+	  <scale x='0.93' y='1.03' z='1.01'/>
+	  <yaw>-2.49582</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='-4075' y='0' z='1328'/>
+	  <scale x='1.07' y='1.08' z='1'/>
+	  <yaw>-0.506145</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='55' y='0' z='1963'/>
+	  <scale x='0.94' y='1' z='1.08'/>
+	  <yaw>2.26893</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='4633' y='0' z='-2339'/>
+	  <scale x='0.94' y='1.03' z='0.99'/>
+	  <yaw>2.87979</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='4250' y='0' z='4805'/>
+	  <scale x='0.96' y='0.95' z='0.93'/>
+	  <yaw>-0.20944</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='-2051' y='0' z='-361'/>
+	  <scale x='0.93' y='0.96' z='0.97'/>
+	  <yaw>-0.698132</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='-1019' y='0' z='-4404'/>
+	  <scale x='1.05' y='1.06' z='0.9'/>
+	  <yaw>2.53073</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='4211' y='0' z='-1482'/>
+	  <scale x='1.09' y='1.06' z='1.02'/>
+	  <yaw>-2.40855</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='-16' y='0' z='3270'/>
+	  <scale x='0.9' y='1.04' z='0.97'/>
+	  <yaw>-1.18682</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='2398' y='0' z='-4928'/>
+	  <scale x='1' y='0.97' z='0.93'/>
+	  <yaw>-2.96706</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='-1286' y='0' z='-4427'/>
+	  <scale x='0.94' y='0.97' z='0.92'/>
+	  <yaw>2.42601</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='-3768' y='0' z='4435'/>
+	  <scale x='1.08' y='0.93' z='1.04'/>
+	  <yaw>-2.02458</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='-722' y='0' z='640'/>
+	  <scale x='0.93' y='0.92' z='0.92'/>
+	  <yaw>-2.80998</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='-3277' y='0' z='4848'/>
+	  <scale x='1.04' y='0.92' z='1.02'/>
+	  <yaw>2.86234</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='2457' y='0' z='821'/>
+	  <scale x='1.06' y='1.01' z='0.97'/>
+	  <yaw>-1.309</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='3701' y='0' z='218'/>
+	  <scale x='0.97' y='1.03' z='1.03'/>
+	  <yaw>-0.296706</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='-2194' y='0' z='1728'/>
+	  <scale x='0.98' y='0.94' z='0.9'/>
+	  <yaw>-1.44862</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='-4009' y='0' z='-2302'/>
+	  <scale x='1.02' y='1.05' z='1.08'/>
+	  <yaw>1.67552</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='-3441' y='0' z='3189'/>
+	  <scale x='0.94' y='1.06' z='1'/>
+	  <yaw>2.54818</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='-5000' y='0' z='1539'/>
+	  <scale x='0.91' y='1.03' z='0.99'/>
+	  <yaw>1.01229</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='989' y='0' z='-3662'/>
+	  <scale x='0.93' y='0.97' z='0.97'/>
+	  <yaw>-0.942478</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='1532' y='0' z='-2769'/>
+	  <scale x='1' y='1.05' z='0.91'/>
+	  <yaw>-2.05949</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='-2746' y='0' z='1590'/>
+	  <scale x='1.07' y='1.03' z='1.01'/>
+	  <yaw>0.523599</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree4.mesh</mesh>
+	  <material>tree4.material</material>
+	  <position x='1081' y='0' z='4181'/>
+	  <scale x='0.92' y='1.03' z='0.9'/>
+	  <yaw>0.0523599</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='4415' y='0' z='2487'/>
+	  <scale x='0.92' y='0.94' z='0.95'/>
+	  <yaw>-1.81514</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='-4703' y='0' z='-4449'/>
+	  <scale x='0.96' y='0.91' z='1.04'/>
+	  <yaw>-0.139626</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='4708' y='0' z='2057'/>
+	  <scale x='1.07' y='0.92' z='1.09'/>
+	  <yaw>-2.87979</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='-4846' y='0' z='776'/>
+	  <scale x='1.02' y='0.97' z='0.99'/>
+	  <yaw>-1.79769</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree4.mesh</mesh>
+	  <material>tree4.material</material>
+	  <position x='-734' y='0' z='21'/>
+	  <scale x='1.01' y='0.92' z='0.9'/>
+	  <yaw>0.750492</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='-715' y='0' z='4086'/>
+	  <scale x='1.04' y='0.93' z='1'/>
+	  <yaw>-1.91986</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='820' y='0' z='-884'/>
+	  <scale x='1.09' y='0.98' z='0.95'/>
+	  <yaw>2.30383</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='-3864' y='0' z='2490'/>
+	  <scale x='1.07' y='0.93' z='1.08'/>
+	  <yaw>0</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='1621' y='0' z='1582'/>
+	  <scale x='0.95' y='0.98' z='1.05'/>
+	  <yaw>2.61799</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='-1563' y='0' z='-430'/>
+	  <scale x='0.93' y='0.92' z='0.98'/>
+	  <yaw>3.01942</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='4097' y='0' z='3657'/>
+	  <scale x='1.01' y='0.99' z='0.96'/>
+	  <yaw>2.56563</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='-4090' y='0' z='-1851'/>
+	  <scale x='0.98' y='1.08' z='1.09'/>
+	  <yaw>0.837758</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='3577' y='0' z='-2607'/>
+	  <scale x='1.02' y='1.09' z='1.06'/>
+	  <yaw>-0.523599</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='3777' y='0' z='1087'/>
+	  <scale x='1.02' y='0.96' z='1.07'/>
+	  <yaw>3.12414</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='-2265' y='0' z='-2359'/>
+	  <scale x='1.05' y='0.94' z='1.08'/>
+	  <yaw>2.93215</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='266' y='0' z='805'/>
+	  <scale x='0.98' y='0.98' z='1.04'/>
+	  <yaw>2.58309</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='-2803' y='0' z='2278'/>
+	  <scale x='0.95' y='1.04' z='1.02'/>
+	  <yaw>-2.18166</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree4.mesh</mesh>
+	  <material>tree4.material</material>
+	  <position x='-4003' y='0' z='-2675'/>
+	  <scale x='0.92' y='0.97' z='1.02'/>
+	  <yaw>0.750492</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='4334' y='0' z='-307'/>
+	  <scale x='1.09' y='0.91' z='1.04'/>
+	  <yaw>-0.715585</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='-3646' y='0' z='-2043'/>
+	  <scale x='0.91' y='1.02' z='0.92'/>
+	  <yaw>-1.37881</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='-3150' y='0' z='-3148'/>
+	  <scale x='1.07' y='1.09' z='0.92'/>
+	  <yaw>-1.01229</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='4015' y='0' z='-3827'/>
+	  <scale x='1' y='0.94' z='1.01'/>
+	  <yaw>-0.942478</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='-1828' y='0' z='-2509'/>
+	  <scale x='0.98' y='1.09' z='1.07'/>
+	  <yaw>1.3439</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='1987' y='0' z='2280'/>
+	  <scale x='1' y='0.91' z='1'/>
+	  <yaw>-1.11701</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='511' y='0' z='2665'/>
+	  <scale x='0.93' y='0.91' z='1.07'/>
+	  <yaw>2.60054</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='4300' y='0' z='-888'/>
+	  <scale x='0.94' y='0.97' z='1.08'/>
+	  <yaw>2.54818</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='-846' y='0' z='-3968'/>
+	  <scale x='0.91' y='1.09' z='1.05'/>
+	  <yaw>-0.279253</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree4.mesh</mesh>
+	  <material>tree4.material</material>
+	  <position x='-31' y='0' z='-2462'/>
+	  <scale x='0.94' y='1.06' z='1'/>
+	  <yaw>-0.767945</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='1814' y='0' z='1649'/>
+	  <scale x='0.96' y='0.96' z='1.04'/>
+	  <yaw>-0.959931</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='1969' y='0' z='1039'/>
+	  <scale x='1.03' y='0.91' z='1.02'/>
+	  <yaw>0.959931</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='-4891' y='0' z='2289'/>
+	  <scale x='1.05' y='0.94' z='1.03'/>
+	  <yaw>2.63545</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='-3123' y='0' z='-705'/>
+	  <scale x='0.99' y='1.08' z='1.03'/>
+	  <yaw>1.97222</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='2793' y='0' z='155'/>
+	  <scale x='1.03' y='0.9' z='1.06'/>
+	  <yaw>2.58309</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='-1829' y='0' z='-1714'/>
+	  <scale x='0.95' y='0.9' z='1.07'/>
+	  <yaw>-2.1293</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='-1010' y='0' z='-2239'/>
+	  <scale x='1.04' y='0.9' z='1'/>
+	  <yaw>2.84489</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='-2958' y='0' z='3364'/>
+	  <scale x='0.99' y='1.09' z='1.09'/>
+	  <yaw>-0.279253</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='-3762' y='0' z='-1531'/>
+	  <scale x='1.09' y='0.93' z='1.06'/>
+	  <yaw>2.63545</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='4304' y='0' z='1343'/>
+	  <scale x='0.96' y='1.05' z='0.91'/>
+	  <yaw>-0.767945</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='1912' y='0' z='3967'/>
+	  <scale x='0.98' y='0.92' z='0.99'/>
+	  <yaw>-1.53589</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='-1826' y='0' z='2'/>
+	  <scale x='0.93' y='1.06' z='1.08'/>
+	  <yaw>2.9147</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='2472' y='0' z='487'/>
+	  <scale x='0.95' y='0.92' z='1.07'/>
+	  <yaw>0.226893</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='-2504' y='0' z='1797'/>
+	  <scale x='0.96' y='1.03' z='0.91'/>
+	  <yaw>-1.78024</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree4.mesh</mesh>
+	  <material>tree4.material</material>
+	  <position x='393' y='0' z='1980'/>
+	  <scale x='1' y='0.95' z='0.98'/>
+	  <yaw>-0.610866</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='1898' y='0' z='4559'/>
+	  <scale x='1.09' y='0.94' z='0.92'/>
+	  <yaw>0.698132</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='3902' y='0' z='-3359'/>
+	  <scale x='0.93' y='0.96' z='0.9'/>
+	  <yaw>0.174533</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='-1292' y='0' z='-860'/>
+	  <scale x='1.03' y='1.07' z='1.08'/>
+	  <yaw>-1.3439</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='-780' y='0' z='-4290'/>
+	  <scale x='1.01' y='1.03' z='1'/>
+	  <yaw>-0.959931</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='4421' y='0' z='3270'/>
+	  <scale x='0.9' y='1.01' z='0.99'/>
+	  <yaw>2.56563</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='-1101' y='0' z='4095'/>
+	  <scale x='0.96' y='1.04' z='0.98'/>
+	  <yaw>-3.07178</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='4969' y='0' z='3232'/>
+	  <scale x='1.03' y='1' z='1.03'/>
+	  <yaw>-0.872665</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='2279' y='0' z='-2413'/>
+	  <scale x='1.01' y='1.09' z='0.99'/>
+	  <yaw>0.244346</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='-3258' y='0' z='2464'/>
+	  <scale x='0.99' y='1.05' z='0.96'/>
+	  <yaw>2.26893</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='-1119' y='0' z='-4814'/>
+	  <scale x='0.97' y='1.03' z='1.04'/>
+	  <yaw>-1.20428</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree4.mesh</mesh>
+	  <material>tree4.material</material>
+	  <position x='1773' y='0' z='-1713'/>
+	  <scale x='1.04' y='0.92' z='1.09'/>
+	  <yaw>-0.645772</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='-4861' y='0' z='-1876'/>
+	  <scale x='1.03' y='1.08' z='0.93'/>
+	  <yaw>-2.46091</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='3705' y='0' z='269'/>
+	  <scale x='1.04' y='1.09' z='1.03'/>
+	  <yaw>2.16421</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='-4565' y='0' z='-685'/>
+	  <scale x='1' y='0.99' z='1.03'/>
+	  <yaw>0.122173</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='1837' y='0' z='-198'/>
+	  <scale x='0.95' y='1' z='0.99'/>
+	  <yaw>2.82743</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree4.mesh</mesh>
+	  <material>tree4.material</material>
+	  <position x='1911' y='0' z='1704'/>
+	  <scale x='1.06' y='0.93' z='0.99'/>
+	  <yaw>2.74017</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='-3478' y='0' z='-4179'/>
+	  <scale x='0.91' y='1.09' z='0.93'/>
+	  <yaw>-0.610866</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='-553' y='0' z='-1622'/>
+	  <scale x='0.97' y='0.92' z='0.95'/>
+	  <yaw>-1.0472</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='-2411' y='0' z='551'/>
+	  <scale x='0.98' y='0.96' z='1.03'/>
+	  <yaw>-1.64061</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='3506' y='0' z='-1964'/>
+	  <scale x='0.94' y='1.07' z='1.02'/>
+	  <yaw>-0.925025</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='3480' y='0' z='3820'/>
+	  <scale x='0.93' y='1.04' z='1.04'/>
+	  <yaw>-1.98968</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='4484' y='0' z='-2067'/>
+	  <scale x='1.07' y='1.01' z='1.02'/>
+	  <yaw>-2.14676</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='4156' y='0' z='165'/>
+	  <scale x='1.05' y='0.95' z='0.99'/>
+	  <yaw>0.139626</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree4.mesh</mesh>
+	  <material>tree4.material</material>
+	  <position x='1295' y='0' z='-3829'/>
+	  <scale x='1.06' y='0.91' z='1.09'/>
+	  <yaw>0.855211</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree4.mesh</mesh>
+	  <material>tree4.material</material>
+	  <position x='340' y='0' z='1571'/>
+	  <scale x='1.01' y='1.02' z='0.93'/>
+	  <yaw>1.48353</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='-1434' y='0' z='1527'/>
+	  <scale x='1.06' y='1' z='1.02'/>
+	  <yaw>1.36136</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree4.mesh</mesh>
+	  <material>tree4.material</material>
+	  <position x='-787' y='0' z='-1667'/>
+	  <scale x='1.04' y='1' z='1.09'/>
+	  <yaw>-3.03687</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='1141' y='0' z='115'/>
+	  <scale x='0.93' y='1.07' z='1.09'/>
+	  <yaw>-1.71042</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='4939' y='0' z='-1410'/>
+	  <scale x='0.98' y='1.01' z='1.03'/>
+	  <yaw>1.43117</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='-429' y='0' z='-3196'/>
+	  <scale x='0.95' y='1.08' z='0.93'/>
+	  <yaw>2.54818</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='1421' y='0' z='2540'/>
+	  <scale x='1.08' y='1.04' z='0.96'/>
+	  <yaw>-1.88496</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='-4048' y='0' z='-4644'/>
+	  <scale x='1.09' y='0.96' z='1.02'/>
+	  <yaw>-1.309</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='2603' y='0' z='883'/>
+	  <scale x='1.06' y='0.92' z='0.95'/>
+	  <yaw>-3.12414</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='344' y='0' z='4174'/>
+	  <scale x='1.04' y='0.97' z='1'/>
+	  <yaw>-0.767945</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='-4481' y='0' z='-4243'/>
+	  <scale x='1.02' y='1.02' z='1'/>
+	  <yaw>0.349066</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree4.mesh</mesh>
+	  <material>tree4.material</material>
+	  <position x='-3010' y='0' z='-4721'/>
+	  <scale x='1.08' y='1.05' z='1.05'/>
+	  <yaw>-2.9147</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='-63' y='0' z='-2259'/>
+	  <scale x='0.94' y='0.9' z='1.06'/>
+	  <yaw>2.96706</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='-200' y='0' z='-4917'/>
+	  <scale x='0.9' y='1.06' z='0.99'/>
+	  <yaw>-0.488692</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='735' y='0' z='-2237'/>
+	  <scale x='0.94' y='0.96' z='1.03'/>
+	  <yaw>-0.279253</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='-651' y='0' z='-2749'/>
+	  <scale x='0.94' y='1.09' z='1'/>
+	  <yaw>1.93732</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='3302' y='0' z='-3014'/>
+	  <scale x='0.97' y='1.01' z='1.09'/>
+	  <yaw>1.13446</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='2131' y='0' z='3484'/>
+	  <scale x='1.03' y='1.01' z='1.09'/>
+	  <yaw>0.715585</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree4.mesh</mesh>
+	  <material>tree4.material</material>
+	  <position x='494' y='0' z='3427'/>
+	  <scale x='0.93' y='0.91' z='0.93'/>
+	  <yaw>-1.06465</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree4.mesh</mesh>
+	  <material>tree4.material</material>
+	  <position x='2639' y='0' z='-4813'/>
+	  <scale x='1.04' y='0.98' z='1.08'/>
+	  <yaw>-2.04204</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='-902' y='0' z='-320'/>
+	  <scale x='0.93' y='1.02' z='1.08'/>
+	  <yaw>0.10472</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='4010' y='0' z='-305'/>
+	  <scale x='0.96' y='0.92' z='1.09'/>
+	  <yaw>2.53073</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='-3528' y='0' z='-575'/>
+	  <scale x='1.07' y='0.96' z='1.03'/>
+	  <yaw>1.01229</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='-2728' y='0' z='-453'/>
+	  <scale x='1.09' y='1.02' z='0.96'/>
+	  <yaw>0.628319</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='-2447' y='0' z='-3100'/>
+	  <scale x='1.05' y='0.93' z='1.02'/>
+	  <yaw>2.04204</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='3498' y='0' z='3107'/>
+	  <scale x='0.96' y='0.91' z='1.04'/>
+	  <yaw>-0.541052</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='325' y='0' z='-4997'/>
+	  <scale x='0.93' y='1.07' z='0.98'/>
+	  <yaw>-0.279253</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='1560' y='0' z='-4885'/>
+	  <scale x='1.07' y='0.95' z='1.04'/>
+	  <yaw>-1.72788</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree4.mesh</mesh>
+	  <material>tree4.material</material>
+	  <position x='-2592' y='0' z='97'/>
+	  <scale x='1.09' y='1.03' z='0.99'/>
+	  <yaw>-2.63545</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='2914' y='0' z='-684'/>
+	  <scale x='0.96' y='0.95' z='1.05'/>
+	  <yaw>-3.05433</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree4.mesh</mesh>
+	  <material>tree4.material</material>
+	  <position x='2892' y='0' z='1626'/>
+	  <scale x='1.02' y='0.99' z='0.99'/>
+	  <yaw>-0.418879</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='-3485' y='0' z='1366'/>
+	  <scale x='1.06' y='0.98' z='1.03'/>
+	  <yaw>-0.785398</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='26' y='0' z='4613'/>
+	  <scale x='0.99' y='0.96' z='0.92'/>
+	  <yaw>-0.349066</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='1508' y='0' z='100'/>
+	  <scale x='0.92' y='1.05' z='1.06'/>
+	  <yaw>-2.14676</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='-1680' y='0' z='-1460'/>
+	  <scale x='1.04' y='0.95' z='1.08'/>
+	  <yaw>-2.33874</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='-3454' y='0' z='2134'/>
+	  <scale x='0.93' y='0.92' z='1.03'/>
+	  <yaw>-1.6057</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree4.mesh</mesh>
+	  <material>tree4.material</material>
+	  <position x='3432' y='0' z='-1158'/>
+	  <scale x='1.04' y='1' z='0.97'/>
+	  <yaw>3.03687</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='815' y='0' z='-1404'/>
+	  <scale x='0.92' y='0.94' z='1.06'/>
+	  <yaw>-0.279253</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='4716' y='0' z='4451'/>
+	  <scale x='0.97' y='1.07' z='0.93'/>
+	  <yaw>0.715585</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='981' y='0' z='-4398'/>
+	  <scale x='0.9' y='1.09' z='0.98'/>
+	  <yaw>-2.79253</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='-2076' y='0' z='-1707'/>
+	  <scale x='0.92' y='0.98' z='1.05'/>
+	  <yaw>-2.30383</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree4.mesh</mesh>
+	  <material>tree4.material</material>
+	  <position x='-3004' y='0' z='-1130'/>
+	  <scale x='0.9' y='1.01' z='0.96'/>
+	  <yaw>0.750492</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='1234' y='0' z='1487'/>
+	  <scale x='1.03' y='1' z='1'/>
+	  <yaw>-2.58309</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='-2120' y='0' z='339'/>
+	  <scale x='1.04' y='1.03' z='1.03'/>
+	  <yaw>1.64061</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree4.mesh</mesh>
+	  <material>tree4.material</material>
+	  <position x='-3525' y='0' z='444'/>
+	  <scale x='1.01' y='1.01' z='1.08'/>
+	  <yaw>-0.645772</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='1465' y='0' z='-189'/>
+	  <scale x='0.93' y='1.03' z='0.91'/>
+	  <yaw>2.23402</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='-465' y='0' z='3977'/>
+	  <scale x='0.96' y='0.99' z='0.94'/>
+	  <yaw>0.942478</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='-1609' y='0' z='-1928'/>
+	  <scale x='0.97' y='0.93' z='1.01'/>
+	  <yaw>1.74533</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='3793' y='0' z='2836'/>
+	  <scale x='1.04' y='0.9' z='0.91'/>
+	  <yaw>2.07694</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='-1582' y='0' z='2371'/>
+	  <scale x='0.94' y='0.93' z='1.04'/>
+	  <yaw>0.628319</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='800' y='0' z='-303'/>
+	  <scale x='1.03' y='1.05' z='1.04'/>
+	  <yaw>-3.01942</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree4.mesh</mesh>
+	  <material>tree4.material</material>
+	  <position x='-2868' y='0' z='2457'/>
+	  <scale x='1' y='0.93' z='0.99'/>
+	  <yaw>1.20428</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree4.mesh</mesh>
+	  <material>tree4.material</material>
+	  <position x='2629' y='0' z='3147'/>
+	  <scale x='0.9' y='0.92' z='1.05'/>
+	  <yaw>2.60054</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree4.mesh</mesh>
+	  <material>tree4.material</material>
+	  <position x='-2745' y='0' z='-1957'/>
+	  <scale x='1.06' y='0.95' z='0.96'/>
+	  <yaw>-0.366519</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='2052' y='0' z='3260'/>
+	  <scale x='0.97' y='0.94' z='1.07'/>
+	  <yaw>-1.74533</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='3721' y='0' z='4540'/>
+	  <scale x='0.97' y='0.95' z='1.07'/>
+	  <yaw>-2.33874</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='169' y='0' z='-2272'/>
+	  <scale x='0.9' y='1.08' z='0.97'/>
+	  <yaw>2.96706</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='-1340' y='0' z='4221'/>
+	  <scale x='0.93' y='0.97' z='1.06'/>
+	  <yaw>2.84489</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree4.mesh</mesh>
+	  <material>tree4.material</material>
+	  <position x='511' y='0' z='-708'/>
+	  <scale x='0.98' y='0.93' z='1.03'/>
+	  <yaw>-0.785398</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree4.mesh</mesh>
+	  <material>tree4.material</material>
+	  <position x='4895' y='0' z='-3232'/>
+	  <scale x='1.06' y='0.98' z='0.9'/>
+	  <yaw>-2.1293</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='4503' y='0' z='-2827'/>
+	  <scale x='1.07' y='1.03' z='1.04'/>
+	  <yaw>2.21657</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='-3071' y='0' z='-1177'/>
+	  <scale x='0.9' y='0.92' z='0.94'/>
+	  <yaw>-0.0698131</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='1855' y='0' z='-791'/>
+	  <scale x='1.04' y='0.96' z='1.04'/>
+	  <yaw>1.8675</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='-3258' y='0' z='-3719'/>
+	  <scale x='1.01' y='1.08' z='0.91'/>
+	  <yaw>0.925024</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='-3101' y='0' z='-2042'/>
+	  <scale x='0.91' y='1.05' z='0.94'/>
+	  <yaw>2.47837</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='1071' y='0' z='3780'/>
+	  <scale x='0.9' y='0.9' z='0.93'/>
+	  <yaw>-2.74017</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree4.mesh</mesh>
+	  <material>tree4.material</material>
+	  <position x='1952' y='0' z='4942'/>
+	  <scale x='1.09' y='0.97' z='0.94'/>
+	  <yaw>0.20944</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='-2106' y='0' z='-2475'/>
+	  <scale x='1' y='1.06' z='1.08'/>
+	  <yaw>-0.750492</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='-4386' y='0' z='-2374'/>
+	  <scale x='0.98' y='0.95' z='1.07'/>
+	  <yaw>2.32129</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='4409' y='0' z='1620'/>
+	  <scale x='0.96' y='1.02' z='0.9'/>
+	  <yaw>2.49582</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='2458' y='0' z='4833'/>
+	  <scale x='0.98' y='1' z='0.97'/>
+	  <yaw>-1.46608</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='1128' y='0' z='-431'/>
+	  <scale x='1.08' y='1.04' z='0.96'/>
+	  <yaw>-1.02974</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='-99' y='0' z='-4990'/>
+	  <scale x='1' y='0.97' z='0.99'/>
+	  <yaw>-1.309</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='1238' y='0' z='-4268'/>
+	  <scale x='0.92' y='0.9' z='0.95'/>
+	  <yaw>-1.06465</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='-2652' y='0' z='-1168'/>
+	  <scale x='0.99' y='0.97' z='1.07'/>
+	  <yaw>-1.02974</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='-2462' y='0' z='-4431'/>
+	  <scale x='1' y='1.08' z='1.09'/>
+	  <yaw>-1.25664</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='-3720' y='0' z='-4608'/>
+	  <scale x='0.97' y='1.03' z='1.04'/>
+	  <yaw>-2.40855</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='-4450' y='0' z='-600'/>
+	  <scale x='0.9' y='0.98' z='0.95'/>
+	  <yaw>-3.12414</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='4634' y='0' z='140'/>
+	  <scale x='0.91' y='0.93' z='0.95'/>
+	  <yaw>0.820305</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='1630' y='0' z='3142'/>
+	  <scale x='0.9' y='0.9' z='0.93'/>
+	  <yaw>1.93732</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree4.mesh</mesh>
+	  <material>tree4.material</material>
+	  <position x='2142' y='0' z='-4462'/>
+	  <scale x='1.04' y='0.92' z='1'/>
+	  <yaw>3.00197</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='3094' y='0' z='2308'/>
+	  <scale x='0.92' y='0.94' z='0.98'/>
+	  <yaw>0.349066</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='1522' y='0' z='-3216'/>
+	  <scale x='1.05' y='1.07' z='0.95'/>
+	  <yaw>0.122173</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='3548' y='0' z='-508'/>
+	  <scale x='0.9' y='1' z='0.96'/>
+	  <yaw>-2.51327</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='-4488' y='0' z='2051'/>
+	  <scale x='0.98' y='1.04' z='0.99'/>
+	  <yaw>-2.86234</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='3482' y='0' z='-2572'/>
+	  <scale x='1.07' y='1.06' z='0.98'/>
+	  <yaw>2.04204</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='139' y='0' z='220'/>
+	  <scale x='0.92' y='1.04' z='0.95'/>
+	  <yaw>1.64061</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='-2131' y='0' z='-4477'/>
+	  <scale x='0.94' y='1.07' z='1.05'/>
+	  <yaw>1.32645</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='-2276' y='0' z='4299'/>
+	  <scale x='1' y='1.06' z='1'/>
+	  <yaw>-0.802852</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='1158' y='0' z='2242'/>
+	  <scale x='0.91' y='0.91' z='0.93'/>
+	  <yaw>-2.02458</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='1410' y='0' z='2569'/>
+	  <scale x='1.05' y='0.92' z='1'/>
+	  <yaw>1.74533</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='-3911' y='0' z='916'/>
+	  <scale x='1.07' y='1.08' z='1.09'/>
+	  <yaw>-1.02974</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='4901' y='0' z='375'/>
+	  <scale x='0.95' y='1.08' z='1.04'/>
+	  <yaw>1.23918</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='-2024' y='0' z='3566'/>
+	  <scale x='1.03' y='1.04' z='0.91'/>
+	  <yaw>1.90241</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree4.mesh</mesh>
+	  <material>tree4.material</material>
+	  <position x='1906' y='0' z='-4873'/>
+	  <scale x='0.9' y='1.06' z='1.07'/>
+	  <yaw>2.07694</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='567' y='0' z='2570'/>
+	  <scale x='0.97' y='0.98' z='0.96'/>
+	  <yaw>2.54818</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='-4864' y='0' z='1966'/>
+	  <scale x='0.96' y='1.07' z='1.03'/>
+	  <yaw>-0.0872668</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='-4788' y='0' z='367'/>
+	  <scale x='1.07' y='0.9' z='1.04'/>
+	  <yaw>0.977385</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='-1050' y='0' z='3674'/>
+	  <scale x='1' y='0.98' z='0.92'/>
+	  <yaw>-0.15708</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='4242' y='0' z='-4475'/>
+	  <scale x='1.06' y='0.91' z='0.97'/>
+	  <yaw>-1.91986</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='-205' y='0' z='-831'/>
+	  <scale x='1.01' y='1.01' z='1.05'/>
+	  <yaw>1.44862</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='-2703' y='0' z='-3680'/>
+	  <scale x='1.06' y='0.91' z='0.98'/>
+	  <yaw>0.349066</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='-886' y='0' z='3401'/>
+	  <scale x='1.02' y='1.06' z='0.98'/>
+	  <yaw>0.506145</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='-1318' y='0' z='-3375'/>
+	  <scale x='0.93' y='1.07' z='0.92'/>
+	  <yaw>0.575959</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='-4849' y='0' z='1790'/>
+	  <scale x='1.09' y='0.96' z='0.9'/>
+	  <yaw>-0.785398</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='-3498' y='0' z='1229'/>
+	  <scale x='0.98' y='1.09' z='0.99'/>
+	  <yaw>-0.20944</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='4876' y='0' z='4013'/>
+	  <scale x='0.94' y='1' z='0.96'/>
+	  <yaw>1.44862</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree4.mesh</mesh>
+	  <material>tree4.material</material>
+	  <position x='2036' y='0' z='-241'/>
+	  <scale x='0.99' y='1.01' z='0.94'/>
+	  <yaw>-0.418879</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='-316' y='0' z='-2300'/>
+	  <scale x='1.05' y='1.05' z='1'/>
+	  <yaw>1.72788</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree4.mesh</mesh>
+	  <material>tree4.material</material>
+	  <position x='-3074' y='0' z='4781'/>
+	  <scale x='1.08' y='0.98' z='0.92'/>
+	  <yaw>1.5708</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree4.mesh</mesh>
+	  <material>tree4.material</material>
+	  <position x='1758' y='0' z='-1421'/>
+	  <scale x='0.99' y='1.04' z='0.94'/>
+	  <yaw>-0.471239</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='-895' y='0' z='1977'/>
+	  <scale x='1.04' y='0.92' z='1.06'/>
+	  <yaw>0.994838</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree4.mesh</mesh>
+	  <material>tree4.material</material>
+	  <position x='595' y='0' z='-435'/>
+	  <scale x='0.99' y='1.02' z='0.95'/>
+	  <yaw>2.61799</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='-4624' y='0' z='-3533'/>
+	  <scale x='0.9' y='0.92' z='0.91'/>
+	  <yaw>-2.1293</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='38' y='0' z='-2918'/>
+	  <scale x='1.03' y='1.06' z='1.04'/>
+	  <yaw>1.16937</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree4.mesh</mesh>
+	  <material>tree4.material</material>
+	  <position x='1554' y='0' z='3430'/>
+	  <scale x='0.97' y='1.09' z='0.97'/>
+	  <yaw>-1.58825</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='3313' y='0' z='-3199'/>
+	  <scale x='0.99' y='0.9' z='1.08'/>
+	  <yaw>-2.67035</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='-2369' y='0' z='1892'/>
+	  <scale x='1.03' y='0.97' z='1.02'/>
+	  <yaw>0.0523599</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='-487' y='0' z='-3338'/>
+	  <scale x='1.06' y='1.01' z='1.06'/>
+	  <yaw>1.88496</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='-4359' y='0' z='2699'/>
+	  <scale x='1' y='1.05' z='0.91'/>
+	  <yaw>-2.98451</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='4369' y='0' z='2854'/>
+	  <scale x='0.94' y='0.92' z='0.98'/>
+	  <yaw>-1.11701</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='733' y='0' z='-705'/>
+	  <scale x='1.07' y='0.94' z='0.97'/>
+	  <yaw>0.942478</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='-4790' y='0' z='2724'/>
+	  <scale x='1.03' y='0.93' z='1.08'/>
+	  <yaw>1.46608</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='-599' y='0' z='-4374'/>
+	  <scale x='0.96' y='1.04' z='0.95'/>
+	  <yaw>-1.65806</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree4.mesh</mesh>
+	  <material>tree4.material</material>
+	  <position x='-4544' y='0' z='3589'/>
+	  <scale x='0.94' y='0.96' z='1.05'/>
+	  <yaw>1.51844</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='-160' y='0' z='-1140'/>
+	  <scale x='0.98' y='1.03' z='1.05'/>
+	  <yaw>-2.05949</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='-2495' y='0' z='290'/>
+	  <scale x='0.93' y='0.97' z='0.96'/>
+	  <yaw>0.453786</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='3408' y='0' z='-1210'/>
+	  <scale x='1.05' y='0.91' z='0.98'/>
+	  <yaw>2.96706</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='-2399' y='0' z='-4445'/>
+	  <scale x='1.01' y='1' z='0.94'/>
+	  <yaw>0.890118</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='-4565' y='0' z='588'/>
+	  <scale x='0.91' y='1.05' z='0.98'/>
+	  <yaw>-2.67035</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='329' y='0' z='-2800'/>
+	  <scale x='0.99' y='1.04' z='0.92'/>
+	  <yaw>2.28638</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='4164' y='0' z='1901'/>
+	  <scale x='1.05' y='1.02' z='0.93'/>
+	  <yaw>-3.07178</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='-1458' y='0' z='1733'/>
+	  <scale x='1.09' y='1.06' z='0.9'/>
+	  <yaw>2.37365</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree4.mesh</mesh>
+	  <material>tree4.material</material>
+	  <position x='-1490' y='0' z='3258'/>
+	  <scale x='1.05' y='1.07' z='0.96'/>
+	  <yaw>2.58309</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='-444' y='0' z='-3076'/>
+	  <scale x='1.03' y='0.95' z='0.95'/>
+	  <yaw>0.174533</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='-1445' y='0' z='-929'/>
+	  <scale x='1.06' y='1.09' z='0.94'/>
+	  <yaw>-2.79253</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='-1797' y='0' z='1644'/>
+	  <scale x='0.96' y='0.96' z='0.99'/>
+	  <yaw>0.872665</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='2645' y='0' z='594'/>
+	  <scale x='0.96' y='0.98' z='1.02'/>
+	  <yaw>1.01229</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree4.mesh</mesh>
+	  <material>tree4.material</material>
+	  <position x='-1487' y='0' z='2805'/>
+	  <scale x='0.97' y='0.91' z='1'/>
+	  <yaw>1.11701</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='-800' y='0' z='-4342'/>
+	  <scale x='1.08' y='0.97' z='0.99'/>
+	  <yaw>1.36136</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='1007' y='0' z='-1821'/>
+	  <scale x='0.92' y='1' z='1.05'/>
+	  <yaw>0.20944</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='4440' y='0' z='-2692'/>
+	  <scale x='0.95' y='0.96' z='0.92'/>
+	  <yaw>-1.64061</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='2123' y='0' z='-4054'/>
+	  <scale x='0.91' y='1.07' z='1.01'/>
+	  <yaw>1.46608</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='-4552' y='0' z='-3590'/>
+	  <scale x='1.01' y='0.9' z='0.99'/>
+	  <yaw>-0.837758</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='-1619' y='0' z='108'/>
+	  <scale x='0.98' y='0.98' z='0.97'/>
+	  <yaw>-1.46608</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='-3017' y='0' z='-49'/>
+	  <scale x='0.95' y='0.93' z='1.09'/>
+	  <yaw>2.75762</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='-1818' y='0' z='-139'/>
+	  <scale x='0.99' y='1.07' z='0.97'/>
+	  <yaw>-1.88496</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='2630' y='0' z='2294'/>
+	  <scale x='1.07' y='1.08' z='1.07'/>
+	  <yaw>-2.37365</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='760' y='0' z='4078'/>
+	  <scale x='0.94' y='0.91' z='0.96'/>
+	  <yaw>-3.00197</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='3865' y='0' z='-118'/>
+	  <scale x='1.08' y='0.98' z='1.03'/>
+	  <yaw>1.37881</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree4.mesh</mesh>
+	  <material>tree4.material</material>
+	  <position x='55' y='0' z='3623'/>
+	  <scale x='0.93' y='0.99' z='0.95'/>
+	  <yaw>-2.96706</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='412' y='0' z='-3754'/>
+	  <scale x='0.9' y='0.92' z='1.03'/>
+	  <yaw>0.610865</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree4.mesh</mesh>
+	  <material>tree4.material</material>
+	  <position x='789' y='0' z='-3880'/>
+	  <scale x='1.06' y='0.99' z='1'/>
+	  <yaw>0.488692</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='3241' y='0' z='2042'/>
+	  <scale x='1.04' y='1.08' z='0.94'/>
+	  <yaw>-2.89725</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='3264' y='0' z='-4342'/>
+	  <scale x='1.06' y='1.09' z='0.91'/>
+	  <yaw>1.98968</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree4.mesh</mesh>
+	  <material>tree4.material</material>
+	  <position x='1499' y='0' z='-740'/>
+	  <scale x='1.08' y='0.93' z='0.96'/>
+	  <yaw>2.84489</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='4970' y='0' z='-3695'/>
+	  <scale x='0.99' y='1.01' z='1.07'/>
+	  <yaw>-1.02974</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='-4814' y='0' z='-4988'/>
+	  <scale x='0.93' y='1.09' z='1.05'/>
+	  <yaw>-0.401426</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='-4763' y='0' z='-411'/>
+	  <scale x='1.05' y='1.03' z='0.97'/>
+	  <yaw>-0.541052</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='-789' y='0' z='-476'/>
+	  <scale x='1.04' y='1.01' z='0.94'/>
+	  <yaw>-2.80998</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='3784' y='0' z='326'/>
+	  <scale x='1.06' y='0.97' z='1.02'/>
+	  <yaw>0.733038</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='-775' y='0' z='2218'/>
+	  <scale x='1' y='0.93' z='1.01'/>
+	  <yaw>0.0174533</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree4.mesh</mesh>
+	  <material>tree4.material</material>
+	  <position x='1894' y='0' z='-3106'/>
+	  <scale x='1.08' y='0.93' z='1.05'/>
+	  <yaw>1.69297</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='3053' y='0' z='3337'/>
+	  <scale x='1.04' y='1.07' z='1.03'/>
+	  <yaw>-0.0872668</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree4.mesh</mesh>
+	  <material>tree4.material</material>
+	  <position x='-2220' y='0' z='680'/>
+	  <scale x='1.05' y='0.94' z='0.96'/>
+	  <yaw>0.0174533</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='-4869' y='0' z='-1977'/>
+	  <scale x='0.95' y='0.99' z='0.92'/>
+	  <yaw>-0.139626</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='2756' y='0' z='2824'/>
+	  <scale x='0.9' y='0.92' z='1.01'/>
+	  <yaw>2.49582</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='-1509' y='0' z='-515'/>
+	  <scale x='1.06' y='0.94' z='1.04'/>
+	  <yaw>0.506145</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree4.mesh</mesh>
+	  <material>tree4.material</material>
+	  <position x='-1030' y='0' z='-4839'/>
+	  <scale x='1.09' y='0.92' z='0.91'/>
+	  <yaw>1.71042</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree4.mesh</mesh>
+	  <material>tree4.material</material>
+	  <position x='-1234' y='0' z='-3982'/>
+	  <scale x='0.92' y='1' z='0.92'/>
+	  <yaw>-0.733038</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='3488' y='0' z='-4041'/>
+	  <scale x='0.94' y='1.06' z='1.05'/>
+	  <yaw>1.06465</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree4.mesh</mesh>
+	  <material>tree4.material</material>
+	  <position x='4356' y='0' z='-1402'/>
+	  <scale x='1.04' y='0.97' z='1.05'/>
+	  <yaw>2.67035</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='-2890' y='0' z='-4256'/>
+	  <scale x='0.9' y='1.02' z='1.07'/>
+	  <yaw>0.383973</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='171' y='0' z='-3114'/>
+	  <scale x='0.99' y='0.99' z='0.94'/>
+	  <yaw>-1.76278</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='-2216' y='0' z='539'/>
+	  <scale x='0.93' y='1.02' z='1'/>
+	  <yaw>-0.314159</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='2319' y='0' z='-1132'/>
+	  <scale x='1.07' y='1.06' z='1.08'/>
+	  <yaw>2.6529</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='463' y='0' z='875'/>
+	  <scale x='0.99' y='0.95' z='1.09'/>
+	  <yaw>-2.53073</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='1709' y='0' z='-2291'/>
+	  <scale x='1.01' y='1.02' z='1.05'/>
+	  <yaw>0.698132</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='820' y='0' z='-1478'/>
+	  <scale x='0.99' y='1.06' z='1.03'/>
+	  <yaw>2.89725</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='-4576' y='0' z='1228'/>
+	  <scale x='1.04' y='0.94' z='0.98'/>
+	  <yaw>0.174533</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='-1196' y='0' z='-4228'/>
+	  <scale x='1.09' y='0.97' z='0.97'/>
+	  <yaw>-2.93215</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='3709' y='0' z='-1807'/>
+	  <scale x='0.98' y='1' z='1.04'/>
+	  <yaw>0.139626</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree4.mesh</mesh>
+	  <material>tree4.material</material>
+	  <position x='-3141' y='0' z='1355'/>
+	  <scale x='0.98' y='1.01' z='0.99'/>
+	  <yaw>-0.174533</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree4.mesh</mesh>
+	  <material>tree4.material</material>
+	  <position x='2177' y='0' z='3988'/>
+	  <scale x='0.98' y='1.04' z='0.98'/>
+	  <yaw>-3.03687</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='-697' y='0' z='-3302'/>
+	  <scale x='1.01' y='0.97' z='1'/>
+	  <yaw>-2.32129</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='3003' y='0' z='-1274'/>
+	  <scale x='0.98' y='0.94' z='1.01'/>
+	  <yaw>0</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='-4184' y='0' z='-3814'/>
+	  <scale x='1.08' y='0.97' z='0.91'/>
+	  <yaw>1.67552</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='3226' y='0' z='-1941'/>
+	  <scale x='0.93' y='0.94' z='1.09'/>
+	  <yaw>-1.309</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='-4468' y='0' z='4358'/>
+	  <scale x='1.06' y='0.97' z='0.98'/>
+	  <yaw>-0.558505</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='-4761' y='0' z='4294'/>
+	  <scale x='1.02' y='0.92' z='1.02'/>
+	  <yaw>-1.20428</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='-4220' y='0' z='-3694'/>
+	  <scale x='1.08' y='0.99' z='1.03'/>
+	  <yaw>0.0349066</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='4976' y='0' z='-1672'/>
+	  <scale x='0.96' y='0.92' z='0.97'/>
+	  <yaw>-1.58825</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='-2351' y='0' z='4958'/>
+	  <scale x='0.96' y='0.91' z='0.98'/>
+	  <yaw>-2.47837</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree4.mesh</mesh>
+	  <material>tree4.material</material>
+	  <position x='1174' y='0' z='-4280'/>
+	  <scale x='0.92' y='1.04' z='1.04'/>
+	  <yaw>-2.47837</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='4554' y='0' z='-344'/>
+	  <scale x='1.07' y='1.04' z='1.05'/>
+	  <yaw>2.35619</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree4.mesh</mesh>
+	  <material>tree4.material</material>
+	  <position x='-2493' y='0' z='-365'/>
+	  <scale x='1.05' y='0.93' z='0.94'/>
+	  <yaw>-0.942478</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='33' y='0' z='2037'/>
+	  <scale x='0.9' y='0.93' z='0.98'/>
+	  <yaw>-0.663225</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree4.mesh</mesh>
+	  <material>tree4.material</material>
+	  <position x='2446' y='0' z='2216'/>
+	  <scale x='1.09' y='0.91' z='1.07'/>
+	  <yaw>-2.98451</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='-1779' y='0' z='1387'/>
+	  <scale x='1.07' y='1.05' z='0.93'/>
+	  <yaw>-0.663225</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='-4614' y='0' z='4462'/>
+	  <scale x='1.07' y='1.03' z='1.07'/>
+	  <yaw>-0.174533</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='3824' y='0' z='-3272'/>
+	  <scale x='1.09' y='1.08' z='0.96'/>
+	  <yaw>-1.44862</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='-4741' y='0' z='2893'/>
+	  <scale x='1.05' y='1.07' z='0.99'/>
+	  <yaw>-2.33874</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='-505' y='0' z='-970'/>
+	  <scale x='1.06' y='1.06' z='1.07'/>
+	  <yaw>0.383973</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='-126' y='0' z='-4508'/>
+	  <scale x='1.04' y='0.9' z='0.96'/>
+	  <yaw>2.14676</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='-1837' y='0' z='-494'/>
+	  <scale x='1.04' y='1.09' z='1.04'/>
+	  <yaw>-2.49582</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='3893' y='0' z='3549'/>
+	  <scale x='0.95' y='0.94' z='0.92'/>
+	  <yaw>1.71042</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='2692' y='0' z='913'/>
+	  <scale x='0.94' y='0.97' z='0.94'/>
+	  <yaw>-3.10669</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='-3899' y='0' z='1256'/>
+	  <scale x='1' y='0.97' z='0.98'/>
+	  <yaw>2.19911</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree4.mesh</mesh>
+	  <material>tree4.material</material>
+	  <position x='1796' y='0' z='-1061'/>
+	  <scale x='0.96' y='1.01' z='0.95'/>
+	  <yaw>-2.63545</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='-2088' y='0' z='-3998'/>
+	  <scale x='0.93' y='1.07' z='1.02'/>
+	  <yaw>-2.23402</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='3560' y='0' z='-1339'/>
+	  <scale x='1.03' y='1.02' z='0.97'/>
+	  <yaw>0.174533</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='3557' y='0' z='3440'/>
+	  <scale x='1.01' y='1' z='0.98'/>
+	  <yaw>-2.37365</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='513' y='0' z='3337'/>
+	  <scale x='0.93' y='0.91' z='1.07'/>
+	  <yaw>-2.19912</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='3342' y='0' z='-3676'/>
+	  <scale x='1.09' y='1.04' z='0.96'/>
+	  <yaw>-2.19912</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree4.mesh</mesh>
+	  <material>tree4.material</material>
+	  <position x='1342' y='0' z='764'/>
+	  <scale x='0.97' y='0.92' z='1.07'/>
+	  <yaw>1.8326</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='3380' y='0' z='-3846'/>
+	  <scale x='0.9' y='1' z='0.96'/>
+	  <yaw>0.261799</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='-1377' y='0' z='4300'/>
+	  <scale x='1.06' y='0.98' z='1'/>
+	  <yaw>-0.314159</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='-588' y='0' z='-851'/>
+	  <scale x='0.98' y='1.04' z='0.95'/>
+	  <yaw>-1.16937</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='587' y='0' z='-4640'/>
+	  <scale x='1.09' y='0.99' z='0.94'/>
+	  <yaw>-3.10669</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='-1214' y='0' z='-1817'/>
+	  <scale x='1.04' y='0.97' z='1.07'/>
+	  <yaw>1.50098</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='-954' y='0' z='-3191'/>
+	  <scale x='0.95' y='0.99' z='0.99'/>
+	  <yaw>2.61799</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='-2827' y='0' z='-1843'/>
+	  <scale x='0.94' y='0.95' z='1.08'/>
+	  <yaw>1.22173</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='-3436' y='0' z='4339'/>
+	  <scale x='0.98' y='0.93' z='1.02'/>
+	  <yaw>1.15192</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='-3673' y='0' z='432'/>
+	  <scale x='1.07' y='0.96' z='0.97'/>
+	  <yaw>-2.26893</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='-3429' y='0' z='-1367'/>
+	  <scale x='1.05' y='1.07' z='1.04'/>
+	  <yaw>-0.488692</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='-1600' y='0' z='4638'/>
+	  <scale x='1.07' y='1.03' z='0.97'/>
+	  <yaw>1.16937</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='-107' y='0' z='-2841'/>
+	  <scale x='1.08' y='1.07' z='1'/>
+	  <yaw>1.95477</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='347' y='0' z='4960'/>
+	  <scale x='0.91' y='0.96' z='0.94'/>
+	  <yaw>-2.94961</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='1898' y='0' z='-508'/>
+	  <scale x='0.9' y='0.91' z='1.07'/>
+	  <yaw>0.837758</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='-1713' y='0' z='1790'/>
+	  <scale x='0.96' y='0.97' z='0.9'/>
+	  <yaw>1.37881</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='2363' y='0' z='3613'/>
+	  <scale x='0.98' y='0.99' z='0.94'/>
+	  <yaw>-0.767945</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='-3241' y='0' z='66'/>
+	  <scale x='0.9' y='1.08' z='0.97'/>
+	  <yaw>0.506145</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='1873' y='0' z='1484'/>
+	  <scale x='0.93' y='0.94' z='0.99'/>
+	  <yaw>-2.18166</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree4.mesh</mesh>
+	  <material>tree4.material</material>
+	  <position x='-1785' y='0' z='-55'/>
+	  <scale x='0.91' y='0.93' z='0.98'/>
+	  <yaw>-3.10669</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree4.mesh</mesh>
+	  <material>tree4.material</material>
+	  <position x='247' y='0' z='4542'/>
+	  <scale x='1.06' y='0.92' z='1.05'/>
+	  <yaw>-3.14159</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='2717' y='0' z='2571'/>
+	  <scale x='0.97' y='1.06' z='1.08'/>
+	  <yaw>-1.43117</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='-2801' y='0' z='-2066'/>
+	  <scale x='0.97' y='1.02' z='1'/>
+	  <yaw>-0.349066</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='-3118' y='0' z='4196'/>
+	  <scale x='1.02' y='1.08' z='1.04'/>
+	  <yaw>2.96706</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='-3947' y='0' z='2953'/>
+	  <scale x='1.04' y='1.02' z='0.97'/>
+	  <yaw>-2.75762</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='-4409' y='0' z='-3386'/>
+	  <scale x='0.94' y='0.9' z='1.08'/>
+	  <yaw>-0.942478</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree4.mesh</mesh>
+	  <material>tree4.material</material>
+	  <position x='2483' y='0' z='-4512'/>
+	  <scale x='1.07' y='1.04' z='0.92'/>
+	  <yaw>1.8326</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree4.mesh</mesh>
+	  <material>tree4.material</material>
+	  <position x='365' y='0' z='107'/>
+	  <scale x='0.96' y='0.97' z='1.05'/>
+	  <yaw>-0.0698131</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='2350' y='0' z='3697'/>
+	  <scale x='1.08' y='0.93' z='0.92'/>
+	  <yaw>-2.04204</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='892' y='0' z='-3945'/>
+	  <scale x='1.01' y='1.05' z='0.91'/>
+	  <yaw>1.48353</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='-512' y='0' z='2495'/>
+	  <scale x='1.06' y='0.93' z='0.93'/>
+	  <yaw>2.07694</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='3726' y='0' z='-642'/>
+	  <scale x='1' y='1.01' z='0.95'/>
+	  <yaw>-1.01229</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='-1392' y='0' z='2690'/>
+	  <scale x='1.07' y='1.08' z='0.98'/>
+	  <yaw>2.47837</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='3295' y='0' z='4361'/>
+	  <scale x='1.07' y='0.9' z='0.98'/>
+	  <yaw>-2.79253</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='4341' y='0' z='-1625'/>
+	  <scale x='0.94' y='0.99' z='0.93'/>
+	  <yaw>1.62316</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree4.mesh</mesh>
+	  <material>tree4.material</material>
+	  <position x='-3467' y='0' z='-2848'/>
+	  <scale x='1' y='1.09' z='1'/>
+	  <yaw>-0.0698131</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='4972' y='0' z='-650'/>
+	  <scale x='1.04' y='0.9' z='0.9'/>
+	  <yaw>2.79253</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='-2169' y='0' z='-462'/>
+	  <scale x='0.93' y='1.09' z='1.09'/>
+	  <yaw>0.191986</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='-439' y='0' z='3019'/>
+	  <scale x='1.07' y='1.04' z='0.96'/>
+	  <yaw>-0.837758</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='4762' y='0' z='-917'/>
+	  <scale x='1.06' y='1.05' z='0.97'/>
+	  <yaw>1.53589</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='-3834' y='0' z='-3446'/>
+	  <scale x='0.99' y='1.08' z='1.06'/>
+	  <yaw>-0.541052</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree4.mesh</mesh>
+	  <material>tree4.material</material>
+	  <position x='-2945' y='0' z='-282'/>
+	  <scale x='0.9' y='0.97' z='0.98'/>
+	  <yaw>1.90241</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='-2285' y='0' z='3718'/>
+	  <scale x='1' y='0.98' z='1.07'/>
+	  <yaw>-1.43117</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='-1692' y='0' z='-1118'/>
+	  <scale x='0.95' y='0.92' z='1.07'/>
+	  <yaw>-0.610866</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='-4119' y='0' z='2069'/>
+	  <scale x='1.06' y='1.09' z='0.93'/>
+	  <yaw>1.16937</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='-2882' y='0' z='889'/>
+	  <scale x='1.06' y='1.03' z='0.97'/>
+	  <yaw>0.122173</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='-2092' y='0' z='412'/>
+	  <scale x='0.94' y='1.06' z='1'/>
+	  <yaw>2.68781</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='1046' y='0' z='-3044'/>
+	  <scale x='1.02' y='0.96' z='1.09'/>
+	  <yaw>0.959931</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='3897' y='0' z='128'/>
+	  <scale x='1.02' y='1' z='1.07'/>
+	  <yaw>1.48353</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='2661' y='0' z='-471'/>
+	  <scale x='0.93' y='1.01' z='1.08'/>
+	  <yaw>-0.645772</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='591' y='0' z='1656'/>
+	  <scale x='1' y='1.02' z='0.99'/>
+	  <yaw>1.81514</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='1026' y='0' z='1828'/>
+	  <scale x='1' y='1.02' z='0.94'/>
+	  <yaw>2.84489</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='2094' y='0' z='2779'/>
+	  <scale x='0.99' y='1.01' z='1.09'/>
+	  <yaw>-2.72271</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='-2926' y='0' z='3473'/>
+	  <scale x='1.07' y='1.05' z='0.92'/>
+	  <yaw>-3.12414</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='3020' y='0' z='866'/>
+	  <scale x='0.95' y='1.01' z='1.04'/>
+	  <yaw>-1.72788</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='3167' y='0' z='-185'/>
+	  <scale x='0.92' y='1.03' z='0.93'/>
+	  <yaw>-0.575959</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='4204' y='0' z='-2383'/>
+	  <scale x='1.01' y='1.08' z='1.06'/>
+	  <yaw>0.471239</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree4.mesh</mesh>
+	  <material>tree4.material</material>
+	  <position x='193' y='0' z='-2711'/>
+	  <scale x='1' y='0.97' z='0.92'/>
+	  <yaw>0.994838</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='-4113' y='0' z='-1646'/>
+	  <scale x='0.91' y='1.09' z='1.02'/>
+	  <yaw>-1.39626</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='4538' y='0' z='223'/>
+	  <scale x='0.99' y='0.95' z='1.08'/>
+	  <yaw>-3.10669</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='-4737' y='0' z='3250'/>
+	  <scale x='0.91' y='0.97' z='0.97'/>
+	  <yaw>-1.85005</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree4.mesh</mesh>
+	  <material>tree4.material</material>
+	  <position x='1865' y='0' z='765'/>
+	  <scale x='0.91' y='1.08' z='0.96'/>
+	  <yaw>-0.977385</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='-2409' y='0' z='4325'/>
+	  <scale x='0.98' y='1.01' z='1.09'/>
+	  <yaw>-0.907571</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='-1031' y='0' z='90'/>
+	  <scale x='1.01' y='1.09' z='1.03'/>
+	  <yaw>0.296706</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='3732' y='0' z='-1084'/>
+	  <scale x='0.9' y='1.05' z='0.96'/>
+	  <yaw>1.15192</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='3473' y='0' z='-186'/>
+	  <scale x='1.07' y='1.08' z='1.09'/>
+	  <yaw>-1.37881</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='-582' y='0' z='2396'/>
+	  <scale x='0.95' y='0.92' z='1.03'/>
+	  <yaw>0.994838</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='-3575' y='0' z='-1807'/>
+	  <scale x='0.95' y='0.96' z='1.05'/>
+	  <yaw>2.56563</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='1548' y='0' z='-3395'/>
+	  <scale x='1.09' y='0.91' z='1.03'/>
+	  <yaw>0.226893</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='4591' y='0' z='-724'/>
+	  <scale x='1' y='0.94' z='1.01'/>
+	  <yaw>-1.09956</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree4.mesh</mesh>
+	  <material>tree4.material</material>
+	  <position x='-4892' y='0' z='4755'/>
+	  <scale x='0.99' y='0.96' z='1.01'/>
+	  <yaw>-2.79253</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='2415' y='0' z='-760'/>
+	  <scale x='0.99' y='1.02' z='1.03'/>
+	  <yaw>2.11185</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='-3854' y='0' z='1939'/>
+	  <scale x='0.93' y='1.04' z='1.06'/>
+	  <yaw>2.26893</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree4.mesh</mesh>
+	  <material>tree4.material</material>
+	  <position x='-3586' y='0' z='-2025'/>
+	  <scale x='1.08' y='0.95' z='0.94'/>
+	  <yaw>0.0174533</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='-4931' y='0' z='421'/>
+	  <scale x='0.99' y='1.07' z='1.06'/>
+	  <yaw>-2.98451</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='3999' y='0' z='-3945'/>
+	  <scale x='1.08' y='0.96' z='1.06'/>
+	  <yaw>-1.79769</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='679' y='0' z='2958'/>
+	  <scale x='0.94' y='0.95' z='0.99'/>
+	  <yaw>-3.10669</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='-2753' y='0' z='-4128'/>
+	  <scale x='1.07' y='0.91' z='0.97'/>
+	  <yaw>2.02458</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='2016' y='0' z='-3982'/>
+	  <scale x='0.98' y='1.07' z='0.9'/>
+	  <yaw>-1.78024</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='-4651' y='0' z='4966'/>
+	  <scale x='0.95' y='0.98' z='0.91'/>
+	  <yaw>3.07178</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='-2804' y='0' z='3466'/>
+	  <scale x='0.95' y='1.05' z='1.07'/>
+	  <yaw>0.541052</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree4.mesh</mesh>
+	  <material>tree4.material</material>
+	  <position x='-2170' y='0' z='-3947'/>
+	  <scale x='0.98' y='0.99' z='0.95'/>
+	  <yaw>-2.58309</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='4518' y='0' z='-3557'/>
+	  <scale x='0.96' y='0.96' z='0.91'/>
+	  <yaw>3.07178</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='-1006' y='0' z='1323'/>
+	  <scale x='1.08' y='1.06' z='0.99'/>
+	  <yaw>-2.96706</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree4.mesh</mesh>
+	  <material>tree4.material</material>
+	  <position x='424' y='0' z='1396'/>
+	  <scale x='1.05' y='0.9' z='0.93'/>
+	  <yaw>0.20944</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree4.mesh</mesh>
+	  <material>tree4.material</material>
+	  <position x='1392' y='0' z='-3153'/>
+	  <scale x='0.93' y='0.92' z='0.9'/>
+	  <yaw>-2.47837</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='-1017' y='0' z='2004'/>
+	  <scale x='1.08' y='0.91' z='0.97'/>
+	  <yaw>0.523599</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='304' y='0' z='1387'/>
+	  <scale x='1.02' y='1.01' z='0.92'/>
+	  <yaw>-2.75762</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='-2098' y='0' z='1347'/>
+	  <scale x='1' y='0.96' z='0.93'/>
+	  <yaw>0.10472</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='3837' y='0' z='-2702'/>
+	  <scale x='0.99' y='0.99' z='1.08'/>
+	  <yaw>0.523599</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='-4488' y='0' z='-4196'/>
+	  <scale x='1.08' y='0.97' z='0.98'/>
+	  <yaw>-1.11701</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree7.mesh</mesh>
+	  <material>tree7.material</material>
+	  <position x='2108' y='0' z='-651'/>
+	  <scale x='1.07' y='0.94' z='1.06'/>
+	  <yaw>0.0523599</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='-2291' y='0' z='-585'/>
+	  <scale x='0.9' y='1.02' z='1.04'/>
+	  <yaw>0.942478</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='-3730' y='0' z='-4710'/>
+	  <scale x='1.01' y='0.97' z='0.91'/>
+	  <yaw>1.53589</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='-4560' y='0' z='-3311'/>
+	  <scale x='1.07' y='0.94' z='1.03'/>
+	  <yaw>-2.28638</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='-653' y='0' z='3151'/>
+	  <scale x='0.93' y='1.05' z='1.02'/>
+	  <yaw>-3.00197</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='1101' y='0' z='1572'/>
+	  <scale x='0.96' y='0.92' z='1.09'/>
+	  <yaw>0.20944</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='4519' y='0' z='2126'/>
+	  <scale x='0.94' y='0.99' z='0.99'/>
+	  <yaw>-1.11701</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='-3345' y='0' z='2249'/>
+	  <scale x='0.92' y='0.97' z='1'/>
+	  <yaw>1.06465</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='-4488' y='0' z='-2897'/>
+	  <scale x='1.06' y='1.01' z='0.97'/>
+	  <yaw>1.18682</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree5.mesh</mesh>
+	  <material>tree5.material</material>
+	  <position x='1471' y='0' z='4019'/>
+	  <scale x='1.06' y='0.94' z='1.01'/>
+	  <yaw>-0.837758</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='1143' y='0' z='-913'/>
+	  <scale x='1.02' y='0.92' z='0.95'/>
+	  <yaw>-1.11701</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='-711' y='0' z='-2197'/>
+	  <scale x='1.07' y='1.06' z='0.94'/>
+	  <yaw>-2.86234</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='4292' y='0' z='2096'/>
+	  <scale x='1.07' y='1.06' z='1.09'/>
+	  <yaw>0.506145</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree4.mesh</mesh>
+	  <material>tree4.material</material>
+	  <position x='1665' y='0' z='2367'/>
+	  <scale x='1.04' y='1.07' z='0.96'/>
+	  <yaw>-2.75762</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree3.mesh</mesh>
+	  <material>tree3.material</material>
+	  <position x='-729' y='0' z='-2939'/>
+	  <scale x='1.06' y='0.96' z='0.9'/>
+	  <yaw>1.88496</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree2.mesh</mesh>
+	  <material>tree2.material</material>
+	  <position x='749' y='0' z='3780'/>
+	  <scale x='1.07' y='1.08' z='1.05'/>
+	  <yaw>2.0944</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='2046' y='0' z='-2666'/>
+	  <scale x='1.06' y='1' z='1'/>
+	  <yaw>2.54818</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree6.mesh</mesh>
+	  <material>tree6.material</material>
+	  <position x='-3815' y='0' z='3846'/>
+	  <scale x='1.04' y='1.01' z='1.04'/>
+	  <yaw>3.00197</yaw>
+	</tree>
+	<tree>
+	  <mesh>tree4.mesh</mesh>
+	  <material>tree4.material</material>
+	  <position x='3241' y='0' z='2340'/>
+	  <scale x='1' y='0.94' z='1.03'/>
+	  <yaw>2.26893</yaw>
+	</tree>
+</map>

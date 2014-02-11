@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<database>
+	<character charactername="Justin2" level="1" health="200" experience="0" damage="10">
+		<inventory gold="0" />
+		<equip />
+	</character>
+	<character charactername="Dude" level="1" health="200" experience="0" damage="10">
+		<inventory gold="0" />
+		<equip />
+	</character>
+	<character charactername="Player" level="1" health="200" experience="50" damage="10">
+		<inventory gold="4">
+			<item index="0" />
+		</inventory>
+		<equip />
+	</character>
+	<character charactername="Chris1" level="1" health="200" experience="0" damage="10">
+		<inventory gold="0" />
+		<equip />
+	</character>
+</database>

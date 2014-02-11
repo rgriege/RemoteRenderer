@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<database>
+	<item name="Iron Sword" value="50" image="IronSword" slot="1">
+		<attribute stat="1" amount="10" duration="65535" />
+	</item>
+	<item name="Health Potion" value="15" image="HealthPot" slot="-1">
+		<attribute stat="0" amount="75" duration="0" />
+	</item>
+	<item name="Delicious Green Apple" value="1" image="Apple" slot="-1">
+		<attribute stat="0" amount="75" duration="0" />
+	</item>
+</database>
