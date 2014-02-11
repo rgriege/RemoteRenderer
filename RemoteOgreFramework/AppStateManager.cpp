@@ -1,7 +1,7 @@
 #include "AppStateManager.h"
 #include "RemoteOgreFramework.h"
 
-#include <OGRE/OgreWindowEventUtilities.h>
+#include <OgreWindowEventUtilities.h>
 
 AppStateManager::AppStateManager()
 {
@@ -93,7 +93,6 @@ void AppStateManager::start(AppState* state)
 	}
 
 	OgreFramework::getSingletonPtr()->m_pLog->logMessage("Main loop quit");
-    OgreFramework::getSingletonPtr()->closeOgre();
 }
 
 void AppStateManager::changeAppState(AppState* state)

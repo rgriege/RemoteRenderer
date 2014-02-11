@@ -3,7 +3,7 @@
 
 template<> OgreFramework* Ogre::Singleton<OgreFramework>::msSingleton = 0;
 
-OgreFramework::OgreFramework(char* remoteHost, char* remotePort, char* localPort) :
+OgreFramework::OgreFramework(std::string remoteHost, uint16_t remotePort, uint16_t localPort) :
     m_pRoot(0),
     m_pRenderWnd(0),
     m_pViewport(0),
@@ -14,26 +14,38 @@ OgreFramework::OgreFramework(char* remoteHost, char* remotePort, char* localPort
     m_pInputMgr(0),
     m_pKeyboard(0),
     m_pMouse(0),
+    mEncoder(0),
+    m_pTrayMgr(0),
     mRemoteHost(remoteHost),
-    mRemotePort(atoi(remotePort)),
-    mLocalPort(atoi(localPort))
+    mRemotePort(remotePort),
+    mLocalPort(localPort),
+    mInputLocation(LOCAL),
+    mRenderLocation(LOCAL)
 {
     mShutdown = false;
+    mBuffer.data = 0;
+    mConnections = 0;
 }
 
 OgreFramework::~OgreFramework()
 {
-    m_pLog->logMessage("Shutdown OGRE...");
+    if (m_pLog)
+        m_pLog->logMessage("Shutdown OGRE...");
 
     /* Stop server */
-    mRenderServer.stop();
-    mInputServer.stop();
-    mRenderThread->join();
-    mInputThread->join();
-    delete mRenderThread;
-    delete mInputThread;
+    if (mInputLocation == REMOTE) {
+        mInputServer.stop();
+        mInputThread->join();
+        delete mInputThread;
+    }
+    if (mRenderLocation == REMOTE) {
+        mRenderServer.stop();
+        mRenderThread->join();
+        delete mRenderThread;
+    }
 
-    if(mEncoder)       delete mEncoder;
+    if(mEncoder)        delete mEncoder;
+    if(mBuffer.data)    free(mBuffer.data);
     if(m_pTrayMgr)      delete m_pTrayMgr;
     if(m_pInputMgr)     OIS::InputManager::destroyInputSystem(m_pInputMgr);
     if(m_pRoot)         delete m_pRoot;
@@ -45,24 +57,36 @@ bool OgreFramework::initOgre(Ogre::String wndTitle,
                                    Location renderLocation,
                                    Location inputLocation)
 {
-    mConnections = 0;
-    mRenderServer.init_asio();
-    mRenderServer.clear_access_channels(websocketpp::log::alevel::frame_payload);
-    mRenderServer.clear_access_channels(websocketpp::log::alevel::frame_header);
-    mRenderServer.set_open_handler(bind(&OgreFramework::_onRenderOpen, this, _1));
-    mRenderServer.set_close_handler(bind(&OgreFramework::_onClose, this, _1));
-    mRenderServer.listen(mLocalPort);
-    mRenderServer.start_accept();
+    mInputLocation = inputLocation;
+    mRenderLocation = renderLocation;
 
-    mInputServer.init_asio();
-    mInputServer.clear_access_channels(websocketpp::log::alevel::frame_payload);
-    mInputServer.clear_access_channels(websocketpp::log::alevel::frame_header);
-    mInputServer.set_open_handler(bind(&OgreFramework::_onInputOpen, this, _1));
-    mInputServer.set_close_handler(bind(&OgreFramework::_onClose, this, _1));
-    mInputServer.listen(mLocalPort+1);
-    mInputServer.start_accept();
-    mRenderThread = new std::thread(std::bind(&server::run, &mRenderServer));
-    mInputThread = new std::thread(std::bind(&server::run, &mInputServer));
+    if ((inputLocation == REMOTE || renderLocation == REMOTE) &&
+        (mLocalPort == 0 || mRemoteHost == "" || mRemotePort == 0))
+        return false;
+    if (renderLocation == REMOTE) {
+        mRenderServer.init_asio();
+        mRenderServer.clear_access_channels(websocketpp::log::alevel::frame_payload);
+        mRenderServer.clear_access_channels(websocketpp::log::alevel::frame_header);
+        mRenderServer.set_open_handler(bind(&OgreFramework::_onRenderOpen, this, _1));
+        mRenderServer.set_close_handler(bind(&OgreFramework::_onClose, this, _1));
+        mRenderServer.listen(mLocalPort);
+        mRenderServer.start_accept();
+        mRenderThread = new std::thread(std::bind(&server::run, &mRenderServer));
+    }
+    if (inputLocation == REMOTE) {
+        mInputServer.init_asio();
+        mInputServer.clear_access_channels(websocketpp::log::alevel::frame_payload);
+        mInputServer.clear_access_channels(websocketpp::log::alevel::frame_header);
+        mInputServer.set_open_handler(bind(&OgreFramework::_onInputOpen, this, _1));
+        mInputServer.set_close_handler(bind(&OgreFramework::_onClose, this, _1));
+        mInputServer.listen(mLocalPort+1);
+        mInputServer.start_accept();
+        mInputThread = new std::thread(std::bind(&server::run, &mInputServer));
+    }
+
+    Ogre::LogManager* logMgr = new Ogre::LogManager();
+    m_pLog = Ogre::LogManager::getSingleton().createLog("OgreLogfile.log", true, true, false);
+    m_pLog->setDebugOutputEnabled(true);
 
 #ifdef _DEBUG
     mResourcesCfg = "resources_d.cfg";
@@ -72,27 +96,19 @@ bool OgreFramework::initOgre(Ogre::String wndTitle,
     mPluginsCfg = "plugins.cfg";
 #endif
 
-    Ogre::LogManager* logMgr = new Ogre::LogManager();
-
-    m_pLog = Ogre::LogManager::getSingleton().createLog("OgreLogfile.log", true, true, false);
-    m_pLog->setDebugOutputEnabled(true);
-
     m_pRoot = new Ogre::Root(mPluginsCfg);
-
-    if(!m_pRoot->showConfigDialog())
+    if (mRenderLocation == REMOTE && !m_pRoot->restoreConfig())
         return false;
-    m_pRenderWnd = m_pRoot->initialise(true, wndTitle);
+    if (mRenderLocation == LOCAL && !m_pRoot->showConfigDialog())
+        return false;
+    {
+        std::lock_guard<std::mutex> lk(mRenderConMtx);
+        m_pRenderWnd = m_pRoot->initialise(true, wndTitle);
+    }
 
     m_pViewport = m_pRenderWnd->addViewport(0);
     m_pViewport->setBackgroundColour(Ogre::ColourValue(0.5f, 0.5f, 0.5f, 1.0f));
-
     m_pViewport->setCamera(0);
-
-#pragma push_macro("PixelFormat")
-#undef PixelFormat
-    mBuffer = Ogre::PixelBox(m_pRenderWnd->getWidth(), m_pRenderWnd->getHeight(), 1,
-                            Ogre::PF_B8G8R8, malloc(m_pRenderWnd->getWidth()*m_pRenderWnd->getHeight()*3));
-#pragma pop_macro("PixelFormat")
 
     if (inputLocation == REMOTE) {
         std::unique_lock<std::mutex> lk(mInputConMtx);
@@ -126,7 +142,6 @@ bool OgreFramework::initOgre(Ogre::String wndTitle,
 
     Ogre::String secName, typeName, archName;
     Ogre::ConfigFile cf;
-
     cf.load(mResourcesCfg);
 
     Ogre::ConfigFile::SectionIterator seci = cf.getSectionIterator();
@@ -145,21 +160,34 @@ bool OgreFramework::initOgre(Ogre::String wndTitle,
     Ogre::TextureManager::getSingleton().setDefaultNumMipmaps(5);
     Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 
-    //m_pTrayMgr = new OgreBites::SdkTrayManager("AOFTrayMgr", m_pRenderWnd, m_pMouse, 0);
-    m_pGUIRenderer = &CEGUI::OgreRenderer::bootstrapSystem(*m_pRenderWnd);
-    m_pGUISystem = CEGUI::System::getSingletonPtr();
-    CEGUI::SchemeManager::getSingleton().create((CEGUI::utf8*)"TaharezLook.scheme"); 
-    CEGUI::ImagesetManager::getSingleton().create( "SkillSlot.imageset" ); 
-    CEGUI::ImagesetManager::getSingleton().create( "Inventory.imageset" );
-    CEGUI::ImagesetManager::getSingleton().create( "MiscImages.imageset" );
+    // the SdkTrayManager only needs a RenderTarget but asks for a RenderWindow
+    m_pTrayMgr = new OgreBites::SdkTrayManager("AOFTrayMgr", static_cast<Ogre::RenderWindow*>(m_pRenderWnd), m_pMouse, 0);
 
     m_pTimer = new Ogre::Timer();
     m_pTimer->reset();
 
+    if (mRenderLocation == REMOTE) {
+        /*m_pRenderWnd = Ogre::TextureManager::getSingleton().createManual(
+            "RttTex", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, Ogre::TEX_TYPE_2D,
+            300, 300, 0, Ogre::PF_R8G8B8, Ogre::TU_RENDERTARGET)->getBuffer()->getRenderTarget();
+        m_pViewport = renderTex->addViewport(m_pCamera);*/
+#pragma push_macro("PixelFormat")
+#undef PixelFormat
+        mBuffer = Ogre::PixelBox(m_pRenderWnd->getWidth(), m_pRenderWnd->getHeight(), 1,
+                                Ogre::PF_B8G8R8, malloc(m_pRenderWnd->getWidth()*m_pRenderWnd->getHeight()*3));
+#pragma pop_macro("PixelFormat")
+
+        /* ffmpeg init, also try AV_CODEC_ID_H264 */
+        mEncoder = new Encoder();
+        if (!mEncoder->bootstrap(AV_CODEC_ID_MPEG1VIDEO, m_pRenderWnd->getWidth(), m_pRenderWnd->getHeight(), 30))
+            return false;
+
+        m_pRoot->addFrameListener(this);
+        // Can only be added once RenderSystem_RemoteGL is added to Ogre
+        // Ogre::WindowEventUtilities::addWindowEventListener(static_cast<Ogre::RenderWindow*>(m_pRenderWnd), this);
+    }
+
     m_pRenderWnd->setActive(true);
-    m_pRoot->addFrameListener(this);
-    
-    Ogre::WindowEventUtilities::addWindowEventListener(static_cast<Ogre::RenderWindow*>(m_pRenderWnd), this);
 
     return true;
 }
@@ -186,7 +214,8 @@ bool OgreFramework::frameRenderingQueued(const Ogre::FrameEvent& evt)
 
 void OgreFramework::windowResized(Ogre::RenderWindow* rw)
 {
-     
+    m_pMouse->getMouseState().width = rw->getWidth();
+    m_pMouse->getMouseState().height = rw->getHeight();
 }
 
 void OgreFramework::windowClosed(Ogre::RenderWindow* rw)
@@ -210,34 +239,18 @@ bool OgreFramework::keyReleased(const OIS::KeyEvent &keyEventRef)
     return true;
 }
 
-OIS::MouseState OgreFramework::scaleMouseState(const OIS::MouseState& state)
-{
-    OIS::MouseState result;
-    result.X.abs = (state.X.abs * m_pRenderWnd->getWidth()) / state.width;
-    result.X.rel = (state.X.rel * m_pRenderWnd->getWidth()) / state.width;
-    result.Y.abs = (state.Y.abs * m_pRenderWnd->getHeight()) / state.height;
-    result.Y.rel = (state.Y.rel * m_pRenderWnd->getHeight()) / state.height;
-    result.width = m_pRenderWnd->getWidth();
-    result.height = m_pRenderWnd->getHeight();
-    result.buttons = state.buttons;
-    return result;
-}
-
 bool OgreFramework::mouseMoved(const OIS::MouseEvent &evt)
 {
-    OIS::MouseState state = scaleMouseState(evt.state);
     return true;
 }
 
 bool OgreFramework::mousePressed(const OIS::MouseEvent &evt, OIS::MouseButtonID id)
 {
-    OIS::MouseState state = scaleMouseState(evt.state);
     return true;
 }
 
 bool OgreFramework::mouseReleased(const OIS::MouseEvent &evt, OIS::MouseButtonID id)
 {
-    OIS::MouseState state = scaleMouseState(evt.state);
     return true;
 }
 
@@ -263,8 +276,11 @@ void OgreFramework::_onRenderOpen(connection_hdl hdl)
     mRenderHdl = hdl;
     uint16_t first_message[4];
     memcpy(first_message, "jsmp", 4);
-    first_message[2] = htons(300);
-    first_message[3] = htons(300);
+    std::unique_lock<std::mutex> lk(mRenderConMtx);
+    mRenderConCv.wait(lk, [&]() { return m_pRenderWnd; });
+    lk.unlock();
+    first_message[2] = htons(m_pRenderWnd->getWidth());
+    first_message[3] = htons(m_pRenderWnd->getHeight());
     mRenderServer.send(hdl, first_message, 8, websocketpp::frame::opcode::binary);
 
     ++mConnections;
@@ -272,7 +288,8 @@ void OgreFramework::_onRenderOpen(connection_hdl hdl)
 
 void OgreFramework::_onInputOpen(connection_hdl hdl)
 {
-    std::cout << "input socket opened!" << std::endl; {
+    std::cout << "input socket opened!" << std::endl;
+    {
         std::lock_guard<std::mutex> lk(mInputConMtx);
         mInputHdl = hdl;
     }

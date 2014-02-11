@@ -1,12 +1,18 @@
 #ifndef REMOTE_OGRE_FRAMEWORK_H
 #define REMOTE_OGRE_FRAMEWORK_H
 
+#ifdef REMOTEOGREFRAMEWORK_EXPORT
+#define REMOTEOGREFRAMEWORK_API __declspec(dllexport)
+#else
+#define REMOTEOGREFRAMEWORK_API __declspec(dllimport)
+#endif
+
 #include <thread>
 #include <mutex>
 #include <condition_variable>
 #include <atomic>
 
-#include <OGRE\Ogre.h>
+#include <Ogre.h>
 #include <OIS.h>
 #include <RemoteOIS.h>
 #include <Encoder.h>
@@ -18,9 +24,7 @@ extern "C" {
 #include <websocketpp/server.hpp>
 #include <boost/smart_ptr/owner_less.hpp>
 
-#include <OGRE\SdkTrays.h>
-#include <CEGUI/CEGUI.h>
-#include <CEGUI/RendererModules/Ogre/CEGUIOgreRenderer.h>
+#include <SdkTrays.h>
 
 typedef websocketpp::server<websocketpp::config::asio> server;
 
@@ -32,12 +36,12 @@ enum Location
     REMOTE = 0x2
 };
 
-class OgreFramework : public Ogre::Singleton<OgreFramework>,
+class REMOTEOGREFRAMEWORK_API OgreFramework : public Ogre::Singleton<OgreFramework>,
     public Ogre::FrameListener, Ogre::WindowEventListener,
     public OIS::MouseListener, public OIS::KeyListener
 {
 public:
-    OgreFramework(char* remoteHost = NULL, char* remotePort = NULL, char* localPort = NULL);
+    OgreFramework(std::string remoteHost = "", uint16_t remotePort = 0, uint16_t localPort = 0);
     ~OgreFramework();
 
     bool initOgre(Ogre::String wndTitle,
@@ -73,8 +77,6 @@ public:
     OIS::Mouse*             m_pMouse;
 
     OgreBites::SdkTrayManager*	m_pTrayMgr;
-    CEGUI::OgreRenderer*        m_pGUIRenderer;
-    CEGUI::System*              m_pGUISystem;
 
 private:
     OgreFramework(const OgreFramework&);
@@ -84,7 +86,8 @@ private:
     void _onInputOpen(connection_hdl hdl);
     void _onClose(connection_hdl hdl);
 
-    OIS::MouseState scaleMouseState(const OIS::MouseState& state);
+    Location mInputLocation;
+    Location mRenderLocation;
 
     Encoder* mEncoder;
     Ogre::PixelBox mBuffer;
@@ -99,6 +102,7 @@ private:
     std::thread* mRenderThread;
 	connection_hdl mRenderHdl;
     std::mutex mRenderConMtx;
+    std::condition_variable mRenderConCv;
 
 	std::atomic_int mConnections;
 
