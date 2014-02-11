@@ -265,7 +265,8 @@ bool OgreFramework::closed()
 
 void OgreFramework::_onRenderOpen(connection_hdl hdl)
 {
-    std::cout << "render socket opened!" << std::endl;
+    if (m_pLog)
+        m_pLog->logMessage("render socket opened!");
 
     server::connection_ptr con = mRenderServer.get_con_from_hdl(hdl);
     if (con->get_host() != mRemoteHost && con->get_port() != mRemotePort) {
@@ -288,7 +289,8 @@ void OgreFramework::_onRenderOpen(connection_hdl hdl)
 
 void OgreFramework::_onInputOpen(connection_hdl hdl)
 {
-    std::cout << "input socket opened!" << std::endl;
+    if (m_pLog)
+        m_pLog->logMessage("input socket opened!");
     {
         std::lock_guard<std::mutex> lk(mInputConMtx);
         mInputHdl = hdl;
@@ -299,10 +301,12 @@ void OgreFramework::_onInputOpen(connection_hdl hdl)
 
 void OgreFramework::_onClose(connection_hdl hdl)
 {
-    std::cout << "socket closed!" << std::endl;
+    if (m_pLog)
+        m_pLog->logMessage("socket closed!");
     --mConnections;
     if (mConnections == 0) {
-        std::cout << "shutdown initiated" << std::endl;
+        if (m_pLog)
+            m_pLog->logMessage("shutdown initiated!");
         mShutdown = true;
     }
 }
