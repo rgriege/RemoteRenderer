@@ -3,7 +3,7 @@
 
 #include "AppState.h"
 
-class REMOTEOGREFRAMEWORK_API AppStateManager : public AppStateListener
+class AppStateManager : public AppStateListener
 {
 public:
 	typedef struct

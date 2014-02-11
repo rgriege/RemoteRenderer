@@ -1,12 +1,6 @@
 #ifndef REMOTE_OGRE_FRAMEWORK_H
 #define REMOTE_OGRE_FRAMEWORK_H
 
-#ifdef REMOTEOGREFRAMEWORK_EXPORT
-#define REMOTEOGREFRAMEWORK_API __declspec(dllexport)
-#else
-#define REMOTEOGREFRAMEWORK_API __declspec(dllimport)
-#endif
-
 #include <thread>
 #include <mutex>
 #include <condition_variable>
@@ -36,7 +30,7 @@ enum Location
     REMOTE = 0x2
 };
 
-class REMOTEOGREFRAMEWORK_API OgreFramework : public Ogre::Singleton<OgreFramework>,
+class OgreFramework : public Ogre::Singleton<OgreFramework>,
     public Ogre::FrameListener, Ogre::WindowEventListener,
     public OIS::MouseListener, public OIS::KeyListener
 {

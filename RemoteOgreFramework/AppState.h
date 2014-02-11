@@ -5,7 +5,7 @@
 
 class AppState;
 
-class REMOTEOGREFRAMEWORK_API AppStateListener
+class AppStateListener
 {
 public:
 	AppStateListener(){};
@@ -22,7 +22,7 @@ public:
     virtual void        popAllAndPushAppState(AppState* state) = 0;
 };
 
-class REMOTEOGREFRAMEWORK_API AppState : public OIS::KeyListener, public OIS::MouseListener
+class AppState : public OIS::KeyListener, public OIS::MouseListener
 {
 public:
 	static void create(AppStateListener* parent, const Ogre::String name){};
