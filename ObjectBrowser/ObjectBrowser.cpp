@@ -9,8 +9,6 @@ ObjectBrowser::ObjectBrowser(std::string remoteHost, uint16_t remotePort, uint16
     : mRemoteHost(remoteHost), mRemotePort(remotePort), mLocalPort(localPort)
 {
     mAppStateManager = 0;
-    bool mShutdown = false;
-    bool mIsRemote = mRemoteHost != "" && mRemotePort != 0 && mLocalPort != 0;
 }
 
 ObjectBrowser::~ObjectBrowser()
