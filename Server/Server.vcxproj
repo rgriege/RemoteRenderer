@@ -81,7 +81,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Base64.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ServerApp.cpp" />
     <ClCompile Include="Config.cpp" />
@@ -92,7 +91,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Base64.h" />
     <ClInclude Include="Config.h" />
     <ClInclude Include="ServerApp.h" />
   </ItemGroup>
