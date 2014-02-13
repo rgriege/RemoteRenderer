@@ -178,8 +178,8 @@
         if (!statsBtn.hasClass('active')) {
             statsBtn.addClass('active');
             statsTbl.show();
-            if (videoPlayer)
-                statsListener.start(videoPlayer, 1000);
+            if (currentGame.videoPlayer)
+                statsListener.start(currentGame.videoPlayer, 1000);
         } else {
             statsBtn.removeClass('active');
             statsTbl.hide();
@@ -204,8 +204,8 @@
         var val = $(this).attr('data-value');
         var res = [];
         if (val === 'native') {
-            if (videoPlayer)
-                res = [videoPlayer.sourceWidth, videoPlayer.sourceHeight];
+            if (currentGame.videoPlayer)
+                res = [currentGame.videoPlayer.sourceWidth, currentGame.videoPlayer.sourceHeight];
             else
                 succeeded = false;
         } else if (val === 'fullscreen') {
@@ -215,8 +215,8 @@
             res = val.split('x');
         }
         if (succeeded) {
-            if (videoPlayer) {
-                videoPlayer.resizeCanvas(res[0], res[1]);
+            if (currentGame.videoPlayer) {
+                currentGame.videoPlayer.resizeCanvas(res[0], res[1]);
             } else {
                 canvas.width = res[0];
                 canvas.height = res[1];
