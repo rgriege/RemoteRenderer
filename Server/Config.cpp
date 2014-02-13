@@ -2,7 +2,7 @@
 #include <fstream>
 
 #include "Config.h"
-#include "Base64.h"
+#include <websocketpp/base64/base64.hpp>
 
 Game::Game(std::string name, std::string path, std::string summary, std::string preview)
     : name(name), path(path), summary(summary), preview(preview)
