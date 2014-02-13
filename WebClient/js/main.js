@@ -2,9 +2,10 @@
     // Show loading notice
     var canvas = doc.getElementById("videoCanvas");
     var contextType = 'webgl';
+    var serverAddress = 'ws://24.155.244.209:';
     var videoPlayer;
 
-    var serverSocket = new WebSocket('ws://192.168.0.75:9001');
+    var serverSocket = new WebSocket(serverAddress +'9001');
     var gamePort;
     var library;
     var libIdx = 0;
@@ -67,9 +68,9 @@
     var listenForGameMsg = function (serverMsg) {
         gamePort = parseInt(serverMsg.data);
         // Setup the WebSocket connection and start the player
-        var renderSocket = new WebSocket('ws://192.168.0.75:' + gamePort);
+        var renderSocket = new WebSocket(serverAddress + gamePort);
         renderSocket.onclose = closeGame;
-        var inputSocket = new WebSocket('ws://192.168.0.75:' + (gamePort + 1));
+        var inputSocket = new WebSocket(serverAddress + (gamePort + 1));
 
         currentGame = game.create(canvas, contextType, renderSocket, inputSocket);
         currentGame.onload = function() {
