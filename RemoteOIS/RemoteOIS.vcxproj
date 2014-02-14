@@ -21,7 +21,6 @@
   <ItemGroup>
     <ClInclude Include="includes\RemoteOISDefaultDeviceProtocol.h" />
     <ClInclude Include="includes\RemoteOISDefaultFactoryCreatorProtocol.h" />
-    <ClInclude Include="includes\RemoteOISMessageListener.h" />
     <ClInclude Include="includes\RemoteOISConnectionManager.h" />
     <ClInclude Include="includes\RemoteOISInputManager.h" />
     <ClInclude Include="includes\RemoteOISKeyboard.h" />
@@ -32,6 +31,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\RemoteOISConnectionManager.cpp" />
+    <ClCompile Include="src\RemoteOISDefaultDeviceProtocol.cpp" />
     <ClCompile Include="src\RemoteOISInputManager.cpp" />
     <ClCompile Include="src\RemoteOISKeyboard.cpp" />
     <ClCompile Include="src\RemoteOISMouse.cpp" />

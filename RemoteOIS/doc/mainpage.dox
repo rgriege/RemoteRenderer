@@ -1,0 +1,13 @@
+/** @mainpage %RemoteOIS Index Page
+ *
+ * @section intro_sec Introduction
+ *
+ * %RemoteOIS is an extension library for OIS, the Object-Oriented Input System.  It extends the normal OIS input objects to allow for streaming input from remote devices.  Since it maintains a very similar interface to the base library, it can be integrated into OIS-based projects with minimal modifications after a connection has been established.  The library was developed for in coordination RemoteOgreFramework and is targeted at game streaming applications.
+ *
+ * @section install_sec Installation
+ *
+ * @subsection step1 Step 1: Getting the source
+ *
+ * The source code can be found at https://github.com/rgriege/RemoteRenderer/tree/master/RemoteOIS.
+ *
+ */
