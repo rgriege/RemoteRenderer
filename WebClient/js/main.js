@@ -3,7 +3,6 @@
     var canvas = doc.getElementById("videoCanvas");
     var contextType = 'webgl';
     var serverAddress = 'ws://24.155.244.209:';
-    var videoPlayer;
 
     var serverSocket = new WebSocket(serverAddress +'9001');
     var gamePort;
