@@ -16,7 +16,7 @@ extern "C" {
 
 #define INBUF_SIZE 4096
 
-#ifdef CODEC_EXPORT
+#ifdef Codec_EXPORTS
 #define CODEC_API __declspec(dllexport)
 #else
 #define CODEC_API __declspec(dllimport)
