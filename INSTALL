@@ -2,31 +2,35 @@ Dependencies
 ============
 
 RemoteOIS:
-
  - OIS: http://sourceforge.net/projects/wgois/ (version 1.3.0)
- - Boost: https://boost.org (version 1.51.0 or greater)
- - Websocketpp: https://github.com/zaphoyd/websocketpp/tree/0.3.0-alpha4 (tag 0.3.0-alpha4)
+ - Boost: http://boost.org (tested with versions 1.46.0 & 1.51.0)
+ - Websocketpp: http://github.com/zaphoyd/websocketpp/tree/0.3.0-alpha4 (tag 0.3.0-alpha4)
 
 Server:
  - Boost
  - Websocketpp
 
 Codec:
- - FFmpeg: https://ffmpeg.org
+ - FFmpeg: http://ffmpeg.org
+
 RemoteOgreFramework:
  - RemoteOIS
  - Codec
- - Ogre: https://ogre3d.org
+ - Ogre: http://ogre3d.org
 
 ObjectBrowser:
  - RemoteOgreFramework
 
 SnS_Demo:
  - RemoteOgreFramework
- - Bullet: https://bulletphysics.org
- - CEGUI: https://
+ - Bullet: http://bulletphysics.org (version 2.82)
+ - CEGUI: http://cegui.org.uk/ (version 0.7.9)
+ - SDL: http://www.libsdl.org/ (version 1.2.15)
+ - SDL_mixer: http://www.libsdl.org/projects/SDL_mixer/ (version 1.2.12)
 
+All dependencies should be built as shared/dynamic libraries (with -fPIC on UNIX gcc).
+ 
 Cmake
 =====
 
-Cmake may not be able to find all the libraries.  For any missing libs, define the cache variable <lib>_HOME as the root of the directory.
+Cmake may not be able to find all the libraries.  For any missing libs, define the cache variable <lib>_HOME as the root of the directory (except Bullet, which uses BULLET_ROOT).  In addition, SDL and SDL_mixer

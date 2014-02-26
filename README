@@ -1,0 +1,5 @@
+RemoteRenderer
+
+This project is designed to substitute the Advanced Ogre Framework (http://www.ogre3d.org/tikiwiki/Advanced%20Ogre%20Framework) to provide application streaming functionality. After building and linking all of the external dependencies and supporting libraries in the project, simply replacing the files in a project based on the Advanced Ogre Framework with the corresponding files in the RemoteOgreFramework folder will embed optional game streaming features.
+
+For installation instructions, please consult the INSTALL file in the root directory. For any other questions, help, and support, contact Ryan Griege (rgriege@sbcglobal.net).
