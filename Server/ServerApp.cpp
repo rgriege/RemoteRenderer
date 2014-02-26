@@ -4,6 +4,35 @@
 #include "ServerApp.h"
 #include "Config.h"
 
+/**
+ * C++ version 0.4 char* style "itoa":
+ * Written by Lukás Chmela
+ * Released under GPLv3.
+ */
+char* itoa(int value, char* result, int base) {
+	// check that the base if valid
+	if (base < 2 || base > 36) { *result = '\0'; return result; }
+
+	char* ptr = result, *ptr1 = result, tmp_char;
+	int tmp_value;
+
+	do {
+		tmp_value = value;
+		value /= base;
+		*ptr++ = "zyxwvutsrqponmlkjihgfedcba9876543210123456789abcdefghijklmnopqrstuvwxyz" [35 + (tmp_value - value * base)];
+	} while ( value );
+
+	// Apply negative sign
+	if (tmp_value < 0) *ptr++ = '-';
+	*ptr-- = '\0';
+	while(ptr1 < ptr) {
+		tmp_char = *ptr;
+		*ptr--= *ptr1;
+		*ptr1++ = tmp_char;
+	}
+	return result;
+}
+
 Server::Server()
     : mNextPort(9002)
 {
@@ -67,11 +96,11 @@ void Server::_onMessage(connection_hdl hdl, server::message_ptr msg)
         std::string directory = path.substr(0, path.rfind('/')+1);
 
         char remotePort[6];
-        _itoa(con->get_port(), remotePort, 10);
+        itoa(con->get_port(), remotePort, 10);
         std::string remoteHost = con->get_host();
 
         char localPort[6];
-        _itoa(mNextPort, localPort, 10);
+        itoa(mNextPort, localPort, 10);
         mNextPort += 2;
 #ifdef _WIN32
         size_t commandLineSize = path.length() + 1 +

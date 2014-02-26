@@ -1,0 +1,32 @@
+Dependencies
+============
+
+RemoteOIS:
+
+ - OIS: http://sourceforge.net/projects/wgois/ (version 1.3.0)
+ - Boost: https://boost.org (version 1.51.0 or greater)
+ - Websocketpp: https://github.com/zaphoyd/websocketpp/tree/0.3.0-alpha4 (tag 0.3.0-alpha4)
+
+Server:
+ - Boost
+ - Websocketpp
+
+Codec:
+ - FFmpeg: https://ffmpeg.org
+RemoteOgreFramework:
+ - RemoteOIS
+ - Codec
+ - Ogre: https://ogre3d.org
+
+ObjectBrowser:
+ - RemoteOgreFramework
+
+SnS_Demo:
+ - RemoteOgreFramework
+ - Bullet: https://bulletphysics.org
+ - CEGUI: https://
+
+Cmake
+=====
+
+Cmake may not be able to find all the libraries.  For any missing libs, define the cache variable <lib>_HOME as the root of the directory.

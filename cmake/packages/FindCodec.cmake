@@ -16,14 +16,17 @@
 #  Codec_BINARY_REL / Codec_BINARY_DBG - DLL names (windows only)
 
 set (Codec_INCLUDE_DIR ${RemoteRenderer_ROOT}/Codec)
-set (Codec_LIBRARY_DBG ${RemoteRenderer_LIB}/Codec_d.lib)
-set (Codec_LIBRARY_REL ${RemoteRenderer_LIB}/Codec.lib)
-make_library_set(Codec_LIBRARY)
 
 if (WIN32)
+    set (Codec_LIBRARY_DBG ${RemoteRenderer_LIB}/Codec_d.lib)
+    set (Codec_LIBRARY_REL ${RemoteRenderer_LIB}/Codec.lib)
 	set (Codec_BINARY_DBG ${RemoteRenderer_BIN}/Codec_d.dll)
 	set (Codec_BINARY_REL ${RemoteRenderer_BIN}/Codec.dll)
+    mark_as_advanced(Codec_BINARY_REL Codec_BINARY_DBG)
+else ()
+    set (Codec_LIBRARY_DBG ${RemoteRenderer_LIB}/libCodec_d.so)
+    set (Codec_LIBRARY_REL ${RemoteRenderer_LIB}/libCodec.so)
 endif()
-mark_as_advanced(Codec_BINARY_REL Codec_BINARY_DBG)
+make_library_set(Codec_LIBRARY)
 
 findpkg_finish(Codec)

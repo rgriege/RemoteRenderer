@@ -4,25 +4,21 @@
 #include <math.h>
 
 extern "C" {
-#include <libavutil\opt.h>
-#include <libavcodec\avcodec.h>
-#include <libavutil\channel_layout.h>
-#include <libavutil\common.h>
-#include <libavutil\imgutils.h>
-#include <libavutil\mathematics.h>
-#include <libavutil\samplefmt.h>
-#include <libswscale\swscale.h>
+#include <libavutil/opt.h>
+#include <libavcodec/avcodec.h>
+#include <libavutil/channel_layout.h>
+#include <libavutil/common.h>
+#include <libavutil/imgutils.h>
+#include <libavutil/mathematics.h>
+#include <libavutil/samplefmt.h>
+#include <libswscale/swscale.h>
 }
 
 #include "IStream.h"
 
 #define INBUF_SIZE 4096
 
-#ifdef Codec_EXPORTS
-#define CODEC_API __declspec(dllexport)
-#else
-#define CODEC_API __declspec(dllimport)
-#endif
+#include "CodecPrereqs.h"
 
 class CODEC_API Decoder
 {

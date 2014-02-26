@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <stdexcept>
 
 #include "Config.h"
 #include <websocketpp/base64/base64.hpp>
@@ -17,7 +18,7 @@ void Game::stringify(std::ostream& os) const
     if (preview != "")
     {
         os << ",\"Preview\":\"data:image/png;base64,";
-        std::ifstream previewIs(preview, std::ios_base::binary);
+        std::ifstream previewIs(preview.c_str(), std::ios_base::binary);
         size_t len = 15;
         char buffer[15];
         while(previewIs.read(buffer, len))
@@ -30,11 +31,11 @@ void Game::stringify(std::ostream& os) const
 Game Game::create(std::map<std::string, std::string> params)
 {
     if (params.find("Name") == params.end() || params.find("Path") == params.end())
-        throw std::exception("Name or Path missing");
+        throw std::logic_error("Name or Path missing");
 
     {
-        if (params.find("Preview") != params.end() && !std::ifstream(params["Preview"]))
-            throw std::exception("Invalid Preview");
+        if (params.find("Preview") != params.end() && !std::ifstream(params["Preview"].c_str()))
+            throw std::logic_error("Invalid Preview");
     }
 
     return Game(params["Name"], params["Path"], params["Summary"], params["Preview"]);
@@ -68,7 +69,7 @@ Game Game::read(std::istream& is)
         {
             unsigned splitIdx = buffer.find('=');
             if (splitIdx == buffer.npos)
-                throw std::exception((std::string("Invalid Parameter: ") + buffer).c_str());
+                throw std::logic_error((std::string("Invalid Parameter: ") + buffer).c_str());
             params[buffer.substr(0, splitIdx)] = buffer.substr(splitIdx+1, buffer.size() - splitIdx);
         }
     }
@@ -98,7 +99,7 @@ void Config::load(const std::string& file)
     }
     else
     {
-        throw std::exception("File not found");
+        throw std::logic_error("File not found");
     }
 }
 
@@ -127,7 +128,7 @@ const Game& Config::lookupGame(std::string& name)
     for ( ; it != end; ++it)
         if (it->name == name)
             return *it;
-    throw std::exception(("Game " + name + " not found").c_str());
+    throw std::logic_error(("Game " + name + " not found").c_str());
 }
 
 void Config::stringify(std::ostream& os) const

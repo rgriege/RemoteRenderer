@@ -12,7 +12,7 @@
 #include <Encoder.h>
 #include <rgbData.h>
 extern "C" {
-#include <libavcodec\avcodec.h>
+#include <libavcodec/avcodec.h>
 }
 #include <websocketpp/config/asio_no_tls.hpp>
 #include <websocketpp/server.hpp>
@@ -91,6 +91,7 @@ private:
 	connection_hdl mInputHdl;
 	std::mutex mInputConMtx;
 	std::condition_variable mInputConCv;
+    bool mInputConnected;
 
     server mRenderServer;
     std::thread* mRenderThread;

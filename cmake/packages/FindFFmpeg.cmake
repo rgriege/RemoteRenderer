@@ -32,12 +32,7 @@ getenv_path(FFmpeg_HOME)
 set(FFmpeg_PREFIX_PATH ${FFmpeg_HOME} ${ENV_FFmpeg_HOME})
 create_search_paths(FFmpeg)
 # redo search if prefix path changed
-clear_if_changed(FFmpeg_PREFIX_PATH
-  FFmpeg_LIBRARY_FWK
-  FFmpeg_LIBRARY_REL
-  FFmpeg_LIBRARY_DBG
-  FFmpeg_INCLUDE_DIR
-)
+clear_if_changed(FFmpeg_PREFIX_PATH)
 
 set(FFmpeg_LIBRARY_NAMES FFmpeg)
 
@@ -60,14 +55,23 @@ set (FFmpeg_FOUND ON)
 if (FFmpeg_FIND_COMPONENTS)
   foreach (component ${FFmpeg_FIND_COMPONENTS})
     find_path(${component}_INCLUDE_DIR NAMES ${component}.h HINTS ${FFmpeg_INC_SEARCH_PATH} ${FFmpeg_PKGC_INCLUDE_DIRS} PATH_SUFFIXES lib${component})
-    find_library(${component}_LIBRARY NAMES ${component}.lib HINTS ${FFmpeg_LIB_SEARCH_PATH} ${FFmpeg_PKGC_LIBRARY_DIRS})
+    find_library(${component}_LIBRARY NAMES ${component} HINTS ${FFmpeg_LIB_SEARCH_PATH} ${FFmpeg_PKGC_LIBRARY_DIRS})
     if (WIN32)
       set(${component}_BIN_SEARCH_PATH ${FFmpeg_HOME}/bin ${ENV_FFmpeg_HOME}/bin)
       file (GLOB ${component}_BINARY ${FFmpeg_BIN_SEARCH_PATH}/${component}*.dll)
       mark_as_advanced (${component}_BINARY)
+    else ()
+      # Linux always links static libs if available
+      if (NOT FFmpeg_STATIC AND ${component}_LIBRARY)
+        string (REGEX REPLACE "\\.a$" ".so" ${component}_LIBRARY ${${component}_LIBRARY})
+      endif (NOT FFmpeg_STATIC AND ${component}_LIBRARY)
     endif()
     mark_as_advanced(${component}_INCLUDE_DIR ${component}_LIBRARY)
-    SET (${component}_FOUND (${component}_INCLUDE_DIR AND ${component}_LIBRARY))
+    if (${component}_INCLUDE_DIR AND ${component}_LIBRARY)
+      SET (${component}_FOUND (${component}_INCLUDE_DIR AND ${component}_LIBRARY))
+    else ()
+      SET (${component}_FOUND OFF)
+    endif ()
     if (NOT ${component}_FOUND)
       set (FFmpeg_FOUND OFF)
     else ()
@@ -80,7 +84,7 @@ if (FFmpeg_FOUND)
   set (FFmpeg_INCLUDE_DIRS ${FFmpeg_HOME}/include)
   message (STATUS "Found the following FFmpeg libraries:")
   foreach (component ${FFmpeg_FIND_COMPONENTS})
-    message (STATUS "  ${component}")
+    message (STATUS "  ${component}: ${${component}_LIBRARY}")
   endforeach (component)
 else ()
   if (NOT FFmpeg_FIND_QUIETLY)
@@ -95,6 +99,8 @@ else ()
     message(FATAL_ERROR "Required library FFmpeg not found! Install the library (including dev packages) and try again. If the library is already installed, set the missing variables manually in cmake.")
   endif ()
 endif ()
+
+mark_as_advanced (FFmpeg_INCLUDE_DIR FFmpeg_LIBRARY_REL FFmpeg_LIBRARY_DBG FFmpeg_LIBRARY_FWK)
 
 # Reset framework finding
 set(CMAKE_FIND_FRAMEWORK "FIRST")

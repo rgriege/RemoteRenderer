@@ -3,7 +3,13 @@
 
 #include <websocketpp/config/asio_no_tls.hpp>
 #include <websocketpp/server.hpp>
+#if defined _WEBSOCKETPP_CPP11_STL_
+#include <memory>
+using std::owner_less;
+#else
 #include <boost/smart_ptr/owner_less.hpp>
+using boost::owner_less;
+#endif
 #include <mutex>
 #include <atomic>
 #include "Config.h"
@@ -20,7 +26,7 @@ public:
     bool run();
 
 private:
-    typedef std::set<connection_hdl,boost::owner_less<connection_hdl>> con_list;
+    typedef std::set<connection_hdl, owner_less<connection_hdl>> con_list;
 
 	void _loadConfig();
     void _initServer();

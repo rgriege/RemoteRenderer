@@ -1,10 +1,6 @@
 #include <inttypes.h>
 
-#ifdef Codec_EXPORTS
-#define CODEC_API __declspec(dllexport)
-#else
-#define CODEC_API __declspec(dllimport)
-#endif
+#include "CodecPrereqs.h"
 
 struct rgbData {
     rgbData(uint8_t* data) {

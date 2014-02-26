@@ -23,7 +23,7 @@ restrictions:
 */
 
 #include "RemoteOISInputManager.h"
-#include "RemoteOISKeyBoard.h"
+#include "RemoteOISKeyboard.h"
 #include "RemoteOISMouse.h"
 #include "RemoteOISConnectionManager.h"
 #include "OISException.h"

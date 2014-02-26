@@ -24,6 +24,7 @@ restrictions:
 
 #include <sstream>
 #include <deque>
+#include <cstring>
 
 #include "RemoteOISKeyboard.h"
 #include "RemoteOISInputManager.h"

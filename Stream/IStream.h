@@ -1,7 +1,7 @@
 #ifndef __STREAM_H__
 #define __STREAM_H__
 
-#include "ExportDefine.h"
+#include "StreamPrereqs.h"
 
 class STREAM_API IStream
 {

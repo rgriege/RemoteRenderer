@@ -16,14 +16,17 @@
 #  RemoteOIS_BINARY_REL / RemoteOIS_BINARY_DBG - DLL names (windows only)
 
 set (RemoteOIS_INCLUDE_DIR ${RemoteRenderer_ROOT}/RemoteOIS/includes)
-set (RemoteOIS_LIBRARY_DBG ${RemoteRenderer_LIB}/RemoteOIS_d.lib)
-set (RemoteOIS_LIBRARY_REL ${RemoteRenderer_LIB}/RemoteOIS.lib)
-make_library_set(RemoteOIS_LIBRARY)
 
 if (WIN32)
+    set (RemoteOIS_LIBRARY_DBG ${RemoteRenderer_LIB}/RemoteOIS_d.lib)
+    set (RemoteOIS_LIBRARY_REL ${RemoteRenderer_LIB}/RemoteOIS.lib)
 	set (RemoteOIS_BINARY_DBG ${RemoteRenderer_BIN}/RemoteOIS_d.dll)
 	set (RemoteOIS_BINARY_REL ${RemoteRenderer_BIN}/RemoteOIS.dll)
+    mark_as_advanced(RemoteOIS_BINARY_REL RemoteOIS_BINARY_DBG)
+else ()
+    set (RemoteOIS_LIBRARY_DBG ${RemoteRenderer_LIB}/libRemoteOIS_d.so)
+    set (RemoteOIS_LIBRARY_REL ${RemoteRenderer_LIB}/libRemoteOIS.so)
 endif()
-mark_as_advanced(RemoteOIS_BINARY_REL RemoteOIS_BINARY_DBG)
+make_library_set(RemoteOIS_LIBRARY)
 
 findpkg_finish(RemoteOIS)

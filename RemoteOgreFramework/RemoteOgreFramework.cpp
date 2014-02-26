@@ -1,7 +1,11 @@
 #include "RemoteOgreFramework.h"
 #include <RemoteOISWebSocketppConnection.h>
 
+#if OGRE_VERSION_MINOR >= 8
 template<> OgreFramework* Ogre::Singleton<OgreFramework>::msSingleton = 0;
+#else
+template<> OgreFramework* Ogre::Singleton<OgreFramework>::ms_Singleton = 0;
+#endif
 
 OgreFramework::OgreFramework(std::string remoteHost, uint16_t remotePort, uint16_t localPort) :
     m_pRoot(0),
@@ -20,7 +24,8 @@ OgreFramework::OgreFramework(std::string remoteHost, uint16_t remotePort, uint16
     mRemotePort(remotePort),
     mLocalPort(localPort),
     mInputLocation(LOCAL),
-    mRenderLocation(LOCAL)
+    mRenderLocation(LOCAL),
+    mInputConnected(false)
 {
     mShutdown = false;
     mBuffer.data = 0;
@@ -112,7 +117,7 @@ bool OgreFramework::initOgre(Ogre::String wndTitle,
 
     if (inputLocation == REMOTE) {
         std::unique_lock<std::mutex> lk(mInputConMtx);
-        mInputConCv.wait(lk, [&]() { return !mInputHdl._empty(); });
+        mInputConCv.wait(lk, [&]() { return mInputConnected; });
         lk.unlock();
         RemoteOIS::Connection* con = new RemoteOIS::WebSocketppConnection(mInputServer.get_con_from_hdl(mInputHdl));
         m_pInputMgr = RemoteOIS::InputManager::createInputSystem(con);
@@ -293,6 +298,7 @@ void OgreFramework::_onInputOpen(connection_hdl hdl)
         m_pLog->logMessage("input socket opened!");
     {
         std::lock_guard<std::mutex> lk(mInputConMtx);
+        mInputConnected = true;
         mInputHdl = hdl;
     }
     mInputConCv.notify_one();
