@@ -1,8 +1,8 @@
 # - Locate SDL library
 # This module defines
-#  SDL_LIBRARY, the name of the library to link against
+#  SDL_LIBRARIES, the name of the library to link against
 #  SDL_FOUND, if false, do not try to link to SDL
-#  SDL_INCLUDE_DIR, where to find SDL.h
+#  SDL_INCLUDE_DIRS, where to find SDL.h
 #  SDL_VERSION_STRING, human-readable string containing the version of SDL
 #
 # This module responds to the the flag:
@@ -11,7 +11,7 @@
 #    only applications need main().
 #    Otherwise, it is assumed you are building an application and this
 #    module will attempt to locate and set the the proper link flags
-#    as part of the returned SDL_LIBRARY variable.
+#    as part of the returned SDL_LIBRARIES variable.
 #
 # Don't forget to include SDLmain.h and SDLmain.m your project for the
 # OS X framework based version. (Other versions link to -lSDLmain which
@@ -20,13 +20,18 @@
 #
 #
 # Additional Note: If you see an empty SDL_LIBRARY_TEMP in your configuration
-# and no SDL_LIBRARY, it means CMake did not find your SDL library
+# and no SDL_LIBRARIES, it means CMake did not find your SDL library
 # (SDL.dll, libsdl.so, SDL.framework, etc).
 # Set SDL_LIBRARY_TEMP to point to your SDL library, and configure again.
 # Similarly, if you see an empty SDLMAIN_LIBRARY, you should set this value
-# as appropriate. These values are used to generate the final SDL_LIBRARY
-# variable, but when these values are unset, SDL_LIBRARY does not get created.
+# as appropriate. These values are used to generate the final SDL_LIBRARIES
+# variable, but when these values are unset, SDL_LIBRARIES does not get created.
 #
+#
+# $SDLDIR is an environment variable that would
+# correspond to the ./configure --prefix=$SDLDIR
+# used in building SDL.
+# l.e.galup  9-20-02
 #
 # Modified by Eric Wing.
 # Added code to assist with automated building by using environmental variables
@@ -40,7 +45,7 @@
 #
 # On OSX, this will prefer the Framework version (if found) over others.
 # People will have to manually change the cache values of
-# SDL_LIBRARY to override this selection or set the CMake environment
+# SDL_LIBRARIES to override this selection or set the CMake environment
 # CMAKE_INCLUDE_PATH to modify the search paths.
 #
 # Note that the header path has changed from SDL/SDL.h to just SDL.h
@@ -49,22 +54,67 @@
 # reasons because not all systems place things in SDL/ (see FreeBSD).
 
 #=============================================================================
-# Copyright 2003-2009 Kitware, Inc.
-# Copyright 2012 Benjamin Eikel
-#
-# Distributed under the OSI-approved BSD License (the "License");
-# see accompanying file Copyright.txt for details.
-#
-# This software is distributed WITHOUT ANY WARRANTY; without even the
-# implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the License for more information.
-#=============================================================================
-# (To distribute this file outside of CMake, substitute the full
-#  License text for the above reference.)
+# CMake - Cross Platform Makefile Generator
+# Copyright 2000-2011 Kitware, Inc., Insight Software Consortium
+# All rights reserved.
 
-find_path(SDL_INCLUDE_DIR SDL.h
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions
+# are met:
+
+# * Redistributions of source code must retain the above copyright
+  # notice, this list of conditions and the following disclaimer.
+
+# * Redistributions in binary form must reproduce the above copyright
+  # notice, this list of conditions and the following disclaimer in the
+  # documentation and/or other materials provided with the distribution.
+
+# * Neither the names of Kitware, Inc., the Insight Software Consortium,
+  # nor the names of their contributors may be used to endorse or promote
+  # products derived from this software without specific prior written
+  # permission.
+
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+# "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+# LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+# A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+# HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+# SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+# LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+# DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+# THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+# (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+# OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+# ------------------------------------------------------------------------------
+
+# The above copyright and license notice applies to distributions of
+# CMake in source and binary form.  Some source files contain additional
+# notices of original copyright by their contributors; see each source
+# for details.  Third-party software packages supplied with CMake under
+# compatible licenses provide their own copyright notices documented in
+# corresponding subdirectories.
+
+# ------------------------------------------------------------------------------
+
+# CMake was initially developed by Kitware with the following sponsorship:
+
+ # * National Library of Medicine at the National Institutes of Health
+   # as part of the Insight Segmentation and Registration Toolkit (ITK).
+
+ # * US National Labs (Los Alamos, Livermore, Sandia) ASC Parallel
+   # Visualization Initiative.
+
+ # * National Alliance for Medical Image Computing (NAMIC) is funded by the
+   # National Institutes of Health through the NIH Roadmap for Medical Research,
+   # Grant U54 EB005149.
+
+ # * Kitware, Inc.
+#=============================================================================
+
+find_path(SDL_INCLUDE_DIRS SDL.h
   HINTS
-    ${SDL_HOME}
+    ENV SDLDIR
   PATH_SUFFIXES include/SDL include/SDL12 include/SDL11 include
 )
 
@@ -73,12 +123,12 @@ find_path(SDL_INCLUDE_DIR SDL.h
 find_library(SDL_LIBRARY_TEMP
   NAMES SDL SDL-1.1
   HINTS
-    ${SDL_HOME}
+    ENV SDLDIR
   PATH_SUFFIXES lib
 )
 
 if(NOT SDL_BUILDING_LIBRARY)
-  if(NOT ${SDL_INCLUDE_DIR} MATCHES ".framework")
+  if(NOT ${SDL_INCLUDE_DIRS} MATCHES ".framework")
     # Non-OS X framework versions expect you to also dynamically link to
     # SDLmain. This is mainly for Windows and OS X. Other (Unix) platforms
     # seem to provide SDLmain for compatibility even though they don't
@@ -86,7 +136,7 @@ if(NOT SDL_BUILDING_LIBRARY)
     find_library(SDLMAIN_LIBRARY
       NAMES SDLmain SDLmain-1.1
       HINTS
-        ENV ${SDL_HOME}
+        ENV SDLDIR
       PATH_SUFFIXES lib
       PATHS
       /sw
@@ -145,15 +195,15 @@ if(SDL_LIBRARY_TEMP)
   endif()
 
   # Set the final string here so the GUI reflects the final state.
-  set(SDL_LIBRARY ${SDL_LIBRARY_TEMP} CACHE STRING "Where the SDL Library can be found")
+  set(SDL_LIBRARIES ${SDL_LIBRARY_TEMP} CACHE STRING "Where the SDL Library can be found")
   # Set the temp variable to INTERNAL so it is not seen in the CMake GUI
   set(SDL_LIBRARY_TEMP "${SDL_LIBRARY_TEMP}" CACHE INTERNAL "")
 endif()
 
-if(SDL_INCLUDE_DIR AND EXISTS "${SDL_INCLUDE_DIR}/SDL_version.h")
-  file(STRINGS "${SDL_INCLUDE_DIR}/SDL_version.h" SDL_VERSION_MAJOR_LINE REGEX "^#define[ \t]+SDL_MAJOR_VERSION[ \t]+[0-9]+$")
-  file(STRINGS "${SDL_INCLUDE_DIR}/SDL_version.h" SDL_VERSION_MINOR_LINE REGEX "^#define[ \t]+SDL_MINOR_VERSION[ \t]+[0-9]+$")
-  file(STRINGS "${SDL_INCLUDE_DIR}/SDL_version.h" SDL_VERSION_PATCH_LINE REGEX "^#define[ \t]+SDL_PATCHLEVEL[ \t]+[0-9]+$")
+if(SDL_INCLUDE_DIRS AND EXISTS "${SDL_INCLUDE_DIRS}/SDL_version.h")
+  file(STRINGS "${SDL_INCLUDE_DIRS}/SDL_version.h" SDL_VERSION_MAJOR_LINE REGEX "^#define[ \t]+SDL_MAJOR_VERSION[ \t]+[0-9]+$")
+  file(STRINGS "${SDL_INCLUDE_DIRS}/SDL_version.h" SDL_VERSION_MINOR_LINE REGEX "^#define[ \t]+SDL_MINOR_VERSION[ \t]+[0-9]+$")
+  file(STRINGS "${SDL_INCLUDE_DIRS}/SDL_version.h" SDL_VERSION_PATCH_LINE REGEX "^#define[ \t]+SDL_PATCHLEVEL[ \t]+[0-9]+$")
   string(REGEX REPLACE "^#define[ \t]+SDL_MAJOR_VERSION[ \t]+([0-9]+)$" "\\1" SDL_VERSION_MAJOR "${SDL_VERSION_MAJOR_LINE}")
   string(REGEX REPLACE "^#define[ \t]+SDL_MINOR_VERSION[ \t]+([0-9]+)$" "\\1" SDL_VERSION_MINOR "${SDL_VERSION_MINOR_LINE}")
   string(REGEX REPLACE "^#define[ \t]+SDL_PATCHLEVEL[ \t]+([0-9]+)$" "\\1" SDL_VERSION_PATCH "${SDL_VERSION_PATCH_LINE}")
@@ -169,5 +219,5 @@ endif()
 include(${CMAKE_CURRENT_LIST_DIR}/FindPackageHandleStandardArgs.cmake)
 
 FIND_PACKAGE_HANDLE_STANDARD_ARGS(SDL
-                                  REQUIRED_VARS SDL_LIBRARY SDL_INCLUDE_DIR
+                                  REQUIRED_VARS SDL_LIBRARIES SDL_INCLUDE_DIRS
                                   VERSION_VAR SDL_VERSION_STRING)

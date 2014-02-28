@@ -25,12 +25,7 @@ set (RemoteRenderer_BIN ${RemoteRenderer_ROOT}/bin)
 set (RemoteRenderer_LIB ${RemoteRenderer_ROOT}/lib)
 
 # Include necessary submodules
-set (CMAKE_MODULE_PATH 
-  "${CMAKE_MODULE_PATH}"
-  "${RemoteRenderer_ROOT}/cmake"
-  "${RemoteRenderer_ROOT}/cmake/utils" 
-  "${RemoteRenderer_ROOT}/cmake/packages"
-)
+set (CMAKE_MODULE_PATH "${RemoteRenderer_ROOT}/cmake/modules")
 include (LinkLibraries)
 
 set (RemoteRenderer_MAJOR_VERSION 0)
@@ -87,9 +82,15 @@ endif ()
 add_subdirectory (Codec)
 add_subdirectory (RemoteOIS)
 add_subdirectory (Server)
+option (BUILD_OBJECT_BROWSER "Build the ObjectBrowser Sample" ON)
 if (BUILD_OBJECT_BROWSER)
   add_subdirectory (ObjectBrowser)
 endif (BUILD_OBJECT_BROWSER)
+option (BUILD_SNS_DEMO "Build the SnS_Demo Sample" OFF)
 if (BUILD_SNS_DEMO)
   add_subdirectory (SnS_Demo)
 endif (BUILD_SNS_DEMO)
+option (BUILD_DESKTOP_CLIENT "Build the desktop render client" OFF)
+if (BUILD_DESKTOP_CLIENT)
+  add_subdirectory (DesktopClient)
+endif (BUILD_DESKTOP_CLIENT)

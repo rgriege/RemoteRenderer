@@ -29,9 +29,15 @@ endif (WIN32)
 set (OIS_ADDITIONAL_DEFINITIONS -DOIS_NONCLIENT_BUILD -DOIS_DYNAMIC_LIB)
 
 set (WebSocketpp_HEADER_ONLY ON)
-set (WebSocketpp_ADDITIONAL_DEFINITIONS -D_WEBSOCKETPP_CPP11_STL_)
+if (NOT WIN32)
+  set (WebSocketpp_ADDITIONAL_DEFINITIONS -D_WEBSOCKETPP_CPP11_STL_)
+endif (NOT WIN32)
 
-set (Boost_USE_STATIC_LIBS ON)
+if (WIN32)
+  set (Boost_USE_STATIC_LIBS ON)
+else ()
+  set (Boost_ADDITIONAL_DEFINITIONS -DBOOST_ALL_DYN_LINK)
+endif ()
 set (Boost_COMMAND Boost 1.46.0 REQUIRED COMPONENTS thread system chrono date_time regex)
 
 set (FFmpeg_COMMAND FFmpeg REQUIRED COMPONENTS avcodec avutil swscale)
