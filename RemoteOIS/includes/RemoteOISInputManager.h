@@ -98,9 +98,11 @@ namespace RemoteOIS
             True to setup for buffered events
         @param vendor
             Create a device with the vendor name, "" means vendor name is unimportant
+        @param async
+            Synchronization setting for the object
         */
         OIS::Object* createObject(InputManager* creator, DeviceProtocol* protocol, bool bufferMode,
-            const std::string & vendor = "");
+            const std::string & vendor = "", bool async = true);
 
         /** @copydoc FactoryCreator::destroyObject */
         virtual void destroyObject(OIS::Object* obj);

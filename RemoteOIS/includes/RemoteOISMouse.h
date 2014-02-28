@@ -51,7 +51,7 @@ namespace RemoteOIS
     class _RemoteOISExport Mouse : public OIS::Mouse, public ConnectionListener
     {
     public:
-        Mouse( InputManager* creator, Connection* connection, bool buffered, DeviceProtocol* protocol);
+        Mouse(InputManager* creator, Connection* connection, bool buffered, DeviceProtocol* protocol, bool async);
         virtual ~Mouse();
 
         /** @copydoc OIS::Object::setBuffered */
@@ -81,19 +81,29 @@ namespace RemoteOIS
         /** @remarks Returns the raw (unscaled) state of the mouse */
         OIS::MouseState getRawMouseState() const;
 
+        /** @remarks Returns whether or not the mouse input is asynchronous */
+        bool async() { return mAsync; }
+
+        /** @remarks Sets whether or not the mouse input is asynchronous */
+        void setAsync(bool async);
+
     protected:
         //! The connection used to send requests and receive responses
         Connection* mConnection;
 
         //! The protocol used to send requests and receive responses
-        DeviceProtocol* mProtocol;
+        const DeviceProtocol* mProtocol;
 
+        //! Used for event firing
         OIS::MouseState mTempState;
 
+        //! Synchronization variable
         bool mUpdated;
 
+        //! Synchronization variable
         std::mutex mUpdateLock;
 
+        //! Synchronization variable
         std::condition_variable mUpdateCv;
 
         //! The current width/height scale factors
@@ -101,6 +111,9 @@ namespace RemoteOIS
 
         //! Indicates if the mouse state is being scaled
         bool mScalingInput;
+
+        //! Indicates if input is captured in lock step
+        bool mAsync;
     };
 }
 

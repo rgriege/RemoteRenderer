@@ -58,7 +58,7 @@ namespace RemoteOIS
     class _RemoteOISExport Keyboard : public OIS::Keyboard, public ConnectionListener
     {
     public:
-        Keyboard(InputManager* creator, Connection* connection, bool buffered, DeviceProtocol* protocol);
+        Keyboard(InputManager* creator, Connection* connection, bool buffered, DeviceProtocol* protocol, bool async);
         virtual ~Keyboard();
 
         /** @copydoc OIS::Keyboard::isKeyDown */
@@ -88,12 +88,18 @@ namespace RemoteOIS
         /** @copydoc ConnectionListener::interpret */
         virtual void interpret(WindowDataResponse);
 
+        /** @remarks Returns whether or not the mouse input is asynchronous */
+        bool async() { return mAsync; }
+
+        /** @remarks Sets whether or not the mouse input is asynchronous */
+        void setAsync(bool async);
+
     protected:
         //! The connection used to send requests and receive responses
         Connection* mConnection;
 
         //! The protocol used to send requests and receive responses
-        DeviceProtocol* mProtocol;
+        const DeviceProtocol* mProtocol;
 
         //! Internal method for translating KeyCodes to Text
         int _translateText( OIS::KeyCode kc );
@@ -112,6 +118,9 @@ namespace RemoteOIS
 
         //! used for getAsString
         std::string mGetString;
+
+        //! Indicates if input is captured in lock step
+        bool mAsync;
     };
 }
 

@@ -35,9 +35,9 @@ using namespace RemoteOIS;
 
 //---------------------------------------------------------------------------//
 Keyboard::Keyboard(InputManager* creator, Connection* connection,
-                   bool buffered, DeviceProtocol* protocol)
+                   bool buffered, DeviceProtocol* protocol, bool async)
                    : OIS::Keyboard(creator->inputSystemName(), buffered, 0, creator),
-                   mConnection(connection), mProtocol(protocol)
+                   mConnection(connection), mProtocol(protocol), mAsync(async)
 {
     mConnection->addConnectionListener(this);
 }
@@ -75,19 +75,42 @@ void Keyboard::setBuffered(bool buffered)
     mBuffered = buffered;
 }
 
-//---------------------------------------------------------------------------//	
+//---------------------------------------------------------------------------//
 void Keyboard::capture()
 {
     WindowDataRequest request = mProtocol->createCaptureRequest();
-    {
+    if (!mAsync) {
         std::lock_guard<std::mutex> updateGuard(mUpdateLock);
         mUpdated = false;
     }
     mConnection->send(request);
-    //wait on interpret to be called with matching response
-    std::unique_lock<std::mutex> updateLk(mUpdateLock);
-    mUpdateCv.wait(updateLk, [&]() { return mUpdated; });
-    updateLk.unlock();
+
+    // if synchronous, have calling thread wait for response & callbacks firing
+    if (!mAsync) {
+        std::unique_lock<std::mutex> updateLk(mUpdateLock);
+        mUpdateCv.wait(updateLk, [&]() { return mUpdated; });
+        updateLk.unlock();
+    }
+}
+
+//---------------------------------------------------------------------------//
+void Keyboard::_initialize()
+{
+    //Clear our keyboard state buffer
+    memset( &KeyBuffer, 0, 256 );
+}
+
+//---------------------------------------------------------------------------//
+bool Keyboard::understands(WindowDataResponse response)
+{
+    return mProtocol->canParseResponse(response);
+}
+
+//---------------------------------------------------------------------------//
+void Keyboard::interpret(WindowDataResponse response)
+{
+    static_cast<const KeyboardProtocol*>(mProtocol)->
+        parseResponse(response, TempKeyBuffer, mTempModifiers);
 
     std::deque<std::pair<uint8_t, char> > changes;
     for(int i = 0; i < 256; ++i) {
@@ -108,30 +131,19 @@ void Keyboard::capture()
                 mListener->keyReleased(OIS::KeyEvent(this, kc, _translateText(kc)));
         }
     }
-}
 
-//---------------------------------------------------------------------------//
-void Keyboard::_initialize()
-{
-    //Clear our keyboard state buffer
-    memset( &KeyBuffer, 0, 256 );
-}
-
-//---------------------------------------------------------------------------//
-bool Keyboard::understands(WindowDataResponse response)
-{
-    return mProtocol->canParseResponse(response);
-}
-
-//---------------------------------------------------------------------------//
-void Keyboard::interpret(WindowDataResponse response)
-{
-    static_cast<KeyboardProtocol*>(mProtocol)->parseResponse(response, TempKeyBuffer, mTempModifiers);
-    {
-        std::lock_guard<std::mutex> updateGuard(mUpdateLock);
-        mUpdated = true;
+    if (!mAsync) {
+        {
+            std::lock_guard<std::mutex> updateGuard(mUpdateLock);
+            mUpdated = true;
+        }
+        mUpdateCv.notify_one();
     }
-    mUpdateCv.notify_one();
+}
+
+void Keyboard::setAsync(bool async)
+{
+    mAsync = async;
 }
 
 //---------------------------------------------------------------------------//

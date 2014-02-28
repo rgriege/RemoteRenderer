@@ -31,9 +31,10 @@ using namespace RemoteOIS;
 
 //---------------------------------------------------------------------------//
 Mouse::Mouse(InputManager* creator, Connection* connection, bool buffered,
-             DeviceProtocol* protocol)
+             DeviceProtocol* protocol, bool async)
     : OIS::Mouse(creator->inputSystemName(), buffered, 0, creator),
-    mConnection(connection), mProtocol(protocol), mScalingInput(true)
+    mConnection(connection), mProtocol(protocol), mScalingInput(true),
+    mAsync(async)
 {
     mConnection->addConnectionListener(this);
     mState.width = 0;
@@ -57,19 +58,38 @@ Mouse::~Mouse()
 //---------------------------------------------------------------------------//
 void Mouse::capture()
 {
-    //Clear old relative values
-    mState.X.rel = mState.Y.rel = mState.Z.rel = 0;
-
     WindowDataRequest request = mProtocol->createCaptureRequest();
-    {
+    if (!mAsync) {
         std::lock_guard<std::mutex> updateGuard(mUpdateLock);
         mUpdated = false;
     }
     mConnection->send(request);
-    //wait on interpret to be called with matching response
-    std::unique_lock<std::mutex> updateLk(mUpdateLock);
-    mUpdateCv.wait(updateLk, [&]() { return mUpdated; });
-    updateLk.unlock();
+
+    // if synchronous, have calling thread wait for response & callbacks firing
+    if (!mAsync) {
+        std::unique_lock<std::mutex> updateLk(mUpdateLock);
+        mUpdateCv.wait(updateLk, [&]() { return mUpdated; });
+        updateLk.unlock();
+    }
+}
+
+//---------------------------------------------------------------------------//
+void Mouse::setBuffered(bool buffered)
+{
+    mBuffered = buffered;
+}
+
+//---------------------------------------------------------------------------//
+bool Mouse::understands(WindowDataResponse response)
+{
+    return mProtocol->canParseResponse(response);
+}
+
+//---------------------------------------------------------------------------//
+void Mouse::interpret(WindowDataResponse response)
+{
+    mTempState = static_cast<const MouseProtocol*>(mProtocol)->
+        parseResponse(response);
 
     bool mouseMoved = false;
     uint8_t buttonPressed = 0;
@@ -136,29 +156,14 @@ void Mouse::capture()
     }
 
     mTempState.clear();
-}
 
-//---------------------------------------------------------------------------//
-void Mouse::setBuffered(bool buffered)
-{
-    mBuffered = buffered;
-}
-
-//---------------------------------------------------------------------------//
-bool Mouse::understands(WindowDataResponse response)
-{
-    return mProtocol->canParseResponse(response);
-}
-
-//---------------------------------------------------------------------------//
-void Mouse::interpret(WindowDataResponse response)
-{
-    mTempState = static_cast<MouseProtocol*>(mProtocol)->parseResponse(response);
-    {
-        std::lock_guard<std::mutex> updateGuard(mUpdateLock);
-        mUpdated = true;
+    if (!mAsync) {
+        {
+            std::lock_guard<std::mutex> updateGuard(mUpdateLock);
+            mUpdated = true;
+        }
+        mUpdateCv.notify_one();
     }
-    mUpdateCv.notify_one();
 }
 
 //---------------------------------------------------------------------------//
@@ -178,4 +183,9 @@ OIS::MouseState Mouse::getRawMouseState() const
     rawState.Y.abs /= mHeightScale;
     rawState.Y.rel /= mHeightScale;
     return rawState;
+}
+
+void Mouse::setAsync(bool async)
+{
+    mAsync = async;
 }

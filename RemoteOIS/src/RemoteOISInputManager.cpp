@@ -151,7 +151,8 @@ OIS::Object* InputManager::createObject(OIS::InputManager* creator,
 OIS::Object* InputManager::createObject(InputManager* creator,
                                         DeviceProtocol* protocol,
                                         bool bufferMode,
-                                        const std::string & vendor)
+                                        const std::string & vendor,
+                                        bool async)
 {
     OIS::Object *obj = 0;
 
@@ -160,14 +161,14 @@ OIS::Object* InputManager::createObject(InputManager* creator,
     case OIS::OISKeyboard: 
         {
             if (mKeyboardUsed == false)
-                obj = new Keyboard(creator, mConnection, bufferMode, protocol);
+                obj = new Keyboard(creator, mConnection, bufferMode, protocol, async);
             mKeyboardUsed = true;
             break;
         }
     case OIS::OISMouse:
         {
             if (mMouseUsed == false)
-                obj = new Mouse(creator, mConnection, bufferMode, protocol);
+                obj = new Mouse(creator, mConnection, bufferMode, protocol, async);
             mMouseUsed = true;
             break;
         }
