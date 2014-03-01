@@ -14,8 +14,6 @@ extern "C" {
 #include <libswscale/swscale.h>
 }
 
-#include "IStream.h"
-
 #define INBUF_SIZE 4096
 
 #include "CodecPrereqs.h"
@@ -32,7 +30,7 @@ public:
     bool createFrame();
     bool bootstrap(AVCodecID codecId, int width, int height);
 
-    bool decode_frame(IStream& stream, uint8_t* const rgbData);
+    bool decode_frame(const uint8_t* encodedData, uint32_t encodedDataLen, uint8_t* const rgbData);
 
 private:
     AVCodec* codec;

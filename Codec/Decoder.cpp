@@ -1,4 +1,5 @@
 #include <cassert>
+#include <algorithm>
 
 #include "Decoder.h"
 #include "Init.h"
@@ -76,8 +77,9 @@ bool Decoder::bootstrap(AVCodecID codecId, int width, int height) {
     return setCodec(codecId) && createContext(width, height) && openCodec() && createFrame();
 }
 
-bool Decoder::decode_frame(IStream& stream, uint8_t* const rgbData)
+bool Decoder::decode_frame(const uint8_t* encodedData, uint32_t encodedDataLen, uint8_t* const rgbData)
 {
+    uint32_t encodedDataPos = 0;
     int got_frame = 0;
     while (!got_frame) {
         /* If needed, get new data */
@@ -85,7 +87,9 @@ bool Decoder::decode_frame(IStream& stream, uint8_t* const rgbData)
             /* set end of buffer to 0 (this ensures that no overreading happens for damaged mpeg streams) */
             memset(input_buffer + INBUF_SIZE, 0, FF_INPUT_BUFFER_PADDING_SIZE);
 
-            current_packet.size = stream.read(INBUF_SIZE, input_buffer); //fread(input_buffer, 1, INBUF_SIZE, f);
+            current_packet.size = std::min(static_cast<uint32_t>(INBUF_SIZE), encodedDataLen - encodedDataPos);
+            memcpy(input_buffer, encodedData + encodedDataPos, current_packet.size);
+            encodedDataPos += current_packet.size;
             if (current_packet.size == 0)
                 return false;
 

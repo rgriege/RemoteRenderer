@@ -10,9 +10,6 @@ set (HEADER_FILES
   Encoder.h
 )
 
-# add "header library"
-include_directories (../Stream)
-
 set (SOURCE_FILES
   Init.cpp
   rgbData.cpp
