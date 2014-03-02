@@ -52,6 +52,7 @@
         var now = Date.now();
         var wait = Math.min(Math.max(pageLoadTime + maxWait - now, 0), maxWait);
         connectionTime = now + wait;
+        serverSocket.send('list');
         serverSocket.onmessage = listenForLibraryMsg;
         setTimeout(function() {
             $('#loader h3').text('Loading Library...');

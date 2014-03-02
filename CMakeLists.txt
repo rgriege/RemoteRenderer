@@ -6,6 +6,7 @@ cmake_minimum_required (VERSION 2.6)
 if (COMMAND cmake_policy)
     cmake_policy (SET CMP0003 NEW)
     cmake_policy (SET CMP0005 NEW)
+    cmake_policy (SET CMP0017 OLD)
 endif ()
 
 # Create project
@@ -81,6 +82,7 @@ endif ()
 
 add_subdirectory (Codec)
 add_subdirectory (RemoteOIS)
+add_subdirectory (LibraryConfig)
 add_subdirectory (Server)
 option (BUILD_OBJECT_BROWSER "Build the ObjectBrowser Sample" ON)
 if (BUILD_OBJECT_BROWSER)

@@ -1,9 +1,9 @@
 #include <iostream>
 #include <fstream>
 #include <stdexcept>
-
-#include "Config.h"
 #include <websocketpp/base64/base64.hpp>
+
+#include "Game.h"
 
 Game::Game(std::string name, std::string path, std::string summary, std::string preview)
     : name(name), path(path), summary(summary), preview(preview)
@@ -41,7 +41,7 @@ Game Game::create(std::map<std::string, std::string> params)
     return Game(params["Name"], params["Path"], params["Summary"], params["Preview"]);
 }
 
-Game Game::read(std::istream& is)
+Game Game::parse(std::istream& is)
 {
     std::string buffer;
     std::map<std::string, std::string> params;
@@ -76,72 +76,3 @@ Game Game::read(std::istream& is)
     return create(params);
 }
 
-Config::Config()
-{
-    mGamesIterator = mGames.begin();
-}
-
-void Config::load(const std::string& file)
-{
-    std::filebuf fb;
-    if (fb.open ("games.cfg",std::ios::in))
-    {
-        std::istream is(&fb);
-        Game* game = NULL;
-        while (is)
-        {
-            Game game = Game::read(is);
-            mGames.push_back(game);
-            std::cout << "Found game: " << game.name << std::endl;
-        }
-        mGamesIterator = mGames.begin();
-        fb.close();
-    }
-    else
-    {
-        throw std::logic_error("File not found");
-    }
-}
-
-bool Config::hasMoreGames() const
-{
-    return mGamesIterator != mGames.end();
-}
-
-const Game& Config::getNextGame()
-{
-    return *mGamesIterator;
-}
-
-bool Config::hasGame(std::string& name)
-{
-    std::deque<Game>::const_iterator it = mGames.begin(), end = mGames.end();
-    for ( ; it != end; ++it)
-        if (it->name == name)
-            return true;
-    return false;
-}
-
-const Game& Config::lookupGame(std::string& name)
-{
-    std::deque<Game>::const_iterator it = mGames.begin(), end = mGames.end();
-    for ( ; it != end; ++it)
-        if (it->name == name)
-            return *it;
-    throw std::logic_error(("Game " + name + " not found").c_str());
-}
-
-void Config::stringify(std::ostream& os) const
-{
-    os << "[";
-    std::deque<Game>::const_iterator it = mGames.begin(), end = mGames.end();
-    bool first = true;
-    for ( ; it != end; ++it) {
-        if (first)
-            first = false;
-        else
-            os << ',';
-        it->stringify(os);
-    }
-    os << "]";
-}

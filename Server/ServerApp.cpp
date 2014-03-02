@@ -57,7 +57,7 @@ bool Server::run()
 void Server::_loadConfig()
 {
     try {
-        mConfig.load("games.cfg");
+        mConfig.parse("games.cfg");
     } catch (std::exception& e) {
         std::cout << "Error loading config: " << e.what() << std::endl;
     }
@@ -78,21 +78,21 @@ void Server::_initServer()
 void Server::_onOpen(connection_hdl hdl)
 {
     std::cout << "socket opened!" << std::endl;
-
-    std::stringstream os;
-    mConfig.stringify(os);
-    const std::string& msg = os.str();
-    mServer.send(hdl, msg, websocketpp::frame::opcode::binary);
     mConnections.insert(hdl);
 }
 
 void Server::_onMessage(connection_hdl hdl, server::message_ptr msg)
 {
     server::connection_ptr con = mServer.get_con_from_hdl(hdl);
-    std::string name = msg->get_raw_payload();
-    if (mConfig.hasGame(name)) {
-        std::cout << "Starting '" << name << "' on ports " << mNextPort << " & " << mNextPort+1 << std::endl;
-        std::string path = mConfig.lookupGame(name).path;
+    std::string request = msg->get_raw_payload();
+    if (request == "list") {
+        std::stringstream os;
+        mConfig.stringify(os);
+        const std::string& msg = os.str();
+        mServer.send(hdl, msg, websocketpp::frame::opcode::binary);
+    } else if (mConfig.hasGame(request)) {
+        std::cout << "Starting '" << request<< "' on ports " << mNextPort << " & " << mNextPort+1 << std::endl;
+        std::string path = mConfig.lookupGame(request).path;
         std::string directory = path.substr(0, path.rfind('/')+1);
 
         char remotePort[6];

@@ -3,17 +3,15 @@ project (Server)
 
 # define header and source files for the library
 set (HEADER_FILES
-  Config.h
   ServerApp.h
 )
 
 set (SOURCE_FILES
-  Config.cpp
   ServerApp.cpp
 )
 
 # Setup for library find
-set (POSSIBLE_LIBRARIES WebSocketpp Boost)
+set (POSSIBLE_LIBRARIES WebSocketpp Boost LibraryConfig)
 
 set (USE_WebSocketpp ON CACHE BOOL "Toggle WebSocketpp Connections")
 set (WebSocketpp_HEADER_ONLY ON)

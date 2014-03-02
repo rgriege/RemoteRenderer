@@ -1,5 +1,6 @@
 # Create project
 project (DesktopClient)
+
 set (SOURCE_FILES
   main.cpp
 )
@@ -7,7 +8,7 @@ set (SOURCE_FILES
 include (CMakeDependentOption)
 
 # Setup for library find
-set (POSSIBLE_LIBRARIES OIS Boost FFmpeg Codec RemoteOIS)
+set (POSSIBLE_LIBRARIES OIS Boost FFmpeg Codec RemoteOIS LibraryConfig)
 
 option (USE_SDL_UDP "Use UDP SDL connections" ON)
 CMAKE_DEPENDENT_OPTION (USE_WEBSOCKETPP "Use TCP Websocketpp connections" ON "NOT USE_SDL_UDP" OFF)
@@ -15,6 +16,7 @@ CMAKE_DEPENDENT_OPTION (USE_SDL_TCP "Use TCP SDL connections" ON "NOT USE_SDL_UD
 
 if (USE_SDL_UDP)
   list (APPEND POSSIBLE_LIBRARIES SDL SDL_net)
+  set (SDL_BUILDING_LIBRARY ON)
   #set (SDL_net_ADDITIONAL_HEADERS )
   #set (SDL_net_ADDITIONAL_SOURCE )
 elseif (USE_WEBSOCKETPP)
@@ -26,11 +28,8 @@ elseif (USE_WEBSOCKETPP)
   endif ()
 elseif (USE_SDL_TCP)
   list (APPEND POSSIBLE_LIBRARIES SDL SDL_net)
+  set (SDL_BUILDING_LIBRARY ON)
 endif ()
-
-if (WIN32)
-  set (OGRE_ADDITIONAL_DEFINITIONS "/wd4251 /wd4275 /D _UNICODE /D UNICODE")
-endif (WIN32)
 
 set (OIS_ADDITIONAL_DEFINITIONS -DOIS_NONCLIENT_BUILD -DOIS_DYNAMIC_LIB)
 
