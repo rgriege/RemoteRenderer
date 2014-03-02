@@ -15,6 +15,8 @@ typedef websocketpp::client<websocketpp::config::asio_client> client;
 
 using websocketpp::connection_hdl;
 using websocketpp::lib::bind;
+using websocketpp::lib::mutex;
+using websocketpp::lib::condition_variable;
 
 int width = 300;
 int height = 300;
@@ -29,6 +31,9 @@ enum request_type
 };
 request_type request;
 std::string title;
+mutex msgMtx;
+condition_variable msgCv;
+bool finished = false;
 
 void display()
 {
@@ -56,10 +61,11 @@ bool isLongArg(std::string arg)
 
 void onOpen(client* client, connection_hdl hdl)
 {
+    std::cout << "requesting data" << std::endl;
     client->send(hdl, request == LIST ? "list" : title, websocketpp::frame::opcode::text);
 }
 
-void onMessage(connection_hdl hdl, client::message_ptr msg)
+void onMessage(client* client, connection_hdl hdl, client::message_ptr msg)
 {
     if (request == LIST) {
         Config config;
@@ -69,6 +75,12 @@ void onMessage(connection_hdl hdl, client::message_ptr msg)
             const Game& game = config.getNextGame();
             std::cout << " - " << game.name << std::endl;
         }
+        client->stop();
+        {
+            std::lock_guard<mutex> lk(msgMtx);
+            finished = true;
+        }
+        msgCv.notify_one();
     } else if (request == PLAY) {
 
     }
@@ -89,29 +101,42 @@ void initConnection()
     client.clear_access_channels(websocketpp::log::alevel::frame_payload);
     client.clear_access_channels(websocketpp::log::alevel::frame_header);
     client.set_open_handler(bind(&onOpen, &client, _1));
-    client.set_message_handler(bind(&onMessage, _1, _2));
+    client.set_message_handler(bind(&onMessage, &client, _1, _2));
     websocketpp::lib::error_code ec;
     client::connection_ptr con = client.get_connection("ws://localhost:9001", ec);
     client.connect(con);
-    connectionThread = new std::thread(std::bind(&client::run, &client));
+    client.run();
+    //connectionThread = new std::thread(std::bind(&client::run, &client));
 }
 
 #undef main
 int main(int argc, char **argv)
 {
-    if (argc != 2) {
-        showHelp();
-    }
-    std::string cmd(argv[1]);
+    std::string cmd(argc == 2 ? argv[1] : "--help");
+    bool needHelp = false;
     if (cmd == "--help") {
-        showHelp();
-        return 0;
-    } else if (cmd == "-h" || cmd == "--help") {
+        needHelp = true;
+    } else if (cmd == "-l" || cmd == "--list") {
         request = LIST;
-    } else if (cmd.find("p=", 1) != cmd.npos || cmd.find("play=", 1) != cmd.npos) {
+    } else if (cmd.find("p=", 1) != cmd.npos || cmd.find("play=", 2) != cmd.npos) {
         title = cmd.substr(isLongArg(cmd) ? 6 : 3);
-        request = PLAY;
+        if (title.length() == 0)
+            needHelp = true;
+        else
+            request = PLAY;
     }
+    if (needHelp) {
+        showHelp();
+        return EXIT_SUCCESS;
+    }
+
+    std::cout << "connecting to server" << std::endl;
+    initConnection();
+
+    /*std::unique_lock<mutex> lk(msgMtx);
+    msgCv.wait(lk, [&]() { return finished; });
+    lk.unlock();
+    connectionThread->join();*/
 
     return EXIT_SUCCESS;
 }
