@@ -1,45 +1,14 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include <sstream>
+#include <string>
 #include <iostream>
-#include <GL/freeglut.h>
-#include <Decoder.h>
-#include <rgbData.h>
-#include <websocketpp/config/asio_no_tls_client.hpp>
-#include <websocketpp/client.hpp>
-#include <thread>
 
-#include "Config.h"
+#include "LibraryApp.h"
+#include "GameApp.h"
 
-typedef websocketpp::client<websocketpp::config::asio_client> client;
-
-using websocketpp::connection_hdl;
-using websocketpp::lib::bind;
-using websocketpp::lib::mutex;
-using websocketpp::lib::condition_variable;
-
-int width = 300;
-int height = 300;
-int buffer_size;
-uint8_t* buffer;
-Decoder* decoder;
-std::thread* connectionThread;
-enum request_type
-{
+enum request_type {
+    HELP,
     LIST,
-    PLAY
+    GAME
 };
-request_type request;
-std::string title;
-mutex msgMtx;
-condition_variable msgCv;
-bool finished = false;
-
-void display()
-{
-    glDrawPixels(width, height, GL_RGB, GL_UNSIGNED_BYTE, buffer);
-    glutSwapBuffers();
-}
 
 void showHelp()
 {
@@ -49,119 +18,43 @@ void showHelp()
               << "  -p|--play=<title>,     play a title" << std::endl;
 }
 
-bool isLongArg(char* arg)
-{
-    return arg[1] == '-';
-}
-
 bool isLongArg(std::string arg)
 {
     return arg[1] == '-';
-}
-
-void onOpen(client* client, connection_hdl hdl)
-{
-    client->send(hdl, request == LIST ? "list" : title, websocketpp::frame::opcode::text);
-}
-
-void onMessage(client* client, connection_hdl hdl, client::message_ptr msg)
-{
-    if (request == LIST) {
-        Config config;
-        std::stringstream stream(msg->get_raw_payload());
-        config.parse(stream);
-        config.start();
-        while (config.hasMoreGames())
-            std::cout << " - " << config.getNextGame().name << std::endl;
-        client->stop();
-        {
-            std::lock_guard<mutex> lk(msgMtx);
-            finished = true;
-        }
-        msgCv.notify_one();
-    } else if (request == PLAY) {
-
-    }
-}
-
-void _onMessage(connection_hdl hdl, client::message_ptr msg)
-{
-    const void* data = msg->get_payload().c_str();
-    decoder->decode_frame(static_cast<const uint8_t*>(data), msg->get_payload().length(), buffer);
-    flip_image_vertically(buffer, width, height);
-    glutPostRedisplay();
-}
-
-void initConnection()
-{
-    client client;
-    client.init_asio();
-    client.clear_access_channels(websocketpp::log::alevel::all);
-    client.set_open_handler(bind(&onOpen, &client, _1));
-    client.set_message_handler(bind(&onMessage, &client, _1, _2));
-    websocketpp::lib::error_code ec;
-    client::connection_ptr con = client.get_connection("ws://localhost:9001", ec);
-    client.connect(con);
-    client.run();
-    //connectionThread = new std::thread(std::bind(&client::run, &client));
 }
 
 #undef main
 int main(int argc, char **argv)
 {
     std::string cmd(argc == 2 ? argv[1] : "--help");
-    bool needHelp = false;
+    request_type request;
+    std::string title;
     if (cmd == "--help") {
-        needHelp = true;
+        request = HELP;
     } else if (cmd == "-l" || cmd == "--list") {
         request = LIST;
     } else if (cmd.find("p=", 1) != cmd.npos || cmd.find("play=", 2) != cmd.npos) {
         title = cmd.substr(isLongArg(cmd) ? 6 : 3);
         if (title.length() == 0)
-            needHelp = true;
+            request = HELP;
         else
-            request = PLAY;
-    }
-    if (needHelp) {
-        showHelp();
-        return EXIT_SUCCESS;
+            request = GAME;
     }
 
-    initConnection();
-
-    /*std::unique_lock<mutex> lk(msgMtx);
-    msgCv.wait(lk, [&]() { return finished; });
-    lk.unlock();
-    connectionThread->join();*/
-
-    return EXIT_SUCCESS;
-}
-
-void doStuff(int argc, char** argv) {
-    decoder = new Decoder();
-    decoder->bootstrap(AV_CODEC_ID_MPEG1VIDEO, width, height);
-
-    glutInit(&argc, argv);
-    glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
-    glutInitWindowSize(width, height);
-    glutCreateWindow("OpenGL Remote Rendering Client");
-    glutDisplayFunc(display);
-
-    printf("%d\n", glutGetWindow());
-
-    width = glutGet(GLUT_WINDOW_WIDTH);
-    height = glutGet(GLUT_WINDOW_HEIGHT);
-
-    buffer_size = width*height*3;
-    buffer = (uint8_t*) malloc(buffer_size);
-
-    for (;;)
-        glutMainLoopEvent();
-
-    printf("Video playback complete\n");
-
-    glutMainLoop();
-
-    delete decoder;
-    free(buffer);
+    ClientApp* app;
+    switch (request) {
+        case LIST:
+            app = new LibraryApp();
+            break;
+        case GAME:
+            app = new GameApp(title);
+            break;
+        case HELP:
+            showHelp();
+            return EXIT_SUCCESS;
+            break;
+    }
+    bool result = app->run();
+    delete app;
+    return result;
 }

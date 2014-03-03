@@ -1,8 +1,17 @@
 # Create project
 project (DesktopClient)
 
+set (HEADER_FILES
+  ClientApp.h
+  GameApp.h
+  LibraryApp.h
+)
+
 set (SOURCE_FILES
   main.cpp
+  ClientApp.cpp
+  GameApp.cpp
+  LibraryApp.cpp
 )
 
 include (CMakeDependentOption)
