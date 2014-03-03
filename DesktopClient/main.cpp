@@ -61,7 +61,6 @@ bool isLongArg(std::string arg)
 
 void onOpen(client* client, connection_hdl hdl)
 {
-    std::cout << "requesting data" << std::endl;
     client->send(hdl, request == LIST ? "list" : title, websocketpp::frame::opcode::text);
 }
 
@@ -71,10 +70,9 @@ void onMessage(client* client, connection_hdl hdl, client::message_ptr msg)
         Config config;
         std::stringstream stream(msg->get_raw_payload());
         config.parse(stream);
-        while (config.hasMoreGames()) {
-            const Game& game = config.getNextGame();
-            std::cout << " - " << game.name << std::endl;
-        }
+        config.start();
+        while (config.hasMoreGames())
+            std::cout << " - " << config.getNextGame().name << std::endl;
         client->stop();
         {
             std::lock_guard<mutex> lk(msgMtx);
@@ -98,8 +96,7 @@ void initConnection()
 {
     client client;
     client.init_asio();
-    client.clear_access_channels(websocketpp::log::alevel::frame_payload);
-    client.clear_access_channels(websocketpp::log::alevel::frame_header);
+    client.clear_access_channels(websocketpp::log::alevel::all);
     client.set_open_handler(bind(&onOpen, &client, _1));
     client.set_message_handler(bind(&onMessage, &client, _1, _2));
     websocketpp::lib::error_code ec;
@@ -130,7 +127,6 @@ int main(int argc, char **argv)
         return EXIT_SUCCESS;
     }
 
-    std::cout << "connecting to server" << std::endl;
     initConnection();
 
     /*std::unique_lock<mutex> lk(msgMtx);

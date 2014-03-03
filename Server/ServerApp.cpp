@@ -1,8 +1,8 @@
-#include <thread>
-#include <stdlib.h>
-
 #include "ServerApp.h"
 #include "Config.h"
+
+using websocketpp::lib::thread;
+using websocketpp::lib::bind;
 
 /**
  * C++ version 0.4 char* style "itoa":
@@ -57,7 +57,7 @@ bool Server::run()
 void Server::_loadConfig()
 {
     try {
-        mConfig.parse("games.cfg");
+        mConfig.parseFile();
     } catch (std::exception& e) {
         std::cout << "Error loading config: " << e.what() << std::endl;
     }
@@ -66,8 +66,7 @@ void Server::_loadConfig()
 void Server::_initServer()
 {
     mServer.init_asio();
-    mServer.clear_access_channels(websocketpp::log::alevel::frame_payload);
-    mServer.clear_access_channels(websocketpp::log::alevel::frame_header);
+    mServer.clear_access_channels(websocketpp::log::alevel::all);
     mServer.set_open_handler(bind(&Server::_onOpen, this, _1));
     mServer.set_close_handler(bind(&Server::_onClose, this, _1));
     mServer.set_message_handler(bind(&Server::_onMessage, this, _1, _2));

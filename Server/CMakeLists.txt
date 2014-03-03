@@ -11,7 +11,7 @@ set (SOURCE_FILES
 )
 
 # Setup for library find
-set (POSSIBLE_LIBRARIES WebSocketpp Boost LibraryConfig)
+set (POSSIBLE_LIBRARIES WebSocketpp Boost LibraryConfig JsonCpp)
 
 set (USE_WebSocketpp ON CACHE BOOL "Toggle WebSocketpp Connections")
 set (WebSocketpp_HEADER_ONLY ON)
@@ -28,6 +28,9 @@ set (Boost_COMMAND Boost 1.46.0 REQUIRED COMPONENTS thread system chrono date_ti
 
 gather_libraries ()
 add_executable (Server ${HEADER_FILES} ${SOURCE_FILES})
+if (UNIX)
+  list (APPEND LIBRARIES pthread)
+endif (UNIX)
 target_link_libraries (Server ${LIBRARIES})
 
 if (MSVC)

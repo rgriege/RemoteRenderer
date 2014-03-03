@@ -8,7 +8,7 @@ set (SOURCE_FILES
 include (CMakeDependentOption)
 
 # Setup for library find
-set (POSSIBLE_LIBRARIES OIS Boost FFmpeg Codec RemoteOIS LibraryConfig Freeglut)
+set (POSSIBLE_LIBRARIES OIS Boost FFmpeg Codec RemoteOIS LibraryConfig Freeglut JsonCpp)
 
 option (USE_SDL_UDP "Use UDP SDL connections" ON)
 CMAKE_DEPENDENT_OPTION (USE_WEBSOCKETPP "Use TCP Websocketpp connections" ON "NOT USE_SDL_UDP" OFF)

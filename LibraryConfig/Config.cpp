@@ -1,12 +1,13 @@
 #include <iostream>
 #include <fstream>
 #include <stdexcept>
+#include <json/reader.h>
+#include <json/writer.h>
 
 #include "Config.h"
 
 Config::Config()
 {
-    mGamesIterator = mGames.begin();
 }
 
 bool Config::hasMoreGames() const
@@ -14,9 +15,14 @@ bool Config::hasMoreGames() const
     return mGamesIterator != mGames.end();
 }
 
+void Config::start()
+{
+    mGamesIterator = mGames.begin();
+}
+
 const Game& Config::getNextGame()
 {
-    return *mGamesIterator;
+    return *(mGamesIterator++);
 }
 
 bool Config::hasGame(std::string& name)
@@ -37,43 +43,33 @@ const Game& Config::lookupGame(std::string& name)
     throw std::logic_error(("Game " + name + " not found").c_str());
 }
 
-void Config::parse(const std::string& file)
+void Config::parseFile(const std::string& filename)
 {
     std::filebuf fb;
-    if (fb.open ("games.cfg",std::ios::in))
-    {
+    if (fb.open (filename.c_str() ,std::ios::in)) {
         std::istream is(&fb);
         parse(is);
         fb.close();
-    }
-    else
-    {
+    } else {
         throw std::logic_error("File not found");
     }
 }
 
 void Config::parse(std::istream& is)
 {
-    Game* game = NULL;
-    while (is) {
-        Game game = Game::parse(is);
-        mGames.push_back(game);
-        std::cout << "Found game: " << game.name << std::endl;
-    }
-    mGamesIterator = mGames.begin();
+    Json::Reader reader;
+    Json::Value library;
+    if (!reader.parse(is, library))
+        throw std::logic_error("Incorrect JSON");
+    for (int i = 0; i < library.size(); i++)
+        mGames.push_back(Game::create(library[i]));
 }
 
 void Config::stringify(std::ostream& os) const
 {
-    os << "[";
+    Json::Value root;
     std::deque<Game>::const_iterator it = mGames.begin(), end = mGames.end();
-    bool first = true;
-    for ( ; it != end; ++it) {
-        if (first)
-            first = false;
-        else
-            os << ',';
-        it->stringify(os);
-    }
-    os << "]";
+    for ( ; it != end; ++it)
+        root.append(it->serialize());
+    os << root;
 }

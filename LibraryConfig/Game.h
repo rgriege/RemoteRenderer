@@ -4,21 +4,21 @@
 #include <string>
 #include <map>
 #include <deque>
+#include <json/value.h>
 
 struct Game
 {
-    void stringify(std::ostream& os) const;
+    Game(std::string name, std::string path, std::string summary, std::string preview);
 
-    static Game parse(std::istream& is);
-    static Game create(std::map<std::string, std::string> params);
+    static Game create(Json::Value object);
+    Json::Value serialize() const;
+
+    bool runnable() const;
 
     const std::string name;
     const std::string path;
     const std::string summary;
     const std::string preview;
-
-private:
-    Game(std::string name, std::string path, std::string summary, std::string preview);
 };
 
 #endif // GAME_H

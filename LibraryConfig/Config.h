@@ -12,12 +12,14 @@ class Config
 public:
     Config();
 
-    bool hasMoreGames() const;
+    void start();
     const Game& getNextGame();
+    bool hasMoreGames() const;
+
     bool hasGame(std::string& name);
     const Game& lookupGame(std::string& name);
 
-    void parse(const std::string& file);
+    void parseFile(const std::string& filename = "games.cfg");
     void parse(std::istream& is);
     void stringify(std::ostream& os) const;
 
