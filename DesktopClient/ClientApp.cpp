@@ -7,6 +7,7 @@ ClientApp::ClientApp()
 bool ClientApp::run()
 {
     _initConnection();
+    return true;
 }
 
 void ClientApp::_onOpen(client* client, connection_hdl hdl)
