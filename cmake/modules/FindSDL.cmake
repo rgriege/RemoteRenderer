@@ -222,3 +222,5 @@ include(${CMAKE_CURRENT_LIST_DIR}/FindPackageHandleStandardArgs.cmake)
 FIND_PACKAGE_HANDLE_STANDARD_ARGS(SDL
                                   REQUIRED_VARS SDL_LIBRARIES SDL_INCLUDE_DIRS
                                   VERSION_VAR SDL_VERSION_STRING)
+
+mark_as_advanced (SDL_LIBRARIES SDL_INCLUDE_DIRS SDLMAIN_LIBRARY)

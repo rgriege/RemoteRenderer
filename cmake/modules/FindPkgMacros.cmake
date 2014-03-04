@@ -40,7 +40,7 @@ macro(create_search_paths PREFIX)
     set(${PREFIX}_INC_SEARCH_PATH ${${PREFIX}_INC_SEARCH_PATH}
       ${dir}/include ${dir}/Include ${dir}/include/${PREFIX} ${dir}/Headers)
     set(${PREFIX}_LIB_SEARCH_PATH ${${PREFIX}_LIB_SEARCH_PATH}
-      ${dir}/lib ${dir}/Lib ${dir}/lib/${PREFIX} ${dir}/Libs)
+      ${dir}/lib ${dir}/Lib ${dir}/lib/${PREFIX} ${dir}/libs ${dir}/Libs)
     set(${PREFIX}_BIN_SEARCH_PATH ${${PREFIX}_BIN_SEARCH_PATH}
       ${dir}/bin)
   endforeach(dir)
