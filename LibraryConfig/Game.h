@@ -6,11 +6,13 @@
 #include <deque>
 #include <json/value.h>
 
-struct Game
+#include "LibraryConfigPrereqs.h"
+
+struct LIBRARY_CONFIG_API Game
 {
     Game(std::string name, std::string path, std::string summary, std::string preview);
 
-    static Game create(Json::Value object);
+    static Game* create(Json::Value object);
     Json::Value serialize() const;
 
     bool runnable() const;

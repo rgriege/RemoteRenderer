@@ -10,6 +10,13 @@ Config::Config()
 {
 }
 
+Config::~Config()
+{
+    std::deque<Game*>::const_iterator it = mGames.begin(), end = mGames.end();
+    for ( ; it != end; ++it)
+        delete *it;
+}
+
 bool Config::hasMoreGames() const
 {
     return mGamesIterator != mGames.end();
@@ -22,24 +29,24 @@ void Config::start()
 
 const Game& Config::getNextGame()
 {
-    return *(mGamesIterator++);
+    return **(mGamesIterator++);
 }
 
 bool Config::hasGame(std::string& name)
 {
-    std::deque<Game>::const_iterator it = mGames.begin(), end = mGames.end();
+    std::deque<Game*>::const_iterator it = mGames.begin(), end = mGames.end();
     for ( ; it != end; ++it)
-        if (it->name == name)
+        if ((*it)->name == name)
             return true;
     return false;
 }
 
 const Game& Config::lookupGame(std::string& name)
 {
-    std::deque<Game>::const_iterator it = mGames.begin(), end = mGames.end();
+    std::deque<Game*>::const_iterator it = mGames.begin(), end = mGames.end();
     for ( ; it != end; ++it)
-        if (it->name == name)
-            return *it;
+        if ((*it)->name == name)
+            return **it;
     throw std::logic_error(("Game " + name + " not found").c_str());
 }
 
@@ -68,8 +75,8 @@ void Config::parse(std::istream& is)
 void Config::stringify(std::ostream& os) const
 {
     Json::Value root;
-    std::deque<Game>::const_iterator it = mGames.begin(), end = mGames.end();
+    std::deque<Game*>::const_iterator it = mGames.begin(), end = mGames.end();
     for ( ; it != end; ++it)
-        root.append(it->serialize());
+        root.append((*it)->serialize());
     os << root;
 }

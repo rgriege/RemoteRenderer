@@ -5,12 +5,14 @@
 #include <map>
 #include <deque>
 
+#include "LibraryConfigPrereqs.h"
 #include "Game.h"
 
-class Config
+class LIBRARY_CONFIG_API Config
 {
 public:
     Config();
+    ~Config();
 
     void start();
     const Game& getNextGame();
@@ -24,8 +26,8 @@ public:
     void stringify(std::ostream& os) const;
 
 private:
-    std::deque<Game> mGames;
-    std::deque<Game>::const_iterator mGamesIterator;
+    std::deque<Game*> mGames;
+    std::deque<Game*>::const_iterator mGamesIterator;
 };
 
 #endif

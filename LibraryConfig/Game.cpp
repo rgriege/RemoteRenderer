@@ -8,12 +8,12 @@ Game::Game(std::string name, std::string path, std::string summary, std::string 
 {
 }
 
-Game Game::create(Json::Value object)
+Game* Game::create(Json::Value object)
 {
-    return Game(object.get("Name", "").asString(),
-                object.get("Path", "").asString(),
-                object.get("Summary", "").asString(),
-                object.get("Preview", "").asString());
+    return new Game(object.get("Name", "").asString(),
+                    object.get("Path", "").asString(),
+                    object.get("Summary", "").asString(),
+                    object.get("Preview", "").asString());
 }
 
 Json::Value Game::serialize() const
@@ -32,5 +32,5 @@ Json::Value Game::serialize() const
 
 bool Game::runnable() const
 {
-    return std::ifstream(path.c_str());
+    return !!std::ifstream(path.c_str());
 }
