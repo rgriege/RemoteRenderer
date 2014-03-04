@@ -22,14 +22,9 @@ set(CMAKE_FIND_FRAMEWORK "LAST")
 
 find_path(JsonCpp_INCLUDE_DIRS json.h HINTS ${JsonCpp_INC_SEARCH_PATH} PATH_SUFFIXES json jsoncpp/json)
 get_parent_dir(JsonCpp_INCLUDE_DIRS)
-
 set (JsonCpp_INCLUDE_DIRS ${JsonCpp_INCLUDE_DIRS_PARENT})
 
-if (MSVC)
-  find_library(JsonCpp_LIBRARIES NAMES json_vc110_libmt HINTS ${JsonCpp_LIB_SEARCH_PATH} PATH_SUFFIXES msvc110)
-else ()
-  find_library(JsonCpp_LIBRARIES NAMES jsoncpp HINTS ${JsonCpp_LIB_SEARCH_PATH} PATH_SUFFIXES lib)
-endif (MSVC)
+find_library(JsonCpp_LIBRARIES NAMES jsoncpp HINTS ${JsonCpp_LIB_SEARCH_PATH})
 
 include(${CMAKE_CURRENT_LIST_DIR}/FindPackageHandleStandardArgs.cmake)
 

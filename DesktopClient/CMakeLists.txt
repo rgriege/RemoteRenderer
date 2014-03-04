@@ -47,7 +47,7 @@ if (WIN32)
 else ()
   set (Boost_ADDITIONAL_DEFINITIONS -DBOOST_ALL_DYN_LINK)
 endif ()
-set (Boost_COMMAND Boost 1.46.0 REQUIRED COMPONENTS thread system chrono date_time regex)
+set (Boost_COMMAND Boost 1.46.0 REQUIRED COMPONENTS thread system chrono date_time regex random)
 
 set (FFmpeg_COMMAND FFmpeg REQUIRED COMPONENTS avcodec avutil swscale)
 set (FFmpeg_ADDITIONAL_DEFINITIONS -D__STDC_CONSTANT_MACROS)
