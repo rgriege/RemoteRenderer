@@ -6,12 +6,22 @@ RemoteOIS:
  - Boost: http://boost.org (tested with versions 1.46.0 & 1.51.0)
  - Websocketpp: http://github.com/zaphoyd/websocketpp/tree/0.3.0-alpha4 (tag 0.3.0-alpha4)
 
+LibraryConfig:
+ - JsonCpp: http://sourceforge.net/projects/jsoncpp (version 0.5.0)
+
 Server:
  - Boost
  - Websocketpp
+ - LibraryConfig
 
 Codec:
  - FFmpeg: http://ffmpeg.org
+
+DesktopClient:
+ - Boost
+ - Websocketpp
+ - LibraryConfig
+ - Codec
 
 RemoteOgreFramework:
  - RemoteOIS
@@ -28,9 +38,10 @@ SnS_Demo:
  - SDL: http://www.libsdl.org/ (version 1.2.15)
  - SDL_mixer: http://www.libsdl.org/projects/SDL_mixer/ (version 1.2.12)
 
-All dependencies should be built as shared/dynamic libraries (with -fPIC on UNIX gcc).
+All dependencies should be built as shared/dynamic libraries (with -fPIC on UNIX gcc or /MD on Windows msvc).
  
+
 Cmake
 =====
 
-Cmake may not be able to find all the libraries.  For any missing libs, define the cache variable <lib>_HOME as the root of the directory (except Bullet, which uses BULLET_ROOT).  In addition, SDL and SDL_mixer
+Cmake may not be able to find all the libraries.  For any missing libs, define the cache variable <lib>_HOME as the root of the directory (except Bullet, which uses BULLET_ROOT).  SDL and SDL_mixer will be found based on the environment variables SDLDIR and SDLMIXERDIR, respectively.
