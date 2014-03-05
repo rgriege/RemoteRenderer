@@ -3,6 +3,7 @@ project (LibraryConfig)
 
 # define header and source files for the library
 set (HEADER_FILES
+  LibraryConfigPrereqs.h
   Config.h
   Game.h
 )

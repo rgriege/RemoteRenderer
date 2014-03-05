@@ -7,6 +7,10 @@ set (HEADER_FILES
   LibraryApp.h
 )
 
+if (NOT MSVC)
+  include_directories (../utility/)
+endif()
+
 set (SOURCE_FILES
   main.cpp
   ClientApp.cpp

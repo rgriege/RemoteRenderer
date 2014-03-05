@@ -6,6 +6,10 @@ set (HEADER_FILES
   ServerApp.h
 )
 
+if (NOT MSVC)
+  include_directories (../utility/)
+endif()
+
 set (SOURCE_FILES
   ServerApp.cpp
 )
